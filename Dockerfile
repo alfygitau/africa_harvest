@@ -18,14 +18,14 @@ RUN npm run build
 
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
-# Stage 2: Serve the app with Nginx
-FROM nginx:alpine
-
-# Copy the Angular app build output to Nginx's default public directory
-COPY --from=build /app/dist/africa_harvest /usr/share/nginx/html
-
-# Copy the Nginx configuration file
+# Use the latest version of the official Nginx image as the base image
+FROM nginx:latest
+# copy the custom nginx configuration file to the container in the default
+# location
 COPY nginx.conf /etc/nginx/nginx.conf
+# copy the built application from the build stage to the nginx html
+# directory
+COPY --from=build /app/dist/africa_harvest /usr/share/nginx/html
 
 EXPOSE 80
 EXPOSE 443
