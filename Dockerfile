@@ -14,9 +14,18 @@ RUN npm install --legacy-peer-deps
 COPY . .
 RUN npm run build
 
-EXPOSE 4200
+# EXPOSE 4200
 
-CMD ["ng", "serve", "--host", "0.0.0.0"]
+# CMD ["ng", "serve", "--host", "0.0.0.0"]
+
+# Stage 2: Serve the app with Nginx
+FROM nginx:alpine
+
+COPY --from=build /app/dist/africa_harvest /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80
 
 
 
