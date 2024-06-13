@@ -1,0 +1,112 @@
+<app-pagetitle title="Farmers Seeds Distribution" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+
+<div>
+    <div class="card">
+        <div class="card-body">
+            <form [formGroup]="registerForm" (ngSubmit)="onsubmit()">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>County</label>
+                        <div class="form-group">
+                          <ng-select [items]="counties"  (change)="subCounties($event)" [multiple]="true"  [virtualScroll]="true" bindLabel="name"  bindValue="county_id"
+                          placeholder="Select County" formControlName="countyId">
+                          </ng-select>          
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <label>Sub County</label>
+                        <div class="form-group">
+                          <ng-select [items]="sub_counties" [multiple]="true" (change)="getWards($event)"  [virtualScroll]="true" bindLabel="name" bindValue="subCountyId"
+                          placeholder="Select Sub County" formControlName="subCountyId">
+                          </ng-select>            
+                        </div>
+                      </div>
+                    <div class="col-md-6">
+                        <label>Ward</label>
+                        <div class="form-group">
+                            <ng-select [items]="wards"  [virtualScroll]="true" bindLabel="name" bindValue="wardId"
+                                placeholder="Select Ward" formControlName="wardId">
+                            </ng-select>								  
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Date</label>
+                        <fieldset class="form-group position-relative">
+                            <input type="date" class="form-control"  placeholder="First Name">
+                        </fieldset>
+                    </div>
+                    <!-- <div class="col-md-6">
+                        <label>Distributor</label>
+                        <div class="form-group">
+                            <ng-select [items]="genders"  [virtualScroll]="true" bindLabel="name" bindValue="name"
+                                placeholder="Select Gender" formControlName="distributor">
+                            </ng-select>								  
+                        </div>
+                    </div> -->
+                    <div class="col-md-6">
+                        <label>Recipient ID No</label>
+                        <fieldset class="form-group position-relative">
+                            <input type="text" class="form-control"  formControlName="idNumber">									
+                        </fieldset>
+                    </div>                        
+                    <div class="col-md-6">
+                        <label>Image</label>
+                        <fieldset class="form-group position-relative">
+                            <input type="file" class="form-control"  formControlName="image">								
+                        </fieldset>
+                    </div>	
+                    <div class="col-xl-12 rounded py-1 my-2">
+                        <form [formGroup]="valueChainForm" (ngSubmit)="addVLC()">
+                            <label>Add Value Chain</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Value Chain</label>
+                                    <div class="form-group">
+                                        <ng-select [items]="valueChains"  [virtualScroll]="true" bindLabel="value_chain_name" bindValue="value_chain_id"
+                                            placeholder="Select VLC" formControlName="valueChainId">
+                                        </ng-select>								  
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Seed Variety</label>
+                                    <div class="form-group">
+                                        <ng-select [items]="seedVarieties"  [virtualScroll]="true" bindLabel="seed_variety" bindValue="seed_variety_id"
+                                            placeholder="Select VLC" formControlName="valueChainId">
+                                        </ng-select>								  
+                                    </div>
+                                </div>
+    
+                                <div class="col-md-6">
+                                    <label>Seed Weight</label>
+                                    <fieldset class="form-group position-relative">
+                                        <input type="text" class="form-control"  formControlName="seedWeight">									
+                                    </fieldset>
+                                </div>  
+    
+                                <div class="col-md-6">
+                                    <label>Batch No</label>
+                                    <fieldset class="form-group position-relative">
+                                        <input type="text" class="form-control"  formControlName="batchNo">									
+                                    </fieldset>
+                                </div>  
+    
+                                <div class="col-md-6">
+                                    <label>Price Per Unit</label>
+                                    <fieldset class="form-group position-relative">
+                                        <input type="text" class="form-control"  formControlName="pricePerUnit">									
+                                    </fieldset>
+                                </div> 
+                            </div>
+                            <div>
+                                <button  type="submit" class="btn btn-primary mt-2">Add VLC</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-12 mt-2">
+                        <button  type="submit" class="btn btn-primary mt-2">Save</button>
+                    </div>
+                </div>
+            </form>   
+        </div>
+    </div>
+</div>

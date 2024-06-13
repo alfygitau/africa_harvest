@@ -1,0 +1,104 @@
+<app-pagetitle title="ToTs Seeds Distribution" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+
+<div>
+    <div class="card">
+        <div class="card-body">
+            <form [formGroup]="registerForm" (ngSubmit)="onsubmit()">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Distributor</label>
+                        <div class="form-group">
+                            <ng-select [items]="distributor"  [virtualScroll]="true" bindLabel="name" bindValue="name"
+                                placeholder="Select Distributor" formControlName="distributor">
+                            </ng-select>								  
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Recipient</label>
+                        <div class="form-group">
+                            <ng-select [items]="recipient"  [virtualScroll]="true" bindLabel="name" bindValue="name"
+                                placeholder="Select Distributor" formControlName="recipientType">
+                            </ng-select>								  
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Ward</label>
+                        <div class="form-group">
+                            <ng-select [items]="wards"  [virtualScroll]="true" bindLabel="title" bindValue="ward_id"
+                                placeholder="Select Ward" formControlName="wardId">
+                            </ng-select>								  
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Date</label>
+                        <fieldset class="form-group position-relative">
+                            <input type="date" class="form-control"  formControlName="">
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Recipient ID No</label>
+                        <fieldset class="form-group position-relative">
+                            <input type="text" class="form-control"  formControlName="memberId">									
+                        </fieldset>
+                    </div>                        
+                    <div class="col-md-6">
+                        <label>Image</label>
+                        <fieldset class="form-group position-relative">
+                            <input type="file" class="form-control"  placeholder="Id no." formControlName="image">								
+                        </fieldset>
+                    </div>	
+                    <div class="col-12 rounded py-1 my-2">
+                        <form [formGroup]="valueChainForm" (ngSubmit)="addVLC()">
+                            <label>Add Value Chain</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Value Chain</label>
+                                    <div class="form-group">
+                                        <ng-select [items]="valueChains"  [virtualScroll]="true" bindLabel="value_chain_name" bindValue="value_chain_id"
+                                            placeholder="Select VLC" formControlName="valueChainId">
+                                        </ng-select>								  
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label>Value Chain</label>
+                                    <div class="form-group">
+                                        <ng-select [items]="seedVarieties"  [virtualScroll]="true" bindLabel="seed_variety" bindValue="seed_variety_id"
+                                            placeholder="Select VLC" formControlName="valueChainId">
+                                        </ng-select>								  
+                                    </div>
+                                </div> 
+    
+                                <div class="col-md-6">
+                                    <label>Seed Weight</label>
+                                    <fieldset class="form-group position-relative">
+                                        <input type="text" class="form-control"  formControlName="seedWeight">									
+                                    </fieldset>
+                                </div>  
+    
+                                <div class="col-md-6">
+                                    <label>Batch No</label>
+                                    <fieldset class="form-group position-relative">
+                                        <input type="text" class="form-control"  formControlName="batchNo">									
+                                    </fieldset>
+                                </div>  
+    
+                                <div class="col-md-6">
+                                    <label>Price Per Unit</label>
+                                    <fieldset class="form-group position-relative">
+                                        <input type="text" class="form-control"  formControlName="pricePerUnit">									
+                                    </fieldset>
+                                </div> 
+                            </div>
+                            <div>
+                                <button [disabled]="valueChainForm.invalid"  type="submit" class="btn btn-primary my-2">Add VLC</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-sm-12 mt-2">
+                        <button  type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </div>
+            </form>     
+        </div>
+    </div>
+</div>

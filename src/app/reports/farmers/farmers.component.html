@@ -1,0 +1,578 @@
+<app-pagetitle
+  title="Reports"
+  [breadcrumbItems]="breadCrumbItems"
+></app-pagetitle>
+
+<div>
+  <div class="card">
+    <div class="card-body">
+      <form [formGroup]="searchForm" class="col-lg-12 d-flex w-100">
+        <div class="row d-flex justify-content-between w-100">
+          <div class="col-xl col-md-6">
+            <label for="example-datetime-local-input" class="form-label"
+              >Start Date</label
+            >
+            <input
+              class="form-control"
+              type="date"
+              placeholder="Start"
+              formControlName="start_date"
+              id="example-datetime-local-input"
+            />
+          </div>
+          <div class="col-xl-2 col-md-6">
+            <label for="example-datetime-local-input" class="form-label"
+              >End Date</label
+            >
+            <input
+              class="form-control"
+              type="date"
+              placeholder="End"
+              formControlName="end_date"
+              id="example-datetime-local-input"
+            />
+          </div>
+          <div class="col-xl col-md-6">
+            <label for="county">County</label>
+            <ng-select
+              id="county"
+              [items]="counties"
+              [multiple]="true"
+              (change)="subCounties($event)"
+              [virtualScroll]="true"
+              bindLabel="name"
+              bindValue="county_id"
+              placeholder="County"
+              formControlName="countyId"
+            >
+            </ng-select>
+          </div>
+          <div class="col-xl col-md-6">
+            <label for="county">Sub County</label>
+            <ng-select
+              id="county"
+              [items]="sub_counties"
+              [multiple]="true"
+              (change)="getWards($event)"
+              [virtualScroll]="true"
+              bindLabel="name"
+              bindValue="subCountyId"
+              placeholder="Sub County"
+              formControlName="subCountyId"
+            >
+            </ng-select>
+          </div>
+          <div class="col-xl col-md-6">
+            <label for="county">Ward</label>
+            <ng-select
+              id="county"
+              (change)="filterGroups($event)"
+              [items]="wards"
+              [multiple]="true"
+              [virtualScroll]="true"
+              bindLabel="name"
+              bindValue="wardId"
+              placeholder="Ward"
+              formControlName="wardId"
+            >
+            </ng-select>
+          </div>
+          <div class="col-xl col-md-6">
+            <label for="county">Group</label>
+            <ng-select
+              id="county"
+              (change)="selectedGroup()"
+              [items]="groups"
+              [multiple]="true"
+              [virtualScroll]="true"
+              bindLabel="group_name"
+              bindValue="group_id"
+              placeholder="Group"
+              formControlName="groupId"
+            >
+            </ng-select>
+          </div>
+        </div>
+      </form>
+      <div
+        style="
+          margin-top: 20px;
+          margin-bottom: 10px;
+          width: 100%;
+          padding-left: 0px;
+          padding-right: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: end;
+          gap: 20px;
+        "
+      >
+        <button
+          (click)="exportSelectedMembers()"
+          style="
+            height: 40px;
+            padding-left: 20px;
+            padding-right: 20px;
+            background-color: #f77e18;
+            border: none;
+            border-radius: 5px;
+            color: white;
+          "
+        >
+          Export Selected Members
+        </button>
+        <button
+          (click)="exportEntireMembersReport()"
+          style="
+            height: 40px;
+            padding-left: 20px;
+            padding-right: 20px;
+            background-color: #f77e18;
+            border: none;
+            border-radius: 5px;
+            color: white;
+          "
+        >
+          Export All Members
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    style="
+      background-color: white;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    "
+  >
+    <div style="width: 100%">
+      <div
+        class="d-flex align-items-center"
+        style="
+          width: 100%;
+          height: 40px;
+          border-bottom: 1px solid #e9e9ef;
+          font-weight: bold;
+        "
+      >
+        <div style="width: 5%">
+          <input type="checkbox" id="select_all" (change)="selectAll($event)" />
+        </div>
+        <div class="truncate" style="height: 100%; width: 5%">Member Id</div>
+        <div style="height: 100%; width: 10%">Name</div>
+        <div style="height: 100%; width: 10%">Mobile</div>
+        <div style="height: 100%; width: 10%">ID Number</div>
+        <div style="height: 100%; width: 10%">Gender</div>
+        <div style="height: 100%; width: 10%">Disability Status</div>
+        <div style="height: 100%; width: 10%">County</div>
+        <div style="height: 100%; width: 10%">Sub County</div>
+        <div style="height: 100%; width: 10%">Ward</div>
+        <div style="height: 100%; width: 10%">Details</div>
+      </div>
+      <div>
+        <div
+          *ngFor="let row of rows"
+          class="d-flex flex-row align-items-center"
+          style="height: 48px; border-bottom: 1px solid #e9e9ef"
+        >
+          <div style="width: 5%">
+            <input
+              type="checkbox"
+              [checked]="isSelected(row?.member_id)"
+              (change)="onRowSelect($event, row)"
+            />
+          </div>
+          <div
+            style="height: 100%; width: 5%; display: flex; align-items: center"
+          >
+            {{ row.member_id }}
+          </div>
+          <div
+            style="height: 100%; width: 10%; display: flex; align-items: center"
+          >
+            {{ row.first_name }} {{ row.last_name }}
+          </div>
+          <div
+            style="height: 100%; width: 10%; display: flex; align-items: center"
+          >
+            {{ row.msisdn }}
+          </div>
+          <div
+            style="height: 100%; width: 10%; display: flex; align-items: center"
+          >
+            {{ row.id_number }}
+          </div>
+          <div
+            style="height: 100%; width: 10%; display: flex; align-items: center"
+          >
+            {{ row.gender }}
+          </div>
+          <div
+            style="height: 100%; width: 10%; display: flex; align-items: center"
+          >
+            {{ row.is_disabled === "True" ? "YES" : "NO" }}
+          </div>
+          <div
+            style="height: 100%; width: 10%; display: flex; align-items: center"
+          >
+            {{ row.county_title }}
+          </div>
+          <div
+            style="height: 100%; width: 10%; display: flex; align-items: center"
+          >
+            {{ row.sub_county_title }}
+          </div>
+          <div
+            style="height: 100%; width: 10%; display: flex; align-items: center"
+          >
+            {{ row.ward_name }}
+          </div>
+          <div
+            style="height: 100%; width: 10%; display: flex; align-items: center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              (click)="view(row)"
+              style="cursor: pointer; margin-right: 10px"
+            >
+              <g fill="none" stroke="#000">
+                <circle cx="12" cy="12" r="3.5" />
+                <path
+                  d="M20.188 10.934c.388.472.582.707.582 1.066c0 .359-.194.594-.582 1.066C18.768 14.79 15.636 18 12 18c-3.636 0-6.768-3.21-8.188-4.934c-.388-.472-.582-.707-.582-1.066c0-.359.194-.594.582-1.066C5.232 9.21 8.364 6 12 6c3.636 0 6.768 3.21 8.188 4.934Z"
+                />
+              </g>
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              style="cursor: pointer"
+              (click)="centerModal(userModal, row)"
+            >
+              <path
+                fill="none"
+                stroke="#000"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m14.304 4.844l2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565l6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
+              />
+            </svg>
+            <div>
+              <ng-template #userModal let-modal>
+                <div class="modal-header">
+                  <h5 class="modal-title mt-0">Edit Farmer</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    (click)="modal.dismiss('Cross click')"
+                    aria-hidden="true"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <form
+                    [formGroup]="updateFarmerForm"
+                    (ngSubmit)="handleSubmit($event)"
+                    style="width: 100%"
+                  >
+                    <div style="width: 100%; display: flex; gap: 20px">
+                      <div class="d-flex flex-column" style="width: 50%">
+                        <div
+                          class="d-flex flex-column"
+                          style="margin-bottom: 10px"
+                        >
+                          <label for="firstname" style="margin-bottom: 0px"
+                            >First Name</label
+                          >
+                          <input
+                            type="text"
+                            formControlName="first_name"
+                            id="firstname"
+                            placeholder="Enter First Name"
+                            style="
+                              height: 50px;
+                              width: 100%;
+                              padding-left: 10px;
+                              padding-right: 10px;
+                              border: 1px solid #e9e9ef;
+                              border-radius: 5px;
+                            "
+                          />
+                        </div>
+                        <div
+                          class="d-flex flex-column"
+                          style="margin-bottom: 10px"
+                        >
+                          <label for="lastname" style="margin-bottom: 0px"
+                            >Last Name</label
+                          >
+                          <input
+                            type="text"
+                            formControlName="last_name"
+                            id="lastname"
+                            placeholder="Enter Last Name"
+                            style="
+                              height: 50px;
+                              width: 100%;
+                              padding-left: 10px;
+                              padding-right: 10px;
+                              border: 1px solid #e9e9ef;
+                              border-radius: 5px;
+                            "
+                          />
+                        </div>
+                        <div
+                          class="d-flex flex-column"
+                          style="margin-bottom: 10px"
+                        >
+                          <label for="idnumber" style="margin-bottom: 0px"
+                            >ID Number</label
+                          >
+                          <input
+                            type="text"
+                            formControlName="id_number"
+                            id="idnumber"
+                            placeholder="Enter Id Number"
+                            style="
+                              height: 50px;
+                              width: 100%;
+                              padding-left: 10px;
+                              padding-right: 10px;
+                              border: 1px solid #e9e9ef;
+                              border-radius: 5px;
+                            "
+                          />
+                        </div>
+                        <div
+                          class="d-flex flex-column"
+                          style="margin-bottom: 10px"
+                        >
+                          <label for="dateOfBirth" style="margin-bottom: 0px"
+                            >Date of Birth</label
+                          >
+                          <input
+                            type="date"
+                            formControlName="dob"
+                            id="dateOfBirth"
+                            placeholder="Enter date of birth"
+                            style="
+                              height: 50px;
+                              width: 100%;
+                              padding-left: 10px;
+                              padding-right: 10px;
+                              border: 1px solid #e9e9ef;
+                              border-radius: 5px;
+                            "
+                          />
+                        </div>
+                      </div>
+                      <div class="d-flex flex-column" style="width: 50%">
+                        <div
+                          class="d-flex flex-column"
+                          style="margin-bottom: 10px"
+                        >
+                          <label for="phonenumber" style="margin-bottom: 0px"
+                            >Phone Number</label
+                          >
+                          <input
+                            type="text"
+                            formControlName="msisdn"
+                            id="phonenumber"
+                            placeholder="Enter phone number"
+                            style="
+                              height: 50px;
+                              width: 100%;
+                              padding-left: 10px;
+                              padding-right: 10px;
+                              border: 1px solid #e9e9ef;
+                              border-radius: 5px;
+                            "
+                          />
+                        </div>
+                        <div
+                          class="d-flex flex-column"
+                          style="margin-bottom: 10px"
+                        >
+                          <label for="gender" style="margin-bottom: 0px"
+                            >Gender</label
+                          >
+                          <select
+                            formControlName="gender"
+                            id="gender"
+                            placeholder="Select gender"
+                            class="form-select"
+                            style="height: 50px !important"
+                            aria-label="Default select example"
+                          >
+                            <option value="MALE">Male</option>
+                            <option value="FEMALE">Female</option>
+                          </select>
+                        </div>
+                        <div
+                          class="d-flex flex-column"
+                          style="margin-bottom: 10px"
+                        >
+                          <label for="disabled" style="margin-bottom: 0px"
+                            >Are you disbaled?</label
+                          >
+                          <select
+                            formControlName="disabled"
+                            id="disabled"
+                            placeholder="Select disability status"
+                            class="form-select"
+                            style="height: 50px !important"
+                            aria-label="Default select example"
+                          >
+                            <option value="TRUE">TRUE</option>
+                            <option value="FALSE">FALSE</option>
+                          </select>
+                        </div>
+                        <div
+                          style="
+                            width: 100%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                          "
+                        >
+                          <div
+                            class="d-flex flex-column"
+                            style="margin-bottom: 10px; width: 30%"
+                          >
+                            <label for="county" style="margin-bottom: 0px"
+                              >County</label
+                            >
+                            <select
+                              formControlName="county_title"
+                              id="county"
+                              placeholder="Select county"
+                              class="form-select"
+                              style="height: 50px !important"
+                              aria-label="Default select example"
+                            >
+                              <option
+                                *ngFor="let county of counties"
+                                value="county?.name"
+                              >
+                                {{ county.name }}
+                              </option>
+                            </select>
+                          </div>
+                          <div
+                            class="d-flex flex-column"
+                            style="margin-bottom: 10px; width: 30%"
+                          >
+                            <label for="subcounty" style="margin-bottom: 0px"
+                              >Sub County</label
+                            >
+                            <select
+                              formControlName="sub_county_title"
+                              id="subcounty"
+                              placeholder="Select subcounty"
+                              class="form-select"
+                              style="height: 50px !important"
+                              aria-label="Default select example"
+                            >
+                              <option
+                                *ngFor="let subcounty of sub_counties"
+                                value="subcounty?.name"
+                              >
+                                {{ subcounty.name }}
+                              </option>
+                            </select>
+                          </div>
+                          <div
+                            class="d-flex flex-column"
+                            style="margin-bottom: 10px; width: 30%"
+                          >
+                            <label for="ward" style="margin-bottom: 0px"
+                              >Ward</label
+                            >
+                            <select
+                              formControlName="ward_name"
+                              id="ward"
+                              placeholder="Select ward"
+                              class="form-select"
+                              style="height: 50px !important"
+                              aria-label="Default select example"
+                            >
+                              <option
+                                *ngFor="let ward of wards"
+                                value="ward?.name"
+                              >
+                                {{ ward.name }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      style="
+                        width: 100%;
+                        margin-top: 10px;
+                        margin-bottom: 10px;
+                        display: flex;
+                        justify-content: end;
+                      "
+                    >
+                      <button
+                        type="submit"
+                        style="
+                          height: 50px;
+                          background-color: #1f6e50;
+                          border: none;
+                          border-radius: 5px;
+                          color: white;
+                          width: 20%;
+                        "
+                      >
+                        Update Farmer
+                      </button>
+                    </div>
+                  </form>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 80px;
+            margin-top: 20px;
+          "
+        >
+          <p>
+            Showing
+            {{
+              dataParams.page_size === 1
+                ? 1
+                : dataParams.page_num * dataParams.page_size - 10
+            }}
+            to {{ dataParams.page_num * dataParams.page_size }} of
+            {{ 200 }} entries
+          </p>
+          <div>
+            <ngb-pagination
+              (pageChange)="setPage($event)"
+              [collectionSize]="200"
+              [(page)]="dataParams.page_num"
+              [maxSize]="5"
+              [boundaryLinks]="true"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

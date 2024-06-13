@@ -1,0 +1,180 @@
+<app-pagetitle
+  title="Farmers"
+  [breadcrumbItems]="breadCrumbItems"
+></app-pagetitle>
+<div>
+  <div class="card">
+    <div class="card-body">
+      <form [formGroup]="registerForm" (ngSubmit)="onsubmit()">
+        <div class="row">
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>County</label>
+              <ng-select
+                [items]="counties"
+                [multiple]="true"
+                (change)="subCounties($event)"
+                [virtualScroll]="true"
+                bindLabel="name"
+                bindValue="county_id"
+                placeholder="Select County"
+                formControlName="countyId"
+              >
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Sub-county</label>
+              <ng-select
+                [items]="sub_counties"
+                [multiple]="true"
+                (change)="filterWards($event)"
+                [virtualScroll]="true"
+                bindLabel="name"
+                bindValue="subCountyId"
+                placeholder="Select Sub County"
+                formControlName="subCountyId"
+              >
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="form-group">
+              <label>Ward</label>
+              <ng-select
+                [items]="wards"
+                [multiple]="true"
+                (change)="filterGroups($event)"
+                [virtualScroll]="true"
+                bindLabel="name"
+                bindValue="wardId"
+                placeholder="Select Ward"
+                formControlName="wardId"
+              >
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <label>Group</label>
+            <div class="form-group">
+              <ng-select
+                [items]="groups"
+                [virtualScroll]="true"
+                bindLabel="group_name"
+                bindValue="group_id"
+                placeholder="Group"
+                formControlName="groupId"
+              >
+              </ng-select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Gender</label>
+            <div class="form-group">
+              <ng-select
+                [items]="genders"
+                [virtualScroll]="true"
+                bindLabel="name"
+                bindValue="name"
+                placeholder="Select Gender"
+                formControlName="gender"
+              >
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label>Disabled</label>
+            <div class="form-group">
+              <ng-select
+                [items]="options"
+                [virtualScroll]="true"
+                bindLabel="name"
+                bindValue="name"
+                placeholder="Select Option"
+                formControlName="disabled"
+              >
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label>First Name</label>
+            <fieldset class="form-group position-relative">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="First Name"
+                formControlName="firstName"
+              />
+            </fieldset>
+          </div>
+          <div class="col-md-6">
+            <label>Last Name</label>
+            <fieldset class="form-group position-relative">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Last Name"
+                formControlName="lastName"
+              />
+            </fieldset>
+          </div>
+          <div class="col-md-6">
+            <label>Date of Birth</label>
+            <fieldset class="form-group position-relative">
+              <input type="date" class="form-control" formControlName="dob" />
+            </fieldset>
+          </div>
+          <div class="col-md-6">
+            <label>Mobile No</label>
+            <fieldset class="form-group position-relative">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Mobile No"
+                formControlName="msisdn"
+              />
+            </fieldset>
+          </div>
+          <div class="col-md-6">
+            <label>Id No</label>
+            <fieldset class="form-group position-relative">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Id no."
+                formControlName="idNumber"
+              />
+            </fieldset>
+          </div>
+          <div class="col-md-6">
+            <label>Value Chains</label>
+            <div class="form-group">
+              <ng-select
+                [items]="valueChains"
+                [virtualScroll]="true"
+                [multiple]="true"
+                bindLabel="value_chain_name"
+                bindValue="value_chain_id"
+                placeholder="Select Value Chain"
+                formControlName="valueChains"
+              >
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <button
+              type="submit"
+              [disabled]="registerForm.invalid"
+              class="btn btn-primary mt-2"
+            >
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

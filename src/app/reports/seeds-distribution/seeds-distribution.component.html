@@ -1,0 +1,188 @@
+<app-pagetitle
+  title="Seed Distribution Report"
+  [breadcrumbItems]="breadCrumbItems"
+  [breadcrumbItems]="breadCrumbItems"
+></app-pagetitle>
+
+<div>
+  <div class="card">
+    <div class="card-body">
+      <form [formGroup]="searchForm">
+        <div class="row">
+          <div class="col-xl col-md-6">
+            <label for="example-datetime-local-input" class="form-label"
+              >Start Date</label
+            >
+            <input
+              class="form-control"
+              type="date"
+              placeholder="Start"
+              formControlName="start_date"
+              id="example-datetime-local-input"
+            />
+          </div>
+          <div class="col-xl-2 col-md-6">
+            <label for="example-datetime-local-input" class="form-label"
+              >End Date</label
+            >
+            <input
+              class="form-control"
+              type="date"
+              placeholder="End"
+              formControlName="end_date"
+              id="example-datetime-local-input"
+            />
+          </div>
+          <div class="col-xl col-md-6">
+            <label for="example-datetime-local-input" class="form-label"
+              >Counties</label
+            >
+            <div class="form-group">
+              <ng-select
+                [items]="counties"
+                (change)="subCounties()"
+                [virtualScroll]="true"
+                bindLabel="name"
+                [multiple]="true"
+                bindValue="county_id"
+                placeholder="Select County"
+                formControlName="countyId"
+              >
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-xl col-md-6">
+            <label for="example-datetime-local-input" class="form-label"
+              >Sub counties</label
+            >
+            <div class="form-group">
+              <ng-select
+                [items]="sub_counties"
+                (change)="getWards()"
+                [virtualScroll]="true"
+                bindLabel="name"
+                [multiple]="true"
+                bindValue="subCountyId"
+                placeholder="Select Sub County"
+                formControlName="subCountyId"
+              >
+              </ng-select>
+            </div>
+          </div>
+          <div class="col-xl col-md-6">
+            <label for="example-datetime-local-input" class="form-label"
+              >wards</label
+            >
+            <div class="form-group">
+              <ng-select
+                [items]="wards"
+                [virtualScroll]="true"
+                bindLabel="name"
+                [multiple]="true"
+                bindValue="wardId"
+                placeholder="Select Ward"
+                formControlName="wardId"
+              >
+              </ng-select>
+            </div>
+          </div>
+          <!-- <div class="col-xl col-sm-3">
+            <label for="example-datetime-local-input" class="form-label"
+              >Search</label
+            >
+            <button
+              style="color: #3fc057; color: white !important"
+              type="button"
+              (click)="search()"
+              class="btn secondary-color w-100"
+            >
+              <i class="ft-search mr-1"></i>Search
+            </button>
+          </div> -->
+        </div>
+      </form>
+      <div style="margin-top: 20px; margin-bottom: 10px; width: 100%">
+        <input
+          type="text"
+          placeholder="Search with seed distribution id"
+          style="
+            border: 1px solid #e9e9ef;
+            border-radius: 5px;
+            width: 100%;
+            height: 40px;
+            padding-left: 10px;
+            padding-right: 10px;
+          "
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <!-- <div class="card-body"> -->
+    <ngx-datatable
+      #table
+      class="bootstrap no-detail-row"
+      [rows]="seedDistributionOverview"
+      [rowHeight]="50"
+      class="bootstrap core-bootstrap"
+      [columnMode]="ColumnMode.force"
+      [headerHeight]="50"
+      [footerHeight]="50"
+      [externalPaging]="true"
+      [count]="0"
+      [offset]="dataParams.page_num"
+      [limit]="dataParams.page_size"
+      (page)="setPage($event)"
+    >
+      <ngx-datatable-column name="#Id Number" prop="idNumber"></ngx-datatable-column>
+      <ngx-datatable-column name="User Id" prop="userId"></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Recipient"
+        prop="recipientType"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Distributor"
+        prop="distributor"
+      ></ngx-datatable-column>
+      <ngx-datatable-column
+        name="Value Chains"
+        prop="vc.length"
+      ></ngx-datatable-column>
+      <ngx-datatable-column name="Details" prop="edit">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style="cursor: pointer; margin-right: 10px"
+          >
+            <g fill="none" stroke="#000">
+              <circle cx="12" cy="12" r="3.5" />
+              <path
+                d="M20.188 10.934c.388.472.582.707.582 1.066c0 .359-.194.594-.582 1.066C18.768 14.79 15.636 18 12 18c-3.636 0-6.768-3.21-8.188-4.934c-.388-.472-.582-.707-.582-1.066c0-.359.194-.594.582-1.066C5.232 9.21 8.364 6 12 6c3.636 0 6.768 3.21 8.188 4.934Z"
+              />
+            </g>
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style="cursor: pointer"
+          >
+            <path
+              fill="none"
+              stroke="#000"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="m14.304 4.844l2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565l6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
+            />
+          </svg>
+        </ng-template>
+      </ngx-datatable-column>
+    </ngx-datatable>
+  </div>
+</div>

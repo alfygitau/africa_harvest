@@ -1,0 +1,11 @@
+.responsive-table {
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

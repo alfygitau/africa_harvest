@@ -1,0 +1,660 @@
+<div>
+  <app-pagetitle
+    title="Users"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-pagetitle>
+  <div
+    style="
+      background-color: white;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    "
+  >
+    <div
+      style="
+        width: 100%;
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      "
+    >
+      <p style="font-weight: bold">
+        Users List <span>({{ users.length }})</span>
+      </p>
+      <div style="display: flex; align-items: center; gap: 10px; height: 100%">
+        <div>
+          <input
+            type="text"
+            placeholder="Search a user with id, msisdn, phone number"
+            style="
+              border: 1px solid #e9e9ef;
+              border-top-left-radius: 5px;
+              border-bottom-left-radius: 5px;
+              width: 500px;
+              height: 40px;
+              padding-left: 10px;
+              padding-right: 10px;
+            "
+            [(ngModel)]="searchText"
+            (input)="filterUsers()"
+          />
+
+          <button
+            (click)="findUser()"
+            style="
+              height: 41px;
+              border: none;
+              background-color: #fbb43c;
+              color: black;
+              border-top-right-radius: 5px;
+              border-bottom-right-radius: 5px;
+              padding-left: 10px;
+              padding-right: 10px;
+            "
+          >
+            Search
+          </button>
+        </div>
+        <div
+          style="
+            background-color: #fbb43c;
+            color: white;
+            height: 40px;
+            width: 50px;
+            border-radius: 5px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="#fff"
+              d="M7 9V7h14v2zm0 4v-2h14v2zm0 4v-2h14v2zM4 9q-.425 0-.712-.288T3 8t.288-.712T4 7t.713.288T5 8t-.288.713T4 9m0 4q-.425 0-.712-.288T3 12t.288-.712T4 11t.713.288T5 12t-.288.713T4 13m0 4q-.425 0-.712-.288T3 16t.288-.712T4 15t.713.288T5 16t-.288.713T4 17"
+            />
+          </svg>
+        </div>
+        <div
+          style="
+            background-color: #e9e9ef;
+            color: white;
+            height: 40px;
+            width: 50px;
+            border-radius: 5px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="none"
+              stroke="#000"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M5.5 9.5v-3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1m8 0v-3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1m0 8v-3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1m-8 0v-3a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-3a1 1 0 0 1-1-1"
+            />
+          </svg>
+        </div>
+        <button
+          (click)="navigateToAddUser()"
+          style="
+            background-color: #1f6e50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            height: 40px;
+            width: 120px;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+            color: white;
+          "
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1em"
+            height="1em"
+            viewBox="0 0 24 24"
+          >
+            <g fill="none">
+              <path
+                d="M24 0v24H0V0zM12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035c-.01-.004-.019-.001-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427c-.002-.01-.009-.017-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093c.012.004.023 0 .029-.008l.004-.014l-.034-.614c-.003-.012-.01-.02-.02-.022m-.715.002a.023.023 0 0 0-.027.006l-.006.014l-.034.614c0 .012.007.02.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"
+              />
+              <path
+                fill="#fff"
+                d="M10.5 20a1.5 1.5 0 0 0 3 0v-6.5H20a1.5 1.5 0 0 0 0-3h-6.5V4a1.5 1.5 0 0 0-3 0v6.5H4a1.5 1.5 0 0 0 0 3h6.5z"
+              />
+            </g>
+          </svg>
+          Add
+        </button>
+      </div>
+    </div>
+    <div style="width: 100%">
+      <div
+        class="d-flex align-items-center"
+        style="
+          width: 100%;
+          height: 40px;
+          border-bottom: 1px solid #e9e9ef;
+          font-weight: bold;
+        "
+      >
+        <div style="height: 100%; width: 12.2%">First Name</div>
+        <div style="height: 100%; width: 12.2%">Last Name</div>
+        <div style="height: 100%; width: 12.2%">Email</div>
+        <div style="height: 100%; width: 12.2%">Id Number</div>
+        <div style="height: 100%; width: 12.2%">Role</div>
+        <div style="height: 100%; width: 12.2%">County</div>
+        <div style="height: 100%; width: 12.2%">Sub County</div>
+        <div style="height: 100%; width: 12.2%">Gender</div>
+        <div style="height: 100%; width: 12.2%">Date of Birth</div>
+        <div style="height: 100%; width: 12.2%">Actions</div>
+      </div>
+      <div>
+        <div
+          *ngFor="let user of users"
+          class="d-flex flex-row align-items-center"
+          style="height: 48px; border-bottom: 1px solid #e9e9ef"
+        >
+          <div
+            style="
+              height: 100%;
+              width: 12.2%;
+              display: flex;
+              align-items: center;
+            "
+          >
+            {{ user?.firstName }}
+          </div>
+          <div
+            style="
+              height: 100%;
+              width: 12.2%;
+              display: flex;
+              align-items: center;
+            "
+          >
+            {{ user?.lastName }}
+          </div>
+          <div
+            style="
+              height: 100%;
+              width: 12.2%;
+              display: flex;
+              align-items: center;
+            "
+          >
+            {{ user?.email }}
+          </div>
+          <div
+            style="
+              height: 100%;
+              width: 12.2%;
+              display: flex;
+              align-items: center;
+            "
+          >
+            {{ user?.idNumber }}
+          </div>
+          <div
+            style="
+              height: 100%;
+              width: 12.2%;
+              display: flex;
+              align-items: center;
+            "
+          >
+            {{ user?.userTypeId === 1 ? "Admin" : "Tot" }}
+          </div>
+          <div
+            style="
+              height: 100%;
+              width: 12.2%;
+              display: flex;
+              align-items: center;
+            "
+          >
+            {{ user?.countyTitle }}
+          </div>
+          <div
+            style="
+              height: 100%;
+              width: 12.2%;
+              display: flex;
+              align-items: center;
+            "
+          >
+            {{ user?.subcountyTitle }}
+          </div>
+          <div
+            style="
+              height: 100%;
+              width: 12.2%;
+              display: flex;
+              align-items: center;
+            "
+          >
+            {{ user?.gender }}
+          </div>
+          <div
+            style="
+              height: 100%;
+              width: 12.2%;
+              display: flex;
+              align-items: center;
+            "
+          >
+            {{ user?.dob }}
+          </div>
+          <div
+            style="
+              height: 100%;
+              width: 12.2%;
+              display: flex;
+              align-items: center;
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              (click)="navigateToProfile(user)"
+              style="cursor: pointer; margin-right: 10px"
+            >
+              <g fill="none" stroke="#000">
+                <circle cx="12" cy="12" r="3.5" />
+                <path
+                  d="M20.188 10.934c.388.472.582.707.582 1.066c0 .359-.194.594-.582 1.066C18.768 14.79 15.636 18 12 18c-3.636 0-6.768-3.21-8.188-4.934c-.388-.472-.582-.707-.582-1.066c0-.359.194-.594.582-1.066C5.232 9.21 8.364 6 12 6c3.636 0 6.768 3.21 8.188 4.934Z"
+                />
+              </g>
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              (click)="centerModal(userModal, user)"
+              style="cursor: pointer"
+            >
+              <path
+                fill="none"
+                stroke="#000"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m14.304 4.844l2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565l6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
+              />
+            </svg>
+            <div>
+              <ng-template #userModal let-modal>
+                <div>
+                  <div class="modal-header">
+                    <h5 class="modal-title mt-0" style="margin-left: 10px">
+                      Edit user
+                    </h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      (click)="modal.dismiss('Cross click')"
+                      aria-hidden="true"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <form
+                      [formGroup]="updateUserForm"
+                      (ngSubmit)="handleSubmit($event)"
+                      style="width: 100%"
+                    >
+                      <div
+                        style="
+                          width: 100%;
+                          display: flex;
+                          gap: 20px;
+                          padding-left: 10px;
+                          padding-right: 10px;
+                        "
+                      >
+                        <div class="d-flex flex-column" style="width: 50%">
+                          <div
+                            class="d-flex flex-column"
+                            style="margin-bottom: 10px"
+                          >
+                            <label for="firstname" style="margin-bottom: 0px"
+                              >First Name</label
+                            >
+                            <input
+                              type="text"
+                              formControlName="firstName"
+                              id="firstname"
+                              style="
+                                height: 50px;
+                                width: 100%;
+                                padding-left: 10px;
+                                padding-right: 10px;
+                                border: 1px solid #e9e9ef;
+                                border-radius: 5px;
+                              "
+                            />
+                          </div>
+                          <div
+                            class="d-flex flex-column"
+                            style="margin-bottom: 10px"
+                          >
+                            <label for="lastname" style="margin-bottom: 0px"
+                              >Last Name</label
+                            >
+                            <input
+                              type="text"
+                              formControlName="lastName"
+                              id="lastname"
+                              style="
+                                height: 50px;
+                                width: 100%;
+                                padding-left: 10px;
+                                padding-right: 10px;
+                                border: 1px solid #e9e9ef;
+                                border-radius: 5px;
+                              "
+                            />
+                          </div>
+                          <div
+                            class="d-flex flex-column"
+                            style="margin-bottom: 10px"
+                          >
+                            <label for="username" style="margin-bottom: 0px"
+                              >Username</label
+                            >
+                            <input
+                              type="text"
+                              formControlName="username"
+                              id="username"
+                              style="
+                                height: 50px;
+                                width: 100%;
+                                padding-left: 10px;
+                                padding-right: 10px;
+                                border: 1px solid #e9e9ef;
+                                border-radius: 5px;
+                              "
+                            />
+                          </div>
+                          <div
+                            class="d-flex flex-column"
+                            style="margin-bottom: 10px"
+                          >
+                            <label for="email" style="margin-bottom: 0px"
+                              >Email</label
+                            >
+                            <input
+                              type="text"
+                              formControlName="email"
+                              id="email"
+                              style="
+                                height: 50px;
+                                width: 100%;
+                                padding-left: 10px;
+                                padding-right: 10px;
+                                border: 1px solid #e9e9ef;
+                                border-radius: 5px;
+                              "
+                            />
+                          </div>
+                          <div
+                            class="d-flex flex-column"
+                            style="margin-bottom: 10px"
+                          >
+                            <label for="idnumber" style="margin-bottom: 0px"
+                              >ID Number</label
+                            >
+                            <input
+                              type="text"
+                              formControlName="idNumber"
+                              id="idnumber"
+                              style="
+                                height: 50px;
+                                width: 100%;
+                                padding-left: 10px;
+                                padding-right: 10px;
+                                border: 1px solid #e9e9ef;
+                                border-radius: 5px;
+                              "
+                            />
+                          </div>
+                          <div
+                            class="d-flex flex-column"
+                            style="margin-bottom: 10px"
+                          >
+                            <label for="dateOfBirth" style="margin-bottom: 0px"
+                              >Date of Birth</label
+                            >
+                            <input
+                              type="date"
+                              formControlName="dateOfBirth"
+                              id="dateOfBirth"
+                              style="
+                                height: 50px;
+                                width: 100%;
+                                padding-left: 10px;
+                                padding-right: 10px;
+                                border: 1px solid #e9e9ef;
+                                border-radius: 5px;
+                              "
+                            />
+                          </div>
+                        </div>
+                        <div class="d-flex flex-column" style="width: 50%">
+                          <div
+                            class="d-flex flex-column"
+                            style="margin-bottom: 10px"
+                          >
+                            <label for="phonenumber" style="margin-bottom: 0px"
+                              >Phone Number</label
+                            >
+                            <input
+                              type="text"
+                              formControlName="phoneNumber"
+                              id="phonenumber"
+                              style="
+                                height: 50px;
+                                width: 100%;
+                                padding-left: 10px;
+                                padding-right: 10px;
+                                border: 1px solid #e9e9ef;
+                                border-radius: 5px;
+                              "
+                            />
+                          </div>
+                          <div
+                            class="d-flex flex-column"
+                            style="margin-bottom: 10px"
+                          >
+                            <label for="gender" style="margin-bottom: 0px"
+                              >Gender</label
+                            >
+                            <select
+                              formControlName="gender"
+                              id="gender"
+                              class="form-select"
+                              style="height: 50px !important"
+                              aria-label="Default select example"
+                            >
+                              <option value="male">Male</option>
+                              <option value="female">Female</option>
+                            </select>
+                          </div>
+                          <div
+                            class="d-flex flex-column"
+                            style="margin-bottom: 10px"
+                          >
+                            <label for="role" style="margin-bottom: 0px"
+                              >Role</label
+                            >
+                            <select
+                              formControlName="role"
+                              id="role"
+                              class="form-select"
+                              style="height: 50px !important"
+                              aria-label="Default select example"
+                            >
+                              <option value="1">Admin</option>
+                              <option value="2">Tot</option>
+                            </select>
+                          </div>
+                          <!-- <div
+                            style="
+                              width: 100%;
+                              display: flex;
+                              align-items: center;
+                              justify-content: space-between;
+                            "
+                          >
+                            <div
+                              class="d-flex flex-column"
+                              style="margin-bottom: 10px; width: 30%"
+                            >
+                              <label for="county" style="margin-bottom: 0px"
+                                >County</label
+                              >
+                              <select
+                                formControlName="countyTitle"
+                                id="county"
+                                placeholder="Select county"
+                                class="form-select"
+                                style="height: 50px !important"
+                                aria-label="Default select example"
+                              >
+                                <option
+                                  *ngFor="let county of counties"
+                                  value="county?.name"
+                                >
+                                  {{ county.name }}
+                                </option>
+                              </select>
+                            </div>
+                            <div
+                              class="d-flex flex-column"
+                              style="margin-bottom: 10px; width: 30%"
+                            >
+                              <label for="subcounty" style="margin-bottom: 0px"
+                                >Sub County</label
+                              >
+                              <select
+                                formControlName="subCountyTitle"
+                                id="subcounty"
+                                placeholder="Select subcounty"
+                                class="form-select"
+                                style="height: 50px !important"
+                                aria-label="Default select example"
+                              >
+                                <option
+                                  *ngFor="let subcounty of subCounties"
+                                  value="subcounty?.name"
+                                >
+                                  {{ subcounty.name }}
+                                </option>
+                              </select>
+                            </div>
+                            <div
+                              class="d-flex flex-column"
+                              style="margin-bottom: 10px; width: 30%"
+                            >
+                              <label for="ward" style="margin-bottom: 0px"
+                                >Ward</label
+                              >
+                              <select
+                                formControlName="wardTitle"
+                                id="ward"
+                                placeholder="Select ward"
+                                class="form-select"
+                                style="height: 50px !important"
+                                aria-label="Default select example"
+                              >
+                                <option
+                                  *ngFor="let ward of wards"
+                                  value="ward?.name"
+                                >
+                                  {{ ward.name }}
+                                </option>
+                              </select>
+                            </div>
+                          </div> -->
+                        </div>
+                      </div>
+                      <div style="width: 100%; margin-left: 10px">
+                        <button
+                          type="submit"
+                          style="
+                            height: 50px;
+                            width: 47.5%;
+                            margin-top: 10px;
+                            margin-bottom: 10px;
+                            background-color: #1f6e50;
+                            border: none;
+                            border-radius: 5px;
+                            color: white;
+                          "
+                        >
+                          Edit User
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      style="
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        height: 80px;
+        margin-top: 20px;
+      "
+    >
+      <p>
+        Showing {{ size === 1 ? 1 : limit * size - 10 }} to
+        {{ limit * size }} of {{ totalUsers }} entries
+      </p>
+      <div>
+        <!-- <app-pagination
+          [currentPage]="size"
+          [itemsPerPage]="limit"
+          [totalItems]="totalUsers"
+          (pageChange)="onPageChange($event)"
+        ></app-pagination> -->
+        <ngb-pagination
+          (pageChange)="onPageChange($event)"
+          [collectionSize]="totalUsers"
+          [(page)]="size"
+          [maxSize]="5"
+          [boundaryLinks]="true"
+        />
+      </div>
+    </div>
+  </div>
+</div>

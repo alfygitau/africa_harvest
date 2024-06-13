@@ -1,0 +1,705 @@
+<app-pagetitle
+  title="Profile"
+  [breadcrumbItems]="breadCrumbItems"
+></app-pagetitle>
+
+<div class="row">
+  <div class="col-xl-9 col-lg-8">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm order-2 order-sm-1">
+            <div class="d-flex align-items-start mt-3 mt-sm-0">
+              <div class="flex-shrink-0">
+                <div class="avatar-xl me-3">
+                  <img
+                    src="assets/images/users/avatar-2.jpg"
+                    alt=""
+                    class="img-fluid rounded-circle d-block"
+                  />
+                </div>
+              </div>
+              <div class="flex-grow-1">
+                <div>
+                  <h5 class="font-size-16 mb-1">Phyllis Gatlin</h5>
+                  <p class="text-muted font-size-13">Full Stack Developer</p>
+
+                  <div
+                    class="d-flex flex-wrap align-items-start gap-2 gap-lg-3 text-muted font-size-13"
+                  >
+                    <div>
+                      <i
+                        class="mdi mdi-circle-medium me-1 text-success align-middle"
+                      ></i
+                      >Meru
+                    </div>
+                    <div>
+                      <i
+                        class="mdi mdi-circle-medium me-1 text-success align-middle"
+                      ></i
+                      >Timau
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-auto order-1 order-sm-2">
+            <div class="d-flex align-items-start justify-content-end gap-2">
+              <div>
+                <button type="button" class="btn btn-soft-light">
+                  <i class="me-1"></i> Message
+                </button>
+              </div>
+              <div>
+                <div class="dropdown" ngbDropdown>
+                  <button
+                    class="btn btn-link font-size-16 shadow-none text-muted dropdown-toggle"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                    ngbDropdownToggle
+                  >
+                    <i class="bx bx-dots-horizontal-rounded"></i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                    <li>
+                      <a class="dropdown-item" href="javascript:void(0);"
+                        >Action</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="javascript:void(0);"
+                        >Another action</a
+                      >
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="javascript:void(0);"
+                        >Something else here</a
+                      >
+                    </li>
+                  </ul>
+
+                  <div class="card-body">
+                    <div>
+                      <!-- center modal -->
+                      <button
+                        type="button"
+                        class="btn btn-primary waves-effect waves-light"
+                        data-bs-toggle="modal"
+                        data-bs-target=".bs-example-modal-center"
+                        (click)="centerModal(centerDataModal)"
+                      >
+                        Center modal
+                      </button>
+
+                      <!--  Center modal example -->
+                      <ng-template #centerDataModal let-modal>
+                        <div class="modal-header">
+                          <h5 class="modal-title mt-0">Center modal</h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            (click)="modal.dismiss('Cross click')"
+                            aria-hidden="true"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>
+                            Cras mattis consectetur purus sit amet fermentum.
+                            Cras justo odio, dapibus ac facilisis in, egestas
+                            eget quam. Morbi leo risus, porta ac consectetur ac,
+                            vestibulum at eros.
+                          </p>
+                          <p>
+                            Praesent commodo cursus magna, vel scelerisque nisl
+                            consectetur et. Vivamus sagittis lacus vel augue
+                            laoreet rutrum faucibus dolor auctor.
+                          </p>
+                          <p class="mb-0">
+                            Aenean lacinia bibendum nulla sed consectetur.
+                            Praesent commodo cursus magna, vel scelerisque nisl
+                            consectetur et. Donec sed odio dui. Donec
+                            ullamcorper nulla non metus auctor fringilla.
+                          </p>
+                        </div> </ng-template
+                      ><!-- /.modal -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <ul
+          ngbNav
+          #nav="ngbNav"
+          [activeId]="1"
+          class="nav nav-tabs-custom card-header-tabs border-top mt-4"
+        >
+          <li [ngbNavItem]="1" class="nav-item">
+            <a ngbNavLink class="nav-link px-3"> Overview </a>
+            <ng-template ngbNavContent>
+              <div class="tab-pane active" id="overview" role="tabpanel">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="card-title mb-0">About</h5>
+                  </div>
+                  <div class="card-body">
+                    <div>
+                      <div class="pb-3">
+                        <div class="row">
+                          <div class="col-xl-2">
+                            <div>
+                              <h5 class="font-size-15">Bio :</h5>
+                            </div>
+                          </div>
+                          <div class="col-xl">
+                            <div class="text-muted">
+                              <p class="mb-0">
+                                It is a long established fact that
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="py-3">
+                        <div class="row">
+                          <div class="col-xl-2">
+                            <div>
+                              <h5 class="font-size-15">Experience :</h5>
+                            </div>
+                          </div>
+                          <div class="col-xl">
+                            <div class="text-muted">
+                              <p>
+                                If several languages coalesce, the grammar of
+                                etc
+                              </p>
+
+                              <ul class="list-unstyled mb-0">
+                                <li class="py-1">
+                                  <i
+                                    class="mdi mdi-circle-medium me-1 text-success align-middle"
+                                  ></i
+                                  >Donec vitae sapien ut libero venenatis
+                                  faucibus
+                                </li>
+                                <li class="py-1">
+                                  <i
+                                    class="mdi mdi-circle-medium me-1 text-success align-middle"
+                                  ></i
+                                  >Quisque rutrum aenean imperdiet
+                                </li>
+                                <li class="py-1">
+                                  <i
+                                    class="mdi mdi-circle-medium me-1 text-success align-middle"
+                                  ></i
+                                  >Integer ante a consectetuer eget
+                                </li>
+                                <li class="py-1">
+                                  <i
+                                    class="mdi mdi-circle-medium me-1 text-success align-middle"
+                                  ></i
+                                  >Phasellus nec sem in justo pellentesque
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end card body -->
+                </div>
+                <!-- end card -->
+
+                <div class="card">
+                  <div class="card-header">
+                    <div class="d-flex">
+                      <div class="flex-grow-1">
+                        <h5 class="card-title mb-0">Post</h5>
+                      </div>
+                      <div class="flex-shrink-0">
+                        <a href="javascript:void(0);">View All</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-body">
+                    <div>
+                      <div class="row">
+                        <div class="col-xl-4">
+                          <div class="card p-1 mb-xl-0">
+                            <div class="p-3">
+                              <div class="d-flex align-items-start">
+                                <div class="flex-grow-1 overflow-hidden">
+                                  <h5 class="font-size-15 text-truncate">
+                                    <a
+                                      href="javascript:void(0);"
+                                      class="text-body"
+                                      >Beautiful Day with Friends</a
+                                    >
+                                  </h5>
+                                  <p class="font-size-13 text-muted mb-0">
+                                    10 Apr, 2020
+                                  </p>
+                                </div>
+                                <div class="flex-shrink-0 ms-2">
+                                  <div class="dropdown" ngbDropdown>
+                                    <a
+                                      class="btn btn-link text-muted font-size-16 p-1 py-0 dropdown-toggle shadow-none"
+                                      href="javascript:void(0);"
+                                      role="button"
+                                      data-bs-toggle="dropdown"
+                                      aria-expanded="false"
+                                      ngbDropdownToggle
+                                    >
+                                      <i
+                                        class="bx bx-dots-horizontal-rounded"
+                                      ></i>
+                                    </a>
+                                    <ul
+                                      class="dropdown-menu dropdown-menu-end"
+                                      ngbDropdownMenu
+                                    >
+                                      <li>
+                                        <a
+                                          class="dropdown-item"
+                                          href="javascript:void(0);"
+                                          >Action</a
+                                        >
+                                      </li>
+                                      <li>
+                                        <a
+                                          class="dropdown-item"
+                                          href="javascript:void(0);"
+                                          >Another action</a
+                                        >
+                                      </li>
+                                      <li>
+                                        <a
+                                          class="dropdown-item"
+                                          href="javascript:void(0);"
+                                          >Something else here</a
+                                        >
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="position-relative">
+                              <img
+                                src="assets/images/small/img-3.jpg"
+                                alt=""
+                                class="img-thumbnail"
+                              />
+                            </div>
+
+                            <div class="p-3">
+                              <ul class="list-inline">
+                                <li class="list-inline-item me-3">
+                                  <a
+                                    href="javascript: void(0);"
+                                    class="text-muted"
+                                  >
+                                    <i
+                                      class="bx bx-purchase-tag-alt align-middle text-muted me-1"
+                                    ></i>
+                                    Project
+                                  </a>
+                                </li>
+                                <li class="list-inline-item me-3">
+                                  <a
+                                    href="javascript: void(0);"
+                                    class="text-muted"
+                                  >
+                                    <i
+                                      class="bx bx-comment-dots align-middle text-muted me-1"
+                                    ></i>
+                                    12 Comments
+                                  </a>
+                                </li>
+                              </ul>
+                              <p class="text-muted">
+                                Neque porro quisquam est, qui dolorem ipsum quia
+                                dolor sit amet
+                              </p>
+
+                              <div>
+                                <a
+                                  href="javascript: void(0);"
+                                  class="text-primary"
+                                  >Read more <i class="mdi mdi-arrow-right"></i
+                                ></a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- end col -->
+
+                        <div class="col-xl-4">
+                          <div class="card p-1 mb-xl-0">
+                            <div class="p-3">
+                              <div class="d-flex align-items-start">
+                                <div class="flex-grow-1 overflow-hidden">
+                                  <h5 class="font-size-15 text-truncate">
+                                    <a
+                                      href="javascript:void(0);"
+                                      class="text-body"
+                                      >Drawing a sketch</a
+                                    >
+                                  </h5>
+                                  <p class="font-size-13 text-muted mb-0">
+                                    24 Mar, 2020
+                                  </p>
+                                </div>
+                                <div class="flex-shrink-0 ms-2">
+                                  <div class="dropdown" ngbDropdown>
+                                    <a
+                                      class="btn btn-link text-muted font-size-16 p-1 py-0 dropdown-toggle shadow-none"
+                                      href="javascript:void(0);"
+                                      role="button"
+                                      data-bs-toggle="dropdown"
+                                      aria-expanded="false"
+                                      ngbDropdownToggle
+                                    >
+                                      <i
+                                        class="bx bx-dots-horizontal-rounded"
+                                      ></i>
+                                    </a>
+                                    <ul
+                                      class="dropdown-menu dropdown-menu-end"
+                                      ngbDropdownMenu
+                                    >
+                                      <li>
+                                        <a
+                                          class="dropdown-item"
+                                          href="javascript:void(0);"
+                                          >Action</a
+                                        >
+                                      </li>
+                                      <li>
+                                        <a
+                                          class="dropdown-item"
+                                          href="javascript:void(0);"
+                                          >Another action</a
+                                        >
+                                      </li>
+                                      <li>
+                                        <a
+                                          class="dropdown-item"
+                                          href="javascript:void(0);"
+                                          >Something else here</a
+                                        >
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="position-relative">
+                              <img
+                                src="assets/images/small/img-1.jpg"
+                                alt=""
+                                class="img-thumbnail"
+                              />
+                            </div>
+
+                            <div class="p-3">
+                              <ul class="list-inline">
+                                <li class="list-inline-item me-3">
+                                  <a
+                                    href="javascript: void(0);"
+                                    class="text-muted"
+                                  >
+                                    <i
+                                      class="bx bx-purchase-tag-alt align-middle text-muted me-1"
+                                    ></i>
+                                    Development
+                                  </a>
+                                </li>
+                                <li class="list-inline-item me-3">
+                                  <a
+                                    href="javascript: void(0);"
+                                    class="text-muted"
+                                  >
+                                    <i
+                                      class="bx bx-comment-dots align-middle text-muted me-1"
+                                    ></i>
+                                    08 Comments
+                                  </a>
+                                </li>
+                              </ul>
+                              <p class="text-muted">
+                                At vero eos et accusamus et iusto odio
+                                dignissimos ducimus quos
+                              </p>
+
+                              <div>
+                                <a
+                                  href="javascript: void(0);"
+                                  class="text-primary"
+                                  >Read more <i class="mdi mdi-arrow-right"></i
+                                ></a>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- end card -->
+                        </div>
+                        <!-- end col -->
+
+                        <div class="col-xl-4">
+                          <div class="card p-1 mb-sm-0">
+                            <div class="p-3">
+                              <div class="d-flex align-items-start">
+                                <div class="flex-grow-1 overflow-hidden">
+                                  <h5 class="font-size-15 text-truncate">
+                                    <a
+                                      href="javascript:void(0);"
+                                      class="text-body"
+                                      >Project discussion with team</a
+                                    >
+                                  </h5>
+                                  <p class="font-size-13 text-muted mb-0">
+                                    20 Mar, 2020
+                                  </p>
+                                </div>
+                                <div class="flex-shrink-0 ms-2">
+                                  <div class="dropdown" ngbDropdown>
+                                    <a
+                                      class="btn btn-link text-muted font-size-16 p-1 py-0 dropdown-toggle shadow-none"
+                                      href="javascript:void(0);"
+                                      role="button"
+                                      data-bs-toggle="dropdown"
+                                      aria-expanded="false"
+                                      ngbDropdownToggle
+                                    >
+                                      <i
+                                        class="bx bx-dots-horizontal-rounded"
+                                      ></i>
+                                    </a>
+                                    <ul
+                                      class="dropdown-menu dropdown-menu-end"
+                                      ngbDropdownMenu
+                                    >
+                                      <li>
+                                        <a
+                                          class="dropdown-item"
+                                          href="javascript:void(0);"
+                                          >Action</a
+                                        >
+                                      </li>
+                                      <li>
+                                        <a
+                                          class="dropdown-item"
+                                          href="javascript:void(0);"
+                                          >Another action</a
+                                        >
+                                      </li>
+                                      <li>
+                                        <a
+                                          class="dropdown-item"
+                                          href="javascript:void(0);"
+                                          >Something else here</a
+                                        >
+                                      </li>
+                                    </ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="position-relative">
+                              <img
+                                src="assets/images/small/img-5.jpg"
+                                alt=""
+                                class="img-thumbnail"
+                              />
+                            </div>
+
+                            <div class="p-3">
+                              <ul class="list-inline">
+                                <li class="list-inline-item me-3">
+                                  <a
+                                    href="javascript: void(0);"
+                                    class="text-muted"
+                                  >
+                                    <i
+                                      class="bx bx-purchase-tag-alt align-middle text-muted me-1"
+                                    ></i>
+                                    Project
+                                  </a>
+                                </li>
+                                <li class="list-inline-item me-3">
+                                  <a
+                                    href="javascript: void(0);"
+                                    class="text-muted"
+                                  >
+                                    <i
+                                      class="bx bx-comment-dots align-middle text-muted me-1"
+                                    ></i>
+                                    08 Comments
+                                  </a>
+                                </li>
+                              </ul>
+                              <p class="text-muted">
+                                Itaque earum rerum hic tenetur a sapiente
+                                delectus ut aut
+                              </p>
+
+                              <div>
+                                <a
+                                  href="javascript: void(0);"
+                                  class="text-primary"
+                                  >Read more <i class="mdi mdi-arrow-right"></i
+                                ></a>
+                              </div>
+                            </div>
+                          </div>
+                          <!-- end card -->
+                        </div>
+                        <!-- end col -->
+                      </div>
+                      <!-- end row -->
+                    </div>
+                  </div>
+                  <!-- end card body -->
+                </div>
+                <!-- end card -->
+              </div>
+            </ng-template>
+          </li>
+
+          <li [ngbNavItem]="2" class="nav-item">
+            <a ngbNavLink class="nav-link px-3"> About </a>
+            <ng-template ngbNavContent>
+              <div class="tab-pane" id="about" role="tabpanel">
+                <div class="card">
+                  <div class="card-header">
+                    <h5 class="card-title mb-0">About</h5>
+                  </div>
+                  <div class="card-body">
+                    <div>
+                      <div class="pb-3">
+                        <h5 class="font-size-15">Bio :</h5>
+                        <div class="text-muted">
+                          <p>Lorem, ipsum.</p>
+
+                          <ul class="list-unstyled mb-0">
+                            <li class="py-1">
+                              <i
+                                class="mdi mdi-circle-medium me-1 text-success align-middle"
+                              ></i
+                              >Donec vitae sapien ut libero venenatis faucibus
+                            </li>
+                            <li class="py-1">
+                              <i
+                                class="mdi mdi-circle-medium me-1 text-success align-middle"
+                              ></i
+                              >Quisque rutrum aenean imperdiet
+                            </li>
+                            <li class="py-1">
+                              <i
+                                class="mdi mdi-circle-medium me-1 text-success align-middle"
+                              ></i
+                              >Integer ante a consectetuer eget
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+
+                      <div class="pt-3">
+                        <h5 class="font-size-15">Experience :</h5>
+                        <div class="text-muted">
+                          <p>
+                            If several languages coalesce, the grammar of the
+                            resulting
+                          </p>
+
+                          <ul class="list-unstyled mb-0">
+                            <li class="py-1">
+                              <i
+                                class="mdi mdi-circle-medium me-1 text-success align-middle"
+                              ></i
+                              >Donec vitae sapien ut libero venenatis faucibus
+                            </li>
+                            <li class="py-1">
+                              <i
+                                class="mdi mdi-circle-medium me-1 text-success align-middle"
+                              ></i
+                              >Quisque rutrum aenean imperdiet
+                            </li>
+                            <li class="py-1">
+                              <i
+                                class="mdi mdi-circle-medium me-1 text-success align-middle"
+                              ></i
+                              >Integer ante a consectetuer eget
+                            </li>
+                            <li class="py-1">
+                              <i
+                                class="mdi mdi-circle-medium me-1 text-success align-middle"
+                              ></i
+                              >Phasellus nec sem in justo pellentesque
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- end card body -->
+                </div>
+                <!-- end card -->
+              </div>
+            </ng-template>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-3 col-lg-4">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title mb-3">VLC</h5>
+
+        <div class="d-flex flex-wrap gap-2 font-size-16">
+          <a
+            href="javascript:void(0);"
+            class="badge bg-primary-subtle text-primary"
+            >Green gram</a
+          >
+          <a
+            href="javascript:void(0);"
+            class="badge bg-primary-subtle text-primary"
+            >Sorghum</a
+          >
+          <a
+            href="javascript:void(0);"
+            class="badge bg-primary-subtle text-primary"
+            >Pearl Millet</a
+          >
+          <a
+            href="javascript:void(0);"
+            class="badge bg-primary-subtle text-primary"
+            >Ground nut</a
+          >
+          <a
+            href="javascript:void(0);"
+            class="badge bg-primary-subtle text-primary"
+            >Pigeon pea</a
+          >
+          <a
+            href="javascript:void(0);"
+            class="badge bg-primary-subtle text-primary"
+            >cowpea</a
+          >
+        </div>
+      </div>
+      <!-- end card body -->
+    </div>
+  </div>
+</div>
