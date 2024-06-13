@@ -18,19 +18,24 @@ RUN npm run build
 
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
-# Use the latest version of the official Nginx image as the base image
+# Stage 2: Serve app with nginx server
+# Use official nginx image as the base image
 FROM nginx:latest
-# copy the custom nginx configuration file to the container in the default
-# location
-COPY nginx.conf /etc/nginx/nginx.conf
-# copy the built application from the build stage to the nginx html
-# directory
-COPY --from=build /app/dist/africa_harvest /usr/share/nginx/html
 
-EXPOSE 80
-EXPOSE 443
+# Copy the build output to replace the default nginx contents.
+COPY --from=build /app/dist/build/browser /usr/share/nginx/html
 
-CMD ["nginx", "-g", "daemon off;"]
+# This line is IMPORTANT, we will breakdown it on a minute.
+COPY ./entrypoint.sh /app/entrypoint.sh
+
+# Copy the nginx conf that we created to the container
+COPY ./nginx.conf  /etc/nginx/conf.d/default.conf
+
+# Expose ports
+EXPOSE 80 443 6006 4200
+
+RUN chmod +x /usr/local/app/entrypoint.sh
+ENTRYPOINT [ "/usr/local/app/entrypoint.sh" ]
 
 
 
