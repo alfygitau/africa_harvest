@@ -1,7 +1,7 @@
 # Stage 1: Build the Angular application
 FROM node:20.14.0-alpine as build
 
-WORKDIR /dist/src/app
+WORKDIR /app
 
 # instaa the cli
 RUN npm install -g @angular/cli@13
@@ -18,15 +18,15 @@ RUN npm run build
 
 # CMD ["ng", "serve", "--host", "0.0.0.0"]
 
-### STAGE 2:RUN ###
-# Defining nginx image to be used
-FROM nginx:latest AS ngi
-# Copying compiled code and nginx config to different folder
-# NOTE: This path may change according to your project's output folder 
-COPY --from=build /dist/src/app/dist/africa_harvest /usr/share/nginx/html
-COPY /nginx.conf  /etc/nginx/conf.d/default.conf
-# Exposing a port, here it means that inside the container 
-# the app will be using Port 80 while running
+# Use the latest version of the official Nginx image as the base image
+FROM nginx:latest
+# copy the custom nginx configuration file to the container in the default
+# location
+COPY nginx.conf /etc/nginx/nginx.conf
+# copy the built application from the build stage to the nginx html
+# directory
+COPY --from=build /app/dist/africa_harvest /usr/share/nginx/html
+
 EXPOSE 80
 EXPOSE 443
 
