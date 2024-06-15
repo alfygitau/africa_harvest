@@ -145,7 +145,8 @@ export class TotsComponent implements OnInit {
     }
 
     this.updateForm.patchValue({
-      firstName: this.selectedTrainer.first_name,
+      firstName:
+        this.selectedTrainer.first_name,
       lastName: this.selectedTrainer.last_name,
       email: this.selectedTrainer.email,
       idNumber: this.selectedTrainer.id_number,
@@ -244,7 +245,7 @@ export class TotsComponent implements OnInit {
   }
 
   view(row: Tot) {
-    this.router.navigate([`tots/profile/${row.userId}`]);
+    this.router.navigate([`users/${row.msisdn}`]);
   }
 
   fetchSubcounties(countyId: number) {
