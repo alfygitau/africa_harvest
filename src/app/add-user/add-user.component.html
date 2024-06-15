@@ -1,0 +1,320 @@
+<div>
+  <app-pagetitle
+    title="Add User / Tot"
+    [breadcrumbItems]="breadCrumbItems"
+  ></app-pagetitle>
+
+  <div
+    style="
+      border: 1px solid #e9e9ef;
+      /* border-radius: 10px; */
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+    "
+  >
+    <form
+      [formGroup]="userForm"
+      (ngSubmit)="handleSubmit($event)"
+      style="width: 100%"
+    >
+      <div style="width: 100%; display: flex; gap: 20px">
+        <div class="d-flex flex-column" style="width: 50%">
+          <div class="d-flex flex-column" style="margin-bottom: 10px">
+            <label for="firstname" style="margin-bottom: 0px">First Name</label>
+            <input
+              type="text"
+              formControlName="firstName"
+              id="firstname"
+              placeholder="Enter First Name"
+              style="
+                height: 50px;
+                width: 100%;
+                padding-left: 10px;
+                padding-right: 10px;
+                border: 1px solid #e9e9ef;
+                border-radius: 5px;
+              "
+            />
+          </div>
+          <div class="d-flex flex-column" style="margin-bottom: 10px">
+            <label for="lastname" style="margin-bottom: 0px">Last Name</label>
+            <input
+              type="text"
+              formControlName="lastName"
+              id="lastname"
+              placeholder="Enter Last Name"
+              style="
+                height: 50px;
+                width: 100%;
+                padding-left: 10px;
+                padding-right: 10px;
+                border: 1px solid #e9e9ef;
+                border-radius: 5px;
+              "
+            />
+          </div>
+          <div class="d-flex flex-column" style="margin-bottom: 10px">
+            <label for="username" style="margin-bottom: 0px">Username</label>
+            <input
+              type="text"
+              formControlName="username"
+              id="username"
+              placeholder="Enter Username"
+              style="
+                height: 50px;
+                width: 100%;
+                padding-left: 10px;
+                padding-right: 10px;
+                border: 1px solid #e9e9ef;
+                border-radius: 5px;
+              "
+            />
+          </div>
+          <div class="d-flex flex-column" style="margin-bottom: 10px">
+            <label for="email" style="margin-bottom: 0px">Email</label>
+            <input
+              type="text"
+              formControlName="email"
+              id="email"
+              placeholder="Enter email"
+              style="
+                height: 50px;
+                width: 100%;
+                padding-left: 10px;
+                padding-right: 10px;
+                border: 1px solid #e9e9ef;
+                border-radius: 5px;
+              "
+            />
+          </div>
+          <div class="d-flex flex-column" style="margin-bottom: 10px">
+            <label for="idnumber" style="margin-bottom: 0px">ID Number</label>
+            <input
+              type="text"
+              formControlName="idNumber"
+              id="idnumber"
+              placeholder="Enter Id Number"
+              style="
+                height: 50px;
+                width: 100%;
+                padding-left: 10px;
+                padding-right: 10px;
+                border: 1px solid #e9e9ef;
+                border-radius: 5px;
+              "
+            />
+          </div>
+          <div class="d-flex flex-column" style="margin-bottom: 10px">
+            <label for="dateOfBirth" style="margin-bottom: 0px"
+              >Date of Birth</label
+            >
+            <input
+              type="date"
+              formControlName="dateOfBirth"
+              id="dateOfBirth"
+              placeholder="Enter date of birth"
+              style="
+                height: 50px;
+                width: 100%;
+                padding-left: 10px;
+                padding-right: 10px;
+                border: 1px solid #e9e9ef;
+                border-radius: 5px;
+              "
+            />
+          </div>
+        </div>
+        <div class="d-flex flex-column" style="width: 50%">
+          <div class="d-flex flex-column" style="margin-bottom: 10px">
+            <label for="phonenumber" style="margin-bottom: 0px"
+              >Phone Number</label
+            >
+            <input
+              type="text"
+              formControlName="phoneNumber"
+              id="phonenumber"
+              placeholder="Enter phone number"
+              style="
+                height: 50px;
+                width: 100%;
+                padding-left: 10px;
+                padding-right: 10px;
+                border: 1px solid #e9e9ef;
+                border-radius: 5px;
+              "
+            />
+          </div>
+          <div class="d-flex flex-column" style="margin-bottom: 10px">
+            <label for="gender" style="margin-bottom: 0px">Gender</label>
+            <select
+              formControlName="gender"
+              id="gender"
+              placeholder="Select gender"
+              class="form-select"
+              style="height: 50px !important"
+              aria-label="Default select example"
+            >
+              <option value="">Select gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+          <div class="d-flex flex-column" style="margin-bottom: 10px">
+            <label for="role" style="margin-bottom: 0px">Role</label>
+            <select
+              formControlName="role"
+              id="role"
+              placeholder="Select a role"
+              class="form-select"
+              style="height: 50px !important"
+              aria-label="Default select example"
+            >
+              <option value="">Select a role</option>
+              <!-- <option value="1">Admin</option> -->
+              <option value="2">Tot</option>
+            </select>
+          </div>
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+            "
+          >
+            <div
+              class="d-flex flex-column"
+              style="margin-bottom: 10px; width: 30%"
+            >
+              <label for="county" style="margin-bottom: 0px">County</label>
+              <select
+                formControlName="county"
+                placeholder="Enter county"
+                id="county"
+                class="form-select"
+                [disabled]="isDisabled"
+                style="height: 50px !important"
+                aria-label="Default select example"
+              >
+                <option value="">Select county</option>
+                <option
+                  *ngFor="let county of counties"
+                  [value]="county.county_id"
+                >
+                  {{ county.name }}
+                </option>
+              </select>
+            </div>
+            <div
+              class="d-flex flex-column"
+              style="margin-bottom: 10px; width: 30%"
+            >
+              <label for="subcounty" style="margin-bottom: 0px"
+                >Subcounty</label
+              >
+              <select
+                formControlName="subcounty"
+                id="subcounty"
+                class="form-select"
+                style="height: 50px !important"
+                aria-label="Default select example"
+              >
+                <option value="">Select subcounty</option>
+                <option
+                  *ngFor="let subCounty of subCounties"
+                  [value]="subCounty.subCountyId"
+                >
+                  {{ subCounty.name }}
+                </option>
+              </select>
+            </div>
+            <div
+              class="d-flex flex-column"
+              style="margin-bottom: 10px; width: 30%"
+            >
+              <label for="ward" style="margin-bottom: 0px">Ward</label>
+              <select
+                formControlName="ward"
+                id="ward"
+                class="form-select"
+                style="height: 50px !important"
+                aria-label="Default select example"
+              >
+                <option value="">Select ward</option>
+                <option
+                  *ngFor="let subCounty of wards"
+                  [value]="subCounty.wardId"
+                >
+                  {{ subCounty.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="d-flex flex-column" style="margin-bottom: 10px">
+            <label for="password" style="margin-bottom: 0px">Password</label>
+            <input
+              type="password"
+              formControlName="password"
+              id="password"
+              placeholder="Enter your password"
+              style="
+                height: 50px;
+                width: 100%;
+                padding-left: 10px;
+                padding-right: 10px;
+                border: 1px solid #e9e9ef;
+                border-radius: 5px;
+              "
+            />
+          </div>
+          <div class="d-flex flex-column" style="margin-bottom: 10px">
+            <label for="confirm_password" style="margin-bottom: 0px"
+              >Confirm Password</label
+            >
+            <input
+              type="password"
+              formControlName="confirmPassword"
+              id="confirm_password"
+              placeholder="Confirm your password"
+              style="
+                height: 50px;
+                width: 100%;
+                padding-left: 10px;
+                padding-right: 10px;
+                border: 1px solid #e9e9ef;
+                border-radius: 5px;
+              "
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        style="
+          width: 100%;
+          margin-top: 10px;
+          margin-bottom: 10px;
+          display: flex;
+          justify-content: start;
+        "
+      >
+        <button
+          type="submit"
+          style="
+            height: 50px;
+            background-color: #1f6e50;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            width: 20%;
+          "
+        >
+          Create User
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

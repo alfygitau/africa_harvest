@@ -1,0 +1,122 @@
+<app-pagetitle title="Courses" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <form [formGroup]="searchForm">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                        <label>County</label>
+                        <ng-select [items]="counties" [multiple]="true"  (change)="subCounties($event)"  [virtualScroll]="true" bindLabel="name"  bindValue="county_id"
+                        placeholder="Select County" formControlName="countyId">
+                        </ng-select>                                    
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Sub-county</label>
+                      <ng-select [items]="sub_counties" [multiple]="true" (change)="getWards($event)"  [virtualScroll]="true" bindLabel="name"  bindValue="subCountyId"
+                      placeholder="Select Sub County" formControlName="subCountyId">
+                      </ng-select>            
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                      <div class="form-group">
+                        <label>Ward</label>
+                        <ng-select [items]="wards" [multiple]="true" (change)="filterGroups($event)" [virtualScroll]="true" bindLabel="name"  bindValue="wardId"
+                        placeholder="Select Ward" formControlName="wardId">
+                        </ng-select>                                    
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                          <label>Group</label>
+                          <ng-select [items]="groups"  (change)="filterAtttendees($event)"  [virtualScroll]="true" bindLabel="group_name"  bindValue="group_id"
+                          placeholder="Select Group" formControlName="groupId">
+                          </ng-select>                                    
+                        </div>
+                      </div>
+                </div>
+            </form>  
+            <form [formGroup]="registerForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Training Type</label>
+                        <div class="form-group">
+                            <ng-select [items]="trainingType" (change)="filterAtttendees($event)"  [virtualScroll]="true" bindLabel="name" bindValue="name"
+                                placeholder="Select Trainer" formControlName="trainingType">
+                            </ng-select>								  
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Venue</label>
+                        <fieldset class="form-group position-relative">
+                            <input type="text" class="form-control"  placeholder="Venue" formControlName="venue">
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Training</label>
+                        <div class="form-group">
+                            <ng-select [items]="courses"  (change)="getCourseModules($event)" [virtualScroll]="true" bindLabel="title" bindValue="course_id"
+                                placeholder="Select Course" formControlName="courseId">
+                            </ng-select>								  
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Training Module</label>
+                        <div class="form-group">
+                            <ng-select [items]="courseModules"  [virtualScroll]="true" bindLabel="title" bindValue="module_id"
+                                placeholder="Select Module" formControlName="courseModuleId">
+                            </ng-select>								  
+                        </div>
+                    </div>                              
+                                             
+                    <div class="col-md-6">
+                        <label>Attendance Sheet</label>
+                        <fieldset class="form-group position-relative">
+                            <input (change)="onFileChange($event)" type="file" class="form-control" formControlName="attendanceSheetPhotoUrl">
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Trainees Photo</label>
+                        <fieldset class="form-group position-relative">
+                            <input (change)="onFileChange($event)" type="file" class="form-control" formControlName="traineesPhotoUrl">
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Value Chain Name</label>
+                        <div class="form-group">
+                            <ng-select [items]="valueChains"  [virtualScroll]="true" bindLabel="value_chain_name" bindValue="value_chain_id"
+                                placeholder="Select Trainer" formControlName="valueChainId">
+                            </ng-select>								  
+                        </div>
+                    </div> 
+                    <div class="col-md-6">
+                        <label>Next Training Date</label>
+                        <fieldset class="form-group position-relative">
+                            <input type="date" class="form-control" formControlName="nextTrainingDate">
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Attendance</label>
+                        <div class="form-group">
+                            <ng-select [items]="members"  [virtualScroll]="true" [multiple]="true" bindLabel="first_name" bindValue="member_id"
+                                placeholder="Select Members" formControlName="membersIds">
+                            </ng-select>								  
+                        </div>
+                    </div> 
+                    <div class="col-md-6">
+                        <label>Feedback</label>
+                        <fieldset class="form-group position-relative">
+                            <input type="text" class="form-control"  placeholder="Feedback" formControlName="feedback">
+                        </fieldset>
+                    </div>
+                    <div class="col-sm-12" >
+                        <button type="button" (click)="onSubmit()" type="submit" class="btn btn-primary mr-2 px-3" style="margin-top:25px">Save</button>
+                    </div>
+                </div>
+            </form>		
+        </div>
+    </div>
+</div>

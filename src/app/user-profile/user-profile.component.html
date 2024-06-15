@@ -1,0 +1,207 @@
+<app-pagetitle
+  title="Profile"
+  [breadcrumbItems]="breadCrumbItems"
+></app-pagetitle>
+
+<div
+  style="
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  "
+>
+  <div
+    style="
+      width: 70%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    "
+  >
+    <div style="height: 200px; background-color: white">
+      <div
+        style="
+          height: 70%;
+          border-bottom: 1px solid #e9e9ef;
+          width: 100%;
+          margin-right: auto;
+          margin-left: auto;
+          display: flex;
+          padding-left: 10px;
+          padding-right: 10px;
+          justify-content: space-between;
+        "
+      >
+        <div
+          style="display: flex; gap: 20px; height: 100%; align-items: center"
+        >
+          <img
+            src="https://datascience.cancer.gov/sites/default/files/2019-02/avatar.svg"
+            alt="profile"
+            style="height: 80%; border-radius: 100%"
+          />
+          <div class="d-flex flex-column">
+            <p class="lh-sm" style="margin-bottom: 0px">
+              {{ user.firstName }} {{ user.lastName }}
+            </p>
+            <p class="lh-sm" style="margin-bottom: 20px">{{ user.email }}</p>
+            <p class="lh-sm" style="margin-bottom: 0px">
+              #id: {{ user.username }}
+            </p>
+          </div>
+        </div>
+        <div class="d-flex flex-row align-items-center gap-3">
+          <button
+            style="
+              height: 40px;
+              background-color: #fafafb;
+              padding-left: 20px;
+              padding-right: 20px;
+              border-radius: 5px;
+              border: none;
+            "
+          >
+            Message
+          </button>
+        </div>
+      </div>
+      <div
+        style="
+          height: 30%;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          padding-left: 10px;
+          padding-right: 10px;
+        "
+      >
+        <p
+          (click)="selectTab('profile')"
+          class="nav-link"
+          [class.active]="activeTab === 'profile'"
+          style="margin: 0px; cursor: pointer"
+        >
+          Profile Information
+        </p>
+        <p
+          (click)="selectTab('metadata')"
+          class="nav-link"
+          [class.active]="activeTab === 'metadata'"
+          style="margin: 0px; cursor: pointer"
+        >
+          Other metadata
+        </p>
+      </div>
+    </div>
+    <div style="height: 390px; background-color: white">
+      <div
+        style="
+          height: 10%;
+          border-bottom: 1px solid #e9e9ef;
+          padding-left: 10px;
+          padding-right: 10px;
+          display: flex;
+          align-items: center;
+          margin-bottom: 0px;
+        "
+      >
+        <p style="font-weight: bold; color: #fbab3d">
+          {{ activeTab | titlecase }} Information
+        </p>
+      </div>
+      <div style="height: 90%; padding-left: 10px; padding-right: 10px">
+        <div
+          *ngIf="activeTab === 'profile'"
+          style="display: flex; flex-direction: row"
+        >
+          <div
+            style="
+              width: 50%;
+              height: 100%;
+              padding-top: 10px;
+              padding-bottom: 10px;
+            "
+          >
+            <p style="font-weight: bold; color: #fbab3d">Biography</p>
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex flex-row align-items-center gap-2">
+                <p style="margin-bottom: 0px">First Name:</p>
+                <p style="margin-bottom: 0px">{{ user.firstName }}</p>
+              </div>
+              <div class="d-flex flex-row align-items-center gap-2">
+                <p style="margin-bottom: 0px">Last Name:</p>
+                <p style="margin-bottom: 0px">{{ user.lastName }}</p>
+              </div>
+              <div class="d-flex flex-row align-items-center gap-2">
+                <p style="margin-bottom: 0px">Gender:</p>
+                <p style="margin-bottom: 0px">{{ user.gender }}</p>
+              </div>
+              <div class="d-flex flex-row align-items-center gap-2">
+                <p style="margin-bottom: 0px">ID Number:</p>
+                <p style="margin-bottom: 0px">{{ user.idNumber }}</p>
+              </div>
+              <div class="d-flex flex-row align-items-center gap-2">
+                <p style="margin-bottom: 0px">Date of Birth:</p>
+                <p style="margin-bottom: 0px">{{ user.dob }}</p>
+              </div>
+              <div class="d-flex flex-row align-items-center gap-2">
+                <p style="margin-bottom: 0px">Phone Number:</p>
+                <p style="margin-bottom: 0px">{{ user.msisdn }}</p>
+              </div>
+              <div class="d-flex flex-row align-items-center gap-2">
+                <p style="margin-bottom: 0px">Status</p>
+                <p style="margin-bottom: 0px">Active</p>
+              </div>
+              <div class="d-flex flex-row align-items-center gap-2">
+                <p style="margin-bottom: 0px">Role</p>
+                <p style="margin-bottom: 0px">
+                  {{ user.userTypeId === 1 ? "Admin" : "Tot" }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            style="
+              width: 50%;
+              height: 100%;
+              padding-top: 10px;
+              padding-bottom: 10px;
+            "
+          >
+            <p style="font-weight: bold; color: #fbab3d">Address/Location</p>
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex flex-row align-items-center gap-2">
+                <p style="margin-bottom: 0px">County</p>
+                <p style="margin-bottom: 0px">
+                  {{ user.countyTitle || "N/A" }}
+                </p>
+              </div>
+              <div class="d-flex flex-row align-items-center gap-2">
+                <p style="margin-bottom: 0px">Sub County:</p>
+                <p style="margin-bottom: 0px">
+                  {{ user.subcountyTitle || "N/A" }}
+                </p>
+              </div>
+              <div class="d-flex flex-row align-items-center gap-2">
+                <p style="margin-bottom: 0px">Ward</p>
+                <p style="margin-bottom: 0px">{{ user.wardTitle || "N/A" }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="activeTab === 'metadata'">
+          <p>No record of user metadata</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    style="
+      width: 28%;
+      height: 600px;
+      background-color: white;
+    "
+  ></div>
+</div>

@@ -1,0 +1,293 @@
+<div class="auth-page">
+  <div class="container-fluid p-0">
+    <div class="row g-0">
+      <div class="col-xxl-3 col-lg-4 col-md-5">
+        <div class="auth-full-page-content d-flex p-sm-5 p-4">
+          <div class="w-100">
+            <div class="d-flex flex-column h-100">
+              <div class="mb-4 mb-md-5 text-center">
+                <a routerLink="/" class="d-block auth-logo">
+                  <img src="assets/images/logo1.png" alt="" height="58" />
+                  <span class="logo-txt"></span>
+                </a>
+              </div>
+              <div class="auth-content my-auto">
+                <div class="text-center">
+                  <h5 class="mb-0">Welcome Back !</h5>
+                  <p class="text-muted mt-2">
+                    Sign in to continue to Africa Harvest.
+                  </p>
+                </div>
+                <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                  <div class="mb-3">
+                    <label for="username">Username</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="username"
+                      formControlName="username"
+                      [ngClass]="{ 'is-invalid': submitted && !f.username }"
+                      placeholder="Enter username"
+                    />
+                    @if(submitted && !f.username){
+                    <div class="invalid-feedback">
+                      @if(!f.username){
+                      <div>Username is required</div>
+                      }
+                      <!-- @if(f.username.errors){
+                                            <div>Email must be a valid email address
+                                            </div>} -->
+                    </div>
+                    }
+                  </div>
+
+                  <div class="mb-3">
+                    <!-- <div class="float-end">
+                                            <a routerLink="/account/recoverpw" class="text-muted">Forgot
+                                                password?</a>
+                                        </div> -->
+                    <label for="userpassword">Password</label>
+                    <div class="input-group auth-pass-inputgroup">
+                      <input
+                        [type]="fieldTextType ? 'text' : 'password'"
+                        class="form-control"
+                        formControlName="password"
+                        [ngClass]="{ 'is-invalid': submitted && !f.password }"
+                        placeholder="Enter password"
+                        aria-label="Password"
+                        aria-describedby="password-addon"
+                      />
+                      <button
+                        class="btn btn-light"
+                        type="button"
+                        id="password-addon"
+                      >
+                        <i
+                          class="mdi"
+                          [ngClass]="{
+                            'mdi-eye-off-outline': !fieldTextType,
+                            'mdi-eye-outline': fieldTextType
+                          }"
+                          (click)="toggleFieldTextType()"
+                        ></i>
+                      </button>
+                      @if(submitted && !f.password){
+                      <div class="invalid-feedback">
+                        @if(!f.password){
+                        <span>Password is required</span>}
+                      </div>
+                      }
+                    </div>
+                  </div>
+
+                  <!-- <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="remember-check">
+                                        <label class="form-check-label" for="remember-check">
+                                            Remember me
+                                        </label>
+                                    </div> -->
+
+                  <div class="mt-3 d-grid">
+                    <button class="btn secondary-color btn-block" type="submit">
+                      Log In
+                    </button>
+                  </div>
+                </form>
+
+                <div class="mt-4 pt-2 text-center">
+                  <!-- <div class="signin-other-title">
+                                        <h5 class="font-size-14 mb-3 text-muted fw-medium">- Sign in with -</h5>
+                                    </div> -->
+
+                  <!-- <ul class="list-inline mb-0">
+                                        <li class="list-inline-item">
+                                            <a href="javascript:void()" class="social-list-item bg-primary text-white border-primary">
+                                                <i class="mdi mdi-facebook"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript:void()" class="social-list-item bg-info text-white border-info">
+                                                <i class="mdi mdi-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="javascript:void()" class="social-list-item bg-danger text-white border-danger">
+                                                <i class="mdi mdi-google"></i>
+                                            </a>
+                                        </li>
+                                    </ul> -->
+                </div>
+
+                <div class="mt-5 text-center">
+                  <p class="text-muted mb-0">
+                    Forgot your password?
+                    <a
+                      routerLink="/auth/recoverpw"
+                      class="text-secondary fw-semibold"
+                      >Reset Password
+                    </a>
+                  </p>
+                </div>
+              </div>
+              <div class="mt-4 mt-md-5 text-center">
+                <p class="mb-0">© {{ year }} Africa Harvest</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end auth full page content -->
+      </div>
+      <!-- end col -->
+      <div class="col-xxl-9 col-lg-8 col-md-7">
+        <div class="auth-bg pt-md-5 p-4 d-flex">
+          <div class="bg-overlay bg-primary"></div>
+          <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+          <!-- end bubble effect -->
+          <div class="row justify-content-center align-items-center">
+            <div class="col-xl-7">
+              <div class="p-0 p-sm-4 px-xl-0">
+                <div
+                  id="reviewcarouselIndicators"
+                  class="carousel slide"
+                  data-bs-ride="carousel"
+                >
+                  <div class="carousel-inner">
+                    <ngb-carousel [showNavigationArrows]="showNavigationArrows">
+                      <ng-template ngbSlide>
+                        <div class="carousel-item active">
+                          <div class="testi-contain text-white">
+                            <i
+                              class="bx bxs-quote-alt-left text-success display-6"
+                            ></i>
+
+                            <h4 class="mt-4 fw-medium lh-base text-white">
+                              “Africa Harvest’s vision of an Africa free of
+                              hunger, poverty and malnutrition is being achieved
+                              through the use of science and technology,
+                              gender-sensitive, appropriate agricultural
+                              technologies and innovative institutional
+                              approaches to improve the livelihoods of rural
+                              communities, particularly smallholder farmers..”
+                            </h4>
+                            <div class="mt-4 pt-3 pb-5">
+                              <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0">
+                                  <img
+                                    src="https://datascience.cancer.gov/sites/default/files/2019-02/avatar.svg"
+                                    class="avatar-md img-fluid rounded-circle"
+                                    alt="..."
+                                  />
+                                </div>
+                                <div class="flex-grow-1 ms-3 mb-4">
+                                  <h5 class="font-size-18 text-white">
+                                    Our History
+                                  </h5>
+                                  <p class="mb-0 text-white-50">
+                                    Africa Harvest
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                      <ng-template ngbSlide>
+                        <div class="carousel-item active">
+                          <div class="testi-contain text-white">
+                            <i
+                              class="bx bxs-quote-alt-left text-success display-6"
+                            ></i>
+
+                            <h4 class="mt-4 fw-medium lh-base text-white">
+                              “Our mission to disseminate appropriate innovative
+                              agricultural technologies and institution
+                              approaches through the whole value chain to
+                              improve the livelihoods of rural communities.”
+                            </h4>
+                            <div class="mt-4 pt-3 pb-5">
+                              <div class="d-flex align-items-start">
+                                <div class="flex-shrink-0">
+                                  <img
+                                    src="https://datascience.cancer.gov/sites/default/files/2019-02/avatar.svg"
+                                    class="avatar-md img-fluid rounded-circle"
+                                    alt="..."
+                                  />
+                                </div>
+                                <div class="flex-grow-1 ms-3 mb-4">
+                                  <h5 class="font-size-18 text-white">
+                                    Our Vision
+                                  </h5>
+                                  <p class="mb-0 text-white-50">
+                                    Africa Harvest
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                      <ng-template ngbSlide>
+                        <div class="carousel-item active">
+                          <div class="testi-contain text-white">
+                            <i
+                              class="bx bxs-quote-alt-left text-success display-6"
+                            ></i>
+
+                            <h4 class="mt-4 fw-medium lh-base text-white">
+                              “Our vision is premised on using tools
+                              agricultural science and technological innovations
+                              and strategic partnerships with grassroots
+                              communities, governments, research institutions,
+                              public/private sector and development partners at
+                              different levels to create sustainable
+                              life-changing impact and developing working models
+                              based on crop value chains, which could be shared
+                              widely to further scale up the impact.”
+                            </h4>
+                            <div class="mt-4 pt-3 pb-5">
+                              <div class="d-flex align-items-start">
+                                <img
+                                  src="https://datascience.cancer.gov/sites/default/files/2019-02/avatar.svg"
+                                  class="avatar-md img-fluid rounded-circle"
+                                  alt="..."
+                                />
+                                <div class="flex-1 ms-3 mb-4">
+                                  <h5 class="font-size-18 text-white">
+                                    Dr. Florence Muringi Wambugu
+                                  </h5>
+                                  <p class="mb-0 text-white-50">
+                                    Chief Executive Officer (CEO)
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </ng-template>
+                    </ngb-carousel>
+                  </div>
+                  <!-- end carousel-inner -->
+                </div>
+                <!-- end review carousel -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end col -->
+    </div>
+    <!-- end row -->
+  </div>
+  <!-- end container fluid -->
+</div>
