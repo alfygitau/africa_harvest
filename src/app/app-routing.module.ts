@@ -71,6 +71,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: 'survey',
+    component: LayoutComponent,
+    loadChildren: () =>
+      import('./survey/survey.module').then((m) => m.SurveyModule),
+    canActivate: [AuthGuard],
+  },
+  {
     path: 'tots',
     component: LayoutComponent,
     loadChildren: () =>

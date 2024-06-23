@@ -140,4 +140,17 @@ export const MENU: MenuItem[] = [
       },
     ],
   },
+  {
+    id: 21,
+    label: 'Impact Survey',
+    icon: 'file',
+    subItems: [
+      {
+        id: 22,
+        label: 'Survey',
+        link: '/survey/results',
+        parentId: 21,
+      },
+    ],
+  },
 ];

@@ -1,0 +1,141 @@
+<app-pagetitle
+  title="Survey"
+  [breadcrumbItems]="breadCrumbItems"
+></app-pagetitle>
+
+<p style="font-size: 20px; font-weight: bold">Survey statistics</p>
+<div
+  style="
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+  "
+>
+  <div
+    style="
+      width: 20%;
+      height: 120px;
+      background-color: #238468;
+      border-radius: 5px;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      gap: 10px;
+    "
+  >
+    <span style="font-size: 14px; color: white">Total participants</span>
+    <span
+      [countUp]="totalSurveyMembers"
+      class="counter-value"
+      style="color: white; font-size: 36px; font-weight: 700"
+    ></span>
+  </div>
+  <div
+    style="
+      width: 20%;
+      height: 120px;
+      background-color: #f4b044;
+      border-radius: 5px;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    "
+  >
+    <span style="font-size: 14px; color: white">Total Male Participants</span>
+    <span
+      [countUp]="totalMaleSurveyMembers"
+      class="counter-value"
+      style="color: white; font-size: 36px; font-weight: 700"
+    ></span>
+  </div>
+  <div
+    style="
+      width: 20%;
+      height: 120px;
+      background-color: white;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    "
+  >
+    <span style="font-size: 14px; color: #f4b044"
+      >Total Female Participants</span
+    >
+    <span
+      [countUp]="totalFemaleSurveyMembers"
+      class="counter-value"
+      style="color: #f4b044; font-size: 36px; font-weight: 700"
+    ></span>
+  </div>
+  <div
+    style="
+      width: 20%;
+      height: 120px;
+      background-color: #3fc057;
+      border-radius: 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    "
+  >
+    <span style="font-size: 14px; color: white"
+      >Total Projected Participants</span
+    >
+    <span
+      [countUp]="totalProjectedSurveyMembers"
+      class="counter-value"
+      style="color: white; font-size: 36px; font-weight: 700"
+    ></span>
+  </div>
+</div>
+
+<div
+  style="
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    margin-top: 20px;
+  "
+>
+  <div id="chart" style="width: 45% !important; padding: 10px !important">
+    <apx-chart
+      [series]="barChartOptions.series"
+      [chart]="barChartOptions.chart"
+      [plotOptions]="barChartOptions.plotOptions"
+      [dataLabels]="barChartOptions.dataLabels"
+      [stroke]="barChartOptions.stroke"
+      [xaxis]="barChartOptions.xaxis"
+      [yaxis]="barChartOptions.yaxis"
+      [fill]="barChartOptions.fill"
+      [tooltip]="barChartOptions.tooltip"
+      [colors]="barChartOptions.colors"
+    ></apx-chart>
+  </div>
+  <div id="piechart" style="width: 45% !important; padding: 10px !important">
+    <div id="chart">
+      <apx-chart
+        [series]="pieChartOptions.series"
+        [chart]="pieChartOptions.chart"
+        [labels]="pieChartOptions.labels"
+        [title]="pieChartOptions.title"
+        [theme]="pieChartOptions.theme"
+        [responsive]="pieChartOptions.responsive"
+        [colors]="pieChartOptions.colors"
+      ></apx-chart>
+    </div>
+  </div>
+</div>
