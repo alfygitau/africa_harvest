@@ -3,6 +3,107 @@
   [breadcrumbItems]="breadCrumbItems"
 ></app-pagetitle>
 
+<div
+  style="
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    margin-bottom: 20px;
+  "
+>
+  <form
+    [formGroup]="searchForm"
+    class="col-lg-12 d-flex w-100"
+    style="padding-right: 0px !important"
+  >
+    <div class="row d-flex w-100 justify-content-between">
+      <div class="col-xl col-md-6">
+        <label for="example-datetime-local-input" class="form-label"
+          >Start Date</label
+        >
+        <input
+          class="form-control"
+          type="date"
+          placeholder="Start"
+          formControlName="startDate"
+          id="example-datetime-local-input"
+        />
+      </div>
+      <div class="col-xl-2 col-md-6">
+        <label for="example-datetime-local-input" class="form-label"
+          >End Date</label
+        >
+        <input
+          class="form-control"
+          type="date"
+          placeholder="End"
+          formControlName="endDate"
+          id="example-datetime-local-input"
+        />
+      </div>
+      <div class="col-xl col-md-6">
+        <label for="county">County</label>
+        <ng-select
+          id="county"
+          [items]="counties"
+          [multiple]="true"
+          (change)="subCounties($event)"
+          [virtualScroll]="true"
+          bindLabel="name"
+          bindValue="county_id"
+          placeholder="County"
+          formControlName="countyId"
+        >
+        </ng-select>
+      </div>
+      <div class="col-xl col-md-6">
+        <label for="county">Sub County</label>
+        <ng-select
+          id="county"
+          [items]="sub_counties"
+          [multiple]="true"
+          (change)="getWards($event)"
+          [virtualScroll]="true"
+          bindLabel="name"
+          bindValue="subCountyId"
+          placeholder="Sub County"
+          formControlName="subCountyId"
+        >
+        </ng-select>
+      </div>
+      <div class="col-xl col-md-6">
+        <label for="county">Ward</label>
+        <ng-select
+          id="county"
+          (change)="filterGroups($event)"
+          [items]="wards"
+          [multiple]="true"
+          [virtualScroll]="true"
+          bindLabel="name"
+          bindValue="wardId"
+          placeholder="Ward"
+          formControlName="wardId"
+        >
+        </ng-select>
+      </div>
+      <div class="col-xl col-md-6">
+        <label for="county">Group</label>
+        <ng-select
+          id="county"
+          [items]="groups"
+          [multiple]="true"
+          [virtualScroll]="true"
+          bindLabel="group_name"
+          bindValue="group_id"
+          placeholder="Group"
+          formControlName="groupId"
+        >
+        </ng-select>
+      </div>
+    </div>
+  </form>
+</div>
+
 <p style="font-size: 20px; font-weight: bold">Survey statistics</p>
 <div
   style="

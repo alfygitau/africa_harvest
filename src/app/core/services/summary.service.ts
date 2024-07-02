@@ -5,22 +5,24 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { endpoint } from './auth.service';
 
-
 @Injectable({
-    providedIn:'root'
+  providedIn: 'root',
 })
-
 export class SummaryService {
-    constructor(private http:HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-    private extractData(res: any){
-        const body = res 
-        return body || {}
-    }
+  private extractData(res: any) {
+    const body = res;
+    return body || {};
+  }
 
-    getSummary(): Observable<any> {
-        return this.http.get(endpoint+'reports/main').pipe(
-          map((this.extractData))
-        )
-    }
+  getSummary(): Observable<any> {
+    return this.http.get(endpoint + 'reports/main').pipe(map(this.extractData));
+  }
+
+  getSurveyCount(payload: any) {
+    return this.http
+      .post(endpoint + 'surveys/summaries', payload)
+      .pipe(map(this.extractData));
+  }
 }
