@@ -303,10 +303,8 @@ export class SurveyComponent implements OnInit {
     // console.log(pageInfo)
     this.dataParams.page_num = pageInfo;
     // this.dataParams.page_num = pageInfo.offset;
-    let data = {
-      page: this.dataParams.page_num,
-      dataObj: this.searchForm.value,
-      size: this.dataParams.page_size,
-    };
+    this.summaryService.getSurveyList(this.dataParams).subscribe((res) => {
+      this.rows = res.message;
+    });
   }
 }
