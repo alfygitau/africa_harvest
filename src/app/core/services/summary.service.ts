@@ -26,12 +26,24 @@ export class SummaryService {
       .pipe(map(this.extractData));
   }
 
+  getTotalSurveyCount() {
+    return this.http
+      .post(endpoint + 'surveys/summaries', {
+        countyId: [6, 12, 13, 15, 16, 17, 28, 37, 40, 41, 43],
+        subCountyId: [],
+        wardId: [],
+      })
+      .pipe(map(this.extractData));
+  }
+
   getSurveyList(payload: any) {
-    // page_num: 1,
-    //   page_size: 10,
     return this.http
       .get(
-        endpoint + 'surveys/?page=' + payload.page_num + '&size=' + payload.page_size
+        endpoint +
+          'surveys/?page=' +
+          payload.page_num +
+          '&size=' +
+          payload.page_size
       )
       .pipe(map(this.extractData));
   }
