@@ -33,19 +33,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { GroupsService } from '../core/services/groups.service';
 import { SummaryService } from '../core/services/summary.service';
 
-// export type ChartOptions = {
-//   series: ApexAxisChartSeries;
-//   chart: ApexChart;
-//   dataLabels: ApexDataLabels;
-//   plotOptions: ApexPlotOptions;
-//   yaxis: ApexYAxis;
-//   xaxis: ApexXAxis;
-//   fill: ApexFill;
-//   tooltip: ApexTooltip;
-//   stroke: ApexStroke;
-//   legend: ApexLegend;
-// };
-
 @Component({
   selector: 'app-survey',
   standalone: true,
@@ -77,12 +64,18 @@ export class SurveyComponent implements OnInit {
   wards: Ward[] = [];
   groups = [];
   totalGroups: number = 0;
+  rows: any = [];
+
+  dataParams: any = {
+    page_num: 1,
+    page_size: 10,
+  };
 
   public breadCrumbItems!: Array<{}>;
-  public totalProjectedSurveyMembers: number = 200;
-  public totalSurveyMembers: number = 90;
-  public totalMaleSurveyMembers: number = 46;
-  public totalFemaleSurveyMembers: number = 44;
+  public totalProjectedSurveyMembers: number = 0;
+  public totalSurveyMembers: number = 0;
+  public totalMaleSurveyMembers: number = 0;
+  public totalFemaleSurveyMembers: number = 0;
   constructor(
     private formBuilder: FormBuilder,
     private groupsService: GroupsService,
@@ -201,7 +194,17 @@ export class SurveyComponent implements OnInit {
       { label: 'Results', active: true },
     ];
 
+    this.searchForm.valueChanges.subscribe(() => {
+      this.fetchSurveyCount();
+    });
+
+    this.dataParams = {
+      page_num: 1,
+      page_size: 10,
+    };
+
     this.fetchSurveyCount();
+    this.getSurveyList();
   }
 
   fetchSurveyCount() {
@@ -211,7 +214,22 @@ export class SurveyComponent implements OnInit {
       wardId: this.searchForm.get('wardId')?.value,
     };
     this.summaryService.getSurveyCount(obj).subscribe((res) => {
-      console.log(res);
+      this.totalSurveyMembers = res.message.reduce(
+        (total: any, item: any) => total + item.survey_count,
+        0
+      );
+      this.totalFemaleSurveyMembers = res.message.reduce(
+        (total: any, item: any) => total + item.female_surveyed_count,
+        0
+      );
+      this.totalMaleSurveyMembers = res.message.reduce(
+        (total: any, item: any) => total + item.male_surveyed_count,
+        0
+      );
+      this.pieChartOptions.series = [
+        this.totalMaleSurveyMembers,
+        this.totalFemaleSurveyMembers,
+      ];
     });
   }
 
@@ -251,6 +269,14 @@ export class SurveyComponent implements OnInit {
     }
   }
 
+  getSurveyList() {
+    let obj = this.dataParams;
+    this.summaryService.getSurveyList(obj).subscribe((res) => {
+      console.log(res);
+      this.rows = res.message;
+    });
+  }
+
   filterGroups(data: any) {
     if (this.searchForm) {
       let obj = {
@@ -271,5 +297,16 @@ export class SurveyComponent implements OnInit {
         }
       });
     }
+  }
+
+  setPage(pageInfo: any) {
+    // console.log(pageInfo)
+    this.dataParams.page_num = pageInfo;
+    // this.dataParams.page_num = pageInfo.offset;
+    let data = {
+      page: this.dataParams.page_num,
+      dataObj: this.searchForm.value,
+      size: this.dataParams.page_size,
+    };
   }
 }

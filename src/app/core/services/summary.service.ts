@@ -25,4 +25,14 @@ export class SummaryService {
       .post(endpoint + 'surveys/summaries', payload)
       .pipe(map(this.extractData));
   }
+
+  getSurveyList(payload: any) {
+    // page_num: 1,
+    //   page_size: 10,
+    return this.http
+      .get(
+        endpoint + 'surveys/?page=' + payload.page_num + '&size=' + payload.page_size
+      )
+      .pipe(map(this.extractData));
+  }
 }
