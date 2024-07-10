@@ -81,15 +81,19 @@ export class SurveyComponent implements OnInit {
     private groupsService: GroupsService,
     private summaryService: SummaryService
   ) {
+    this.initializeChartOptions();
+  }
+
+  initializeChartOptions(): void {
     this.barChartOptions = {
       series: [
         {
           name: 'Male',
-          data: [8, 12, 13, 14, 7, 11, 2, 16, 16, 4],
+          data: [],
         },
         {
           name: 'Female',
-          data: [11, 6, 14, 9, 7, 15, 11, 14, 4, 1],
+          data: [],
         },
       ],
       chart: {
@@ -100,30 +104,14 @@ export class SurveyComponent implements OnInit {
         bar: {
           horizontal: false,
           columnWidth: '55%',
-          endingShape: 'rounded',
+          borderRadius: 4,
         },
       },
       dataLabels: {
         enabled: false,
       },
-      stroke: {
-        show: true,
-        width: 2,
-        colors: ['transparent'],
-      },
       xaxis: {
-        categories: [
-          'Taita Taveta',
-          'Meru',
-          'Tharaka Nithi',
-          'Kitui',
-          'Machakos',
-          'Makueni',
-          'Elgeyo Marakwet',
-          'Busia',
-          'Homabay',
-          'Siaya',
-        ],
+        categories: [], // Initially empty, will be set dynamically
       },
       yaxis: {
         title: {
@@ -175,6 +163,7 @@ export class SurveyComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fetchCountiesSurveyCount();
     const date = new Date();
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 1);
@@ -205,7 +194,6 @@ export class SurveyComponent implements OnInit {
 
     this.getTotalSurveyCount();
     this.getSurveyList();
-    this.fetchCountiesSurveyCount();
   }
 
   fetchSurveyCount() {
@@ -280,10 +268,46 @@ export class SurveyComponent implements OnInit {
     });
   }
 
-  fetchCountiesSurveyCount() {
-    this.summaryService.getCountySurveyCount().subscribe((res) => {
-      console.log(res);
-    });
+  fetchCountiesSurveyCount(): void {
+    this.summaryService.getCountySurveyCount().subscribe(
+      (res) => {
+        console.log('API Response:', res);
+
+        const countyNames = res.message.map(
+          (item: { county: string }) => item.county
+        );
+        const maleParticipants = res.message.map(
+          (item: { male_surveyed_count: number }) => item.male_surveyed_count
+        );
+        const femaleParticipants = res.message.map(
+          (item: { female_surveyed_count: number }) =>
+            item.female_surveyed_count
+        );
+
+        console.log('County Names:', countyNames);
+        console.log('Male Participants:', maleParticipants);
+        console.log('Female Participants:', femaleParticipants);
+        this.barChartOptions = {
+          ...this.barChartOptions,
+          series: [
+            { ...this.barChartOptions.series[0], data: maleParticipants },
+            { ...this.barChartOptions.series[1], data: femaleParticipants },
+          ],
+          xaxis: {
+            ...this.barChartOptions.xaxis,
+            categories: countyNames,
+          },
+        };
+        this.refreshChart();
+      },
+      (error) => {
+        console.error('Error fetching county survey count:', error);
+      }
+    );
+  }
+
+  refreshChart(): void {
+    this.barChartOptions = { ...this.barChartOptions };
   }
 
   filterGroups(data: any) {

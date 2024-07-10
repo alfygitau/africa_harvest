@@ -26,11 +26,18 @@ export class SummaryService {
       .pipe(map(this.extractData));
   }
 
+  getFormattedDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   getCountySurveyCount() {
     return this.http
       .post(endpoint + 'surveys/graph-data', {
         startDate: '2024-01-02',
-        endDate: '2024-07-09',
+        endDate: this.getFormattedDate(new Date()),
       })
       .pipe(map(this.extractData));
   }
