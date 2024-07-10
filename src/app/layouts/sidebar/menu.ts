@@ -151,6 +151,12 @@ export const MENU: MenuItem[] = [
         link: '/survey/results',
         parentId: 21,
       },
+      {
+        id: 23,
+        label: 'Survey-list',
+        link: '/survey/survey-list',
+        parentId: 21,
+      },
     ],
   },
 ];

@@ -1,0 +1,164 @@
+<app-pagetitle
+  title="Survey-list"
+  [breadcrumbItems]="breadCrumbItems"
+></app-pagetitle>
+
+<div style="margin-top: 20px">
+  <p>Survey Participants</p>
+  <div
+    style="
+      background-color: white;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    "
+  >
+    <div style="width: 100%">
+      <div
+        class="d-flex align-items-center"
+        style="
+          width: 100%;
+          height: 40px;
+          border-bottom: 1px solid #e9e9ef;
+          font-weight: bold;
+        "
+      >
+        <div style="width: 7%">
+          <input type="checkbox" id="select_all" />
+        </div>
+        <div class="truncate" style="height: 100%; width: 7%">Member Id</div>
+        <div style="height: 100%; width: 12%">Name</div>
+        <!-- <div style="height: 100%; width: 10%">Mobile</div>
+          <div style="height: 100%; width: 10%">ID Number</div> -->
+        <div style="height: 100%; width: 12%">Gender</div>
+        <div style="height: 100%; width: 12%">Disability Status</div>
+        <div style="height: 100%; width: 12%">County</div>
+        <div style="height: 100%; width: 12%">Sub County</div>
+        <div style="height: 100%; width: 12%">Ward</div>
+        <div style="height: 100%; width: 12%">Details</div>
+      </div>
+      <div>
+        <div
+          *ngFor="let row of rows"
+          class="d-flex flex-row align-items-center"
+          style="height: 48px; border-bottom: 1px solid #e9e9ef"
+        >
+          <div style="width: 7%">
+            <input type="checkbox" />
+          </div>
+          <div
+            style="height: 100%; width: 7%; display: flex; align-items: center"
+          >
+            {{ row.member_id }}
+          </div>
+          <div
+            style="height: 100%; width: 12%; display: flex; align-items: center"
+          >
+            {{ row.member_name }}
+          </div>
+          <!-- <div
+              style="height: 100%; width: 10%; display: flex; align-items: center"
+            >
+              {{ row.msisdn }}
+            </div>
+            <div
+              style="height: 100%; width: 10%; display: flex; align-items: center"
+            >
+              {{ row.id_number }}
+            </div> -->
+          <div
+            style="height: 100%; width: 12%; display: flex; align-items: center"
+          >
+            {{ row.gender }}
+          </div>
+          <div
+            style="height: 100%; width: 12%; display: flex; align-items: center"
+          >
+            {{ row.is_disabled === "True" ? "YES" : "NO" }}
+          </div>
+          <div
+            style="height: 100%; width: 12%; display: flex; align-items: center"
+          >
+            {{ row.county }}
+          </div>
+          <div
+            style="height: 100%; width: 12%; display: flex; align-items: center"
+          >
+            {{ row.sub_county }}
+          </div>
+          <div
+            style="height: 100%; width: 12%; display: flex; align-items: center"
+          >
+            {{ row.ward }}
+          </div>
+          <div
+            style="height: 100%; width: 12%; display: flex; align-items: center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              style="cursor: pointer; margin-right: 10px"
+            >
+              <g fill="none" stroke="#000">
+                <circle cx="12" cy="12" r="3.5" />
+                <path
+                  d="M20.188 10.934c.388.472.582.707.582 1.066c0 .359-.194.594-.582 1.066C18.768 14.79 15.636 18 12 18c-3.636 0-6.768-3.21-8.188-4.934c-.388-.472-.582-.707-.582-1.066c0-.359.194-.594.582-1.066C5.232 9.21 8.364 6 12 6c3.636 0 6.768 3.21 8.188 4.934Z"
+                />
+              </g>
+            </svg>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              style="cursor: pointer"
+            >
+              <path
+                fill="none"
+                stroke="#000"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="m14.304 4.844l2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565l6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"
+              />
+            </svg>
+          </div>
+        </div>
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 80px;
+            margin-top: 20px;
+          "
+        >
+          <p>
+            Showing
+            {{
+              dataParams.page_size === 1
+                ? 1
+                : dataParams.page_num * dataParams.page_size - 10
+            }}
+            to {{ dataParams.page_num * dataParams.page_size }} of
+            {{ 200 }} entries
+          </p>
+          <div>
+            <ngb-pagination
+              (pageChange)="setPage($event)"
+              [collectionSize]="200"
+              [(page)]="dataParams.page_num"
+              [maxSize]="5"
+              [boundaryLinks]="true"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

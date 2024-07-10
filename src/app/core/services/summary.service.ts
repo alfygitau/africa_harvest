@@ -22,17 +22,13 @@ export class SummaryService {
 
   getSurveyCount(payload: any) {
     return this.http
-      .post(endpoint + 'surveys/summaries', payload)
+      .post(endpoint + 'surveys/summaries-count', payload)
       .pipe(map(this.extractData));
   }
 
   getTotalSurveyCount() {
     return this.http
-      .post(endpoint + 'surveys/summaries', {
-        countyId: [6, 12, 13, 15, 16, 17, 28, 37, 40, 41, 43],
-        subCountyId: [],
-        wardId: [],
-      })
+      .get(endpoint + 'surveys/glance-count', )
       .pipe(map(this.extractData));
   }
 

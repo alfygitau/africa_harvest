@@ -214,18 +214,9 @@ export class SurveyComponent implements OnInit {
       wardId: this.searchForm.get('wardId')?.value,
     };
     this.summaryService.getSurveyCount(obj).subscribe((res) => {
-      this.totalSurveyMembers = res.message.reduce(
-        (total: any, item: any) => total + item.survey_count,
-        0
-      );
-      this.totalFemaleSurveyMembers = res.message.reduce(
-        (total: any, item: any) => total + item.female_surveyed_count,
-        0
-      );
-      this.totalMaleSurveyMembers = res.message.reduce(
-        (total: any, item: any) => total + item.male_surveyed_count,
-        0
-      );
+      this.totalSurveyMembers = res.message[0].survey_count;
+      this.totalFemaleSurveyMembers = res.message[0].female_surveyed_count;
+      this.totalMaleSurveyMembers = res.message[0].male_surveyed_count;
       this.pieChartOptions.series = [
         this.totalMaleSurveyMembers,
         this.totalFemaleSurveyMembers,
@@ -235,18 +226,9 @@ export class SurveyComponent implements OnInit {
 
   getTotalSurveyCount() {
     this.summaryService.getTotalSurveyCount().subscribe((res) => {
-      this.totalSurveyMembers = res.message.reduce(
-        (total: any, item: any) => total + item.survey_count,
-        0
-      );
-      this.totalFemaleSurveyMembers = res.message.reduce(
-        (total: any, item: any) => total + item.female_surveyed_count,
-        0
-      );
-      this.totalMaleSurveyMembers = res.message.reduce(
-        (total: any, item: any) => total + item.male_surveyed_count,
-        0
-      );
+      this.totalSurveyMembers = res.message.total_survey_count;
+      this.totalFemaleSurveyMembers = res.message.female_surveyed_count;
+      this.totalMaleSurveyMembers = res.message.male_surveyed_count;
       this.pieChartOptions.series = [
         this.totalMaleSurveyMembers,
         this.totalFemaleSurveyMembers,
@@ -310,33 +292,15 @@ export class SurveyComponent implements OnInit {
           ? this.searchForm.get('endDate')?.value
           : '',
       };
-      this.summaryService.getSurveyCount(obj).subscribe((res) => {
-        if (res.statusCode == 200) {
-          this.totalSurveyMembers = res.message.reduce(
-            (total: any, item: any) => total + item.survey_count,
-            0
-          );
-          this.totalFemaleSurveyMembers = res.message.reduce(
-            (total: any, item: any) => total + item.female_surveyed_count,
-            0
-          );
-          this.totalMaleSurveyMembers = res.message.reduce(
-            (total: any, item: any) => total + item.male_surveyed_count,
-            0
-          );
-          this.pieChartOptions.series = [
-            this.totalMaleSurveyMembers,
-            this.totalFemaleSurveyMembers,
-          ];
-        }
+      this.summaryService.getTotalSurveyCount().subscribe((res) => {
+        this.totalSurveyMembers = res.message.total_survey_count;
+        this.totalFemaleSurveyMembers = res.message.female_surveyed_count;
+        this.totalMaleSurveyMembers = res.message.male_surveyed_count;
+        this.pieChartOptions.series = [
+          this.totalMaleSurveyMembers,
+          this.totalFemaleSurveyMembers,
+        ];
       });
     }
-  }
-
-  setPage(pageInfo: any) {
-    this.dataParams.page_num = pageInfo;
-    this.summaryService.getSurveyList(this.dataParams).subscribe((res) => {
-      this.rows = res.message;
-    });
   }
 }
