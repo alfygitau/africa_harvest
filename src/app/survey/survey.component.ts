@@ -205,6 +205,7 @@ export class SurveyComponent implements OnInit {
 
     this.getTotalSurveyCount();
     this.getSurveyList();
+    this.fetchCountiesSurveyCount();
   }
 
   fetchSurveyCount() {
@@ -276,6 +277,12 @@ export class SurveyComponent implements OnInit {
     let obj = this.dataParams;
     this.summaryService.getSurveyList(obj).subscribe((res) => {
       this.rows = res.message;
+    });
+  }
+
+  fetchCountiesSurveyCount() {
+    this.summaryService.getCountySurveyCount().subscribe((res) => {
+      console.log(res);
     });
   }
 

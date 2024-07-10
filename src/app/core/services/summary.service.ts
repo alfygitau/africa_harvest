@@ -26,9 +26,18 @@ export class SummaryService {
       .pipe(map(this.extractData));
   }
 
+  getCountySurveyCount() {
+    return this.http
+      .post(endpoint + 'surveys/graph-data', {
+        startDate: '2024-01-02',
+        endDate: '2024-07-09',
+      })
+      .pipe(map(this.extractData));
+  }
+
   getTotalSurveyCount() {
     return this.http
-      .get(endpoint + 'surveys/glance-count', )
+      .get(endpoint + 'surveys/glance-count')
       .pipe(map(this.extractData));
   }
 
