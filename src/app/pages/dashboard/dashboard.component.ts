@@ -168,6 +168,31 @@ export class DashboardComponent implements OnInit {
     // this.filterCount(this.searchForm.value);
     // this.getTrainingsByLocationAndDate();
 
+    this.searchForm.valueChanges.subscribe(() => {
+      this.filterCount(this.searchForm.value);
+
+      if (this.searchForm) {
+        let ids = this.searchForm.get('countyId')?.value;
+        let filtered_array = this.counties.filter((obj: any) =>
+          ids.includes(obj.county_id)
+        );
+        filtered_array.forEach((element) => {
+          this.sub_counties = this.sub_counties.concat(element.sub_counties);
+        });
+      }
+
+      if (this.searchForm) {
+        let ids = this.searchForm.get('subCountyId')?.value;
+        let filtered_array = this.sub_counties.filter((obj: any) =>
+          ids.includes(obj.subCountyId)
+        );
+        filtered_array.forEach((element) => {
+          this.wards = this.wards.concat(element.wards);
+        });
+      }
+      this.filterGroups(this.searchForm.value);
+    });
+
     this.trainingChart = {
       series: [
         {
@@ -434,9 +459,7 @@ export class DashboardComponent implements OnInit {
         this.sub_counties = this.sub_counties.concat(element.sub_counties);
       });
     }
-
-    this.search();
-    this.getTrainingsByLocationAndDate();
+    this.filterGroups(this.searchForm.value);
   }
 
   fetchGroups(event: Event) {}
@@ -451,8 +474,7 @@ export class DashboardComponent implements OnInit {
         this.wards = this.wards.concat(element.wards);
       });
     }
-    this.search();
-    this.getTrainingsByLocationAndDate();
+    this.filterGroups(this.searchForm.value);
   }
 
   search() {
@@ -519,12 +541,6 @@ export class DashboardComponent implements OnInit {
   }
 
   filterCount(data: any) {
-    let obj = {
-      countyId: this.searchForm.get('countyId')?.value,
-      subCountyId: this.searchForm.get('subCountyId')?.value,
-      wardId: this.searchForm.get('wardId')?.value,
-      groupId: this.searchForm.get('groupId')?.value,
-    };
     this.membersService.getCountsByLocations(data).subscribe((res) => {
       if (res.statusCode == 200) {
         this.totalGroups = res.message.total_groups;
@@ -548,7 +564,6 @@ export class DashboardComponent implements OnInit {
 
   getSummary() {
     this.summaryService.getSummary().subscribe((res) => {
-      console.log(res);
       if (res.statusCode == 200) {
         this.summary = res.message;
         this.totalGroups = res.message.total_groups;
