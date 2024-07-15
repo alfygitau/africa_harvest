@@ -1131,287 +1131,287 @@ export const counties: County[] = [
             }
         ]
     },
-    {
-        "county_id": 37,
-        "name": "KAKAMEGA",
-        "sub_counties": [
-            {
-                "subCountyId": 269,
-                "name": "MUMIAS WEST",
-                "wards": [
-                    {
-                        "wardId": 94,
-                        "name": "ETENJE"
-                    },
-                    {
-                        "wardId": 273,
-                        "name": "MUMIAS NORTH"
-                    },
-                    {
-                        "wardId": 649,
-                        "name": "MUSANDA"
-                    },
-                    {
-                        "wardId": 951,
-                        "name": "MUMIAS CENTRAL"
-                    }
-                ]
-            },
-            {
-                "subCountyId": 270,
-                "name": "BUTERE",
-                "wards": [
-                    {
-                        "wardId": 85,
-                        "name": "MARAMA NORTH"
-                    },
-                    {
-                        "wardId": 602,
-                        "name": "MARAMA CENTRAL"
-                    },
-                    {
-                        "wardId": 927,
-                        "name": "MARAMA WEST"
-                    },
-                    {
-                        "wardId": 1114,
-                        "name": "MARAMA SOUTH"
-                    },
-                    {
-                        "wardId": 1294,
-                        "name": "MARENYO - SHIANDA"
-                    }
-                ]
-            },
-            {
-                "subCountyId": 271,
-                "name": "MATUNGU",
-                "wards": [
-                    {
-                        "wardId": 108,
-                        "name": "KHOLERA"
-                    },
-                    {
-                        "wardId": 846,
-                        "name": "KOYONZO"
-                    },
-                    {
-                        "wardId": 889,
-                        "name": "MAYONI"
-                    },
-                    {
-                        "wardId": 1329,
-                        "name": "NAMAMALI"
-                    }
-                ]
-            },
-            {
-                "subCountyId": 272,
-                "name": "MUMIAS EAST",
-                "wards": [
-                    {
-                        "wardId": 519,
-                        "name": "MALAHA/ISONGO/MAKUNGA"
-                    },
-                    {
-                        "wardId": 1012,
-                        "name": "LUSHEYA/LUBINU"
-                    },
-                    {
-                        "wardId": 1345,
-                        "name": "EAST WANGA"
-                    }
-                ]
-            },
-            {
-                "subCountyId": 273,
-                "name": "LIKUYANI",
-                "wards": [
-                    {
-                        "wardId": 14,
-                        "name": "NZOIA"
-                    },
-                    {
-                        "wardId": 92,
-                        "name": "LIKUYANI"
-                    },
-                    {
-                        "wardId": 432,
-                        "name": "SANGO"
-                    },
-                    {
-                        "wardId": 856,
-                        "name": "KONGONI"
-                    },
-                    {
-                        "wardId": 857,
-                        "name": "SINOKO"
-                    }
-                ]
-            },
-            {
-                "subCountyId": 274,
-                "name": "MALAVA",
-                "wards": [
-                    {
-                        "wardId": 190,
-                        "name": "BUTALI/CHEGULO"
-                    },
-                    {
-                        "wardId": 231,
-                        "name": "MANDA-SHIVANGA"
-                    },
-                    {
-                        "wardId": 232,
-                        "name": "SHIRUGU-MUGAI"
-                    },
-                    {
-                        "wardId": 317,
-                        "name": "SOUTH KABRAS"
-                    },
-                    {
-                        "wardId": 744,
-                        "name": "EAST KABRAS"
-                    },
-                    {
-                        "wardId": 1029,
-                        "name": "WEST KABRAS"
-                    },
-                    {
-                        "wardId": 1416,
-                        "name": "CHEMUCHE"
-                    }
-                ]
-            },
-            {
-                "subCountyId": 275,
-                "name": "KHWISERO",
-                "wards": [
-                    {
-                        "wardId": 170,
-                        "name": "KISA NORTH"
-                    },
-                    {
-                        "wardId": 294,
-                        "name": "KISA WEST"
-                    },
-                    {
-                        "wardId": 1116,
-                        "name": "KISA EAST"
-                    },
-                    {
-                        "wardId": 1331,
-                        "name": "KISA CENTRAL"
-                    }
-                ]
-            },
-            {
-                "subCountyId": 276,
-                "name": "LURAMBI",
-                "wards": [
-                    {
-                        "wardId": 296,
-                        "name": "SHIRERE"
-                    },
-                    {
-                        "wardId": 516,
-                        "name": "SHEYWE"
-                    },
-                    {
-                        "wardId": 694,
-                        "name": "BUTSOTSO SOUTH"
-                    },
-                    {
-                        "wardId": 715,
-                        "name": "MAHIAKALO"
-                    },
-                    {
-                        "wardId": 1065,
-                        "name": "BUTSOTSO CENTRAL"
-                    },
-                    {
-                        "wardId": 1391,
-                        "name": "BUTSOTSO EAST"
-                    }
-                ]
-            },
-            {
-                "subCountyId": 277,
-                "name": "NAVAKHOLO",
-                "wards": [
-                    {
-                        "wardId": 948,
-                        "name": "INGOSTSE-MATHIA"
-                    },
-                    {
-                        "wardId": 981,
-                        "name": "BUNYALA CENTRAL"
-                    },
-                    {
-                        "wardId": 994,
-                        "name": "BUNYALA WEST"
-                    },
-                    {
-                        "wardId": 1122,
-                        "name": "BUNYALA WEST"
-                    },
-                    {
-                        "wardId": 1204,
-                        "name": "BUNYALA EAST"
-                    },
-                    {
-                        "wardId": 1418,
-                        "name": "BUNYALA CENTRAL"
-                    }
-                ]
-            },
-            {
-                "subCountyId": 278,
-                "name": "SHINYALU",
-                "wards": [
-                    {
-                        "wardId": 109,
-                        "name": "MURHANDA"
-                    },
-                    {
-                        "wardId": 184,
-                        "name": "ISUKHA SOUTH"
-                    },
-                    {
-                        "wardId": 743,
-                        "name": "ISUKHA CENTRAL"
-                    },
-                    {
-                        "wardId": 1341,
-                        "name": "ISUKHA NORTH"
-                    },
-                    {
-                        "wardId": 1364,
-                        "name": "ISUKHA EAST"
-                    },
-                    {
-                        "wardId": 1382,
-                        "name": "ISUKHA WEST"
-                    }
-                ]
-            },
-            {
-                "subCountyId": 279,
-                "name": "IKOLOMANI",
-                "wards": [
-                    {
-                        "wardId": 252,
-                        "name": "IDAKHO "
-                    }
-                ]
-            },
-            {
-                "subCountyId": 280,
-                "name": "LUGARI",
-                "wards": []
-            }
-        ]
-    },
+    // {
+    //     "county_id": 37,
+    //     "name": "KAKAMEGA",
+    //     "sub_counties": [
+    //         {
+    //             "subCountyId": 269,
+    //             "name": "MUMIAS WEST",
+    //             "wards": [
+    //                 {
+    //                     "wardId": 94,
+    //                     "name": "ETENJE"
+    //                 },
+    //                 {
+    //                     "wardId": 273,
+    //                     "name": "MUMIAS NORTH"
+    //                 },
+    //                 {
+    //                     "wardId": 649,
+    //                     "name": "MUSANDA"
+    //                 },
+    //                 {
+    //                     "wardId": 951,
+    //                     "name": "MUMIAS CENTRAL"
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             "subCountyId": 270,
+    //             "name": "BUTERE",
+    //             "wards": [
+    //                 {
+    //                     "wardId": 85,
+    //                     "name": "MARAMA NORTH"
+    //                 },
+    //                 {
+    //                     "wardId": 602,
+    //                     "name": "MARAMA CENTRAL"
+    //                 },
+    //                 {
+    //                     "wardId": 927,
+    //                     "name": "MARAMA WEST"
+    //                 },
+    //                 {
+    //                     "wardId": 1114,
+    //                     "name": "MARAMA SOUTH"
+    //                 },
+    //                 {
+    //                     "wardId": 1294,
+    //                     "name": "MARENYO - SHIANDA"
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             "subCountyId": 271,
+    //             "name": "MATUNGU",
+    //             "wards": [
+    //                 {
+    //                     "wardId": 108,
+    //                     "name": "KHOLERA"
+    //                 },
+    //                 {
+    //                     "wardId": 846,
+    //                     "name": "KOYONZO"
+    //                 },
+    //                 {
+    //                     "wardId": 889,
+    //                     "name": "MAYONI"
+    //                 },
+    //                 {
+    //                     "wardId": 1329,
+    //                     "name": "NAMAMALI"
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             "subCountyId": 272,
+    //             "name": "MUMIAS EAST",
+    //             "wards": [
+    //                 {
+    //                     "wardId": 519,
+    //                     "name": "MALAHA/ISONGO/MAKUNGA"
+    //                 },
+    //                 {
+    //                     "wardId": 1012,
+    //                     "name": "LUSHEYA/LUBINU"
+    //                 },
+    //                 {
+    //                     "wardId": 1345,
+    //                     "name": "EAST WANGA"
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             "subCountyId": 273,
+    //             "name": "LIKUYANI",
+    //             "wards": [
+    //                 {
+    //                     "wardId": 14,
+    //                     "name": "NZOIA"
+    //                 },
+    //                 {
+    //                     "wardId": 92,
+    //                     "name": "LIKUYANI"
+    //                 },
+    //                 {
+    //                     "wardId": 432,
+    //                     "name": "SANGO"
+    //                 },
+    //                 {
+    //                     "wardId": 856,
+    //                     "name": "KONGONI"
+    //                 },
+    //                 {
+    //                     "wardId": 857,
+    //                     "name": "SINOKO"
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             "subCountyId": 274,
+    //             "name": "MALAVA",
+    //             "wards": [
+    //                 {
+    //                     "wardId": 190,
+    //                     "name": "BUTALI/CHEGULO"
+    //                 },
+    //                 {
+    //                     "wardId": 231,
+    //                     "name": "MANDA-SHIVANGA"
+    //                 },
+    //                 {
+    //                     "wardId": 232,
+    //                     "name": "SHIRUGU-MUGAI"
+    //                 },
+    //                 {
+    //                     "wardId": 317,
+    //                     "name": "SOUTH KABRAS"
+    //                 },
+    //                 {
+    //                     "wardId": 744,
+    //                     "name": "EAST KABRAS"
+    //                 },
+    //                 {
+    //                     "wardId": 1029,
+    //                     "name": "WEST KABRAS"
+    //                 },
+    //                 {
+    //                     "wardId": 1416,
+    //                     "name": "CHEMUCHE"
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             "subCountyId": 275,
+    //             "name": "KHWISERO",
+    //             "wards": [
+    //                 {
+    //                     "wardId": 170,
+    //                     "name": "KISA NORTH"
+    //                 },
+    //                 {
+    //                     "wardId": 294,
+    //                     "name": "KISA WEST"
+    //                 },
+    //                 {
+    //                     "wardId": 1116,
+    //                     "name": "KISA EAST"
+    //                 },
+    //                 {
+    //                     "wardId": 1331,
+    //                     "name": "KISA CENTRAL"
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             "subCountyId": 276,
+    //             "name": "LURAMBI",
+    //             "wards": [
+    //                 {
+    //                     "wardId": 296,
+    //                     "name": "SHIRERE"
+    //                 },
+    //                 {
+    //                     "wardId": 516,
+    //                     "name": "SHEYWE"
+    //                 },
+    //                 {
+    //                     "wardId": 694,
+    //                     "name": "BUTSOTSO SOUTH"
+    //                 },
+    //                 {
+    //                     "wardId": 715,
+    //                     "name": "MAHIAKALO"
+    //                 },
+    //                 {
+    //                     "wardId": 1065,
+    //                     "name": "BUTSOTSO CENTRAL"
+    //                 },
+    //                 {
+    //                     "wardId": 1391,
+    //                     "name": "BUTSOTSO EAST"
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             "subCountyId": 277,
+    //             "name": "NAVAKHOLO",
+    //             "wards": [
+    //                 {
+    //                     "wardId": 948,
+    //                     "name": "INGOSTSE-MATHIA"
+    //                 },
+    //                 {
+    //                     "wardId": 981,
+    //                     "name": "BUNYALA CENTRAL"
+    //                 },
+    //                 {
+    //                     "wardId": 994,
+    //                     "name": "BUNYALA WEST"
+    //                 },
+    //                 {
+    //                     "wardId": 1122,
+    //                     "name": "BUNYALA WEST"
+    //                 },
+    //                 {
+    //                     "wardId": 1204,
+    //                     "name": "BUNYALA EAST"
+    //                 },
+    //                 {
+    //                     "wardId": 1418,
+    //                     "name": "BUNYALA CENTRAL"
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             "subCountyId": 278,
+    //             "name": "SHINYALU",
+    //             "wards": [
+    //                 {
+    //                     "wardId": 109,
+    //                     "name": "MURHANDA"
+    //                 },
+    //                 {
+    //                     "wardId": 184,
+    //                     "name": "ISUKHA SOUTH"
+    //                 },
+    //                 {
+    //                     "wardId": 743,
+    //                     "name": "ISUKHA CENTRAL"
+    //                 },
+    //                 {
+    //                     "wardId": 1341,
+    //                     "name": "ISUKHA NORTH"
+    //                 },
+    //                 {
+    //                     "wardId": 1364,
+    //                     "name": "ISUKHA EAST"
+    //                 },
+    //                 {
+    //                     "wardId": 1382,
+    //                     "name": "ISUKHA WEST"
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             "subCountyId": 279,
+    //             "name": "IKOLOMANI",
+    //             "wards": [
+    //                 {
+    //                     "wardId": 252,
+    //                     "name": "IDAKHO "
+    //                 }
+    //             ]
+    //         },
+    //         {
+    //             "subCountyId": 280,
+    //             "name": "LUGARI",
+    //             "wards": []
+    //         }
+    //     ]
+    // },
     {
         "county_id": 40,
         "name": "BUSIA",
