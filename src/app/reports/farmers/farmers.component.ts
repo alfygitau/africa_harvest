@@ -318,7 +318,7 @@ export class FarmersComponent implements OnInit {
     let data = {
       page: 1,
       dataObj: this.searchForm.value,
-      size: 50,
+      size: 100000,
     };
     this.farmersService.exportAllMembers(data).subscribe((res) => {
       const a = document.createElement('a');
