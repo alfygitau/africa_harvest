@@ -114,7 +114,9 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "minia:build"
+            "buildTarget": "minia:build",
+            "allowedHost": ["161.197.130.81"],
+            "disableHostCheck": true
           }
         },
         "test": {

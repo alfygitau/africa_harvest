@@ -56,7 +56,7 @@ export class FarmersService {
 
   exportMembers(data: any) {
     return this.http
-      .post('http://161.97.130.81:8196/' + 'selected-members/xlsx', data, {
+      .post(endpoint + 'selected-members/xlsx', data, {
         responseType: 'blob',
       })
       .pipe(map(this.extractData));
@@ -64,11 +64,7 @@ export class FarmersService {
   exportAllMembers(data: any) {
     return this.http
       .post(
-        'http://161.97.130.81:8196/' +
-          'members/xlsx?page=' +
-          data.page +
-          '&size=' +
-          data?.size,
+        endpoint + 'members/xlsx?page=' + data.page + '&size=' + data?.size,
         data.dataObj,
         { responseType: 'blob' }
       )
