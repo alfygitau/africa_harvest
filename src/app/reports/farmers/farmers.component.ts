@@ -24,7 +24,7 @@ import { UsersService } from 'src/app/users/users.service';
 import { CommonModule } from '@angular/common';
 import { City, Farmer } from 'src/app/core/models/user.model';
 import { ToastrService } from 'ngx-toastr';
-import { MultiSelectModule } from 'primeng/multiselect';
+// import { MultiSelectModule } from 'primeng/multiselect';
 import { switchMap } from 'rxjs';
 // import { MultiSelectModule } from 'primeng/multiselect';
 

@@ -99,6 +99,7 @@ export class SurveyComponent implements OnInit {
       chart: {
         type: 'bar',
         height: 350,
+        stacked: true
       },
       plotOptions: {
         bar: {
