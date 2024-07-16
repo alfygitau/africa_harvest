@@ -54,16 +54,6 @@
               </ng-select>
             </div>
           </div>
-          <!-- <div class="col-xl col-sm-3">
-            <button
-              style="color: #3fc057"
-              type="button"
-              (click)="search()"
-              class="btn secondary-color w-100"
-            >
-              <i class="ft-search mr-1"></i>Search
-            </button>
-          </div> -->
         </div>
       </form>
       <div style="margin-top: 20px; margin-bottom: 10px; width: 100%">
@@ -113,12 +103,16 @@
       class="d-flex flex-row align-items-center"
       style="height: 50px; border-bottom: 1px solid #e9e9ef"
     >
-      <div style="width: 10%">{{ group?.group_id }}</div>
-      <div style="width: 20%">{{ group?.group_name }}</div>
-      <div style="width: 30%">{{ group?.description }}</div>
-      <div style="width: 20%">{{ group?.group_admin.name }}</div>
-      <div style="width: 10%">{{ group?.group_admin.msisdn }}</div>
-      <div style="width: 10%">
+      <div style="width: 10%; font-size: 12px">{{ group?.group_id }}</div>
+      <div style="width: 20%; font-size: 12px">{{ group?.group_name }}</div>
+      <div style="width: 30%; font-size: 12px">{{ group?.description }}</div>
+      <div style="width: 20%; font-size: 12px">
+        {{ group?.group_admin.name }}
+      </div>
+      <div style="width: 10%; font-size: 12px">
+        {{ group?.group_admin.msisdn }}
+      </div>
+      <div style="width: 10%; font-size: 12px">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

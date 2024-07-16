@@ -211,16 +211,16 @@
     <div style="width: 5%">
       <input type="checkbox" id="select_all" (change)="selectAll($event)" />
     </div>
-    <div style="width: 5%">#Id</div>
-    <div style="width: 10%">Name</div>
-    <div style="width: 10%">Mobile</div>
-    <div style="width: 10%">Gender</div>
-    <div style="width: 10%">Date of Birth</div>
-    <div style="width: 10%">Status</div>
-    <div style="width: 10%">County</div>
-    <div style="width: 10%">Sub County</div>
-    <div style="width: 10%">ID Number</div>
-    <div style="width: 10%">Actions</div>
+    <div style="width: 5%; font-size: 15px">Id</div>
+    <div style="width: 10%; font-size: 15px">Name</div>
+    <div style="width: 10%; font-size: 15px">Mobile</div>
+    <div style="width: 10%; font-size: 15px">Gender</div>
+    <div style="width: 10%; font-size: 15px">Date of Birth</div>
+    <div style="width: 10%; font-size: 15px">Status</div>
+    <div style="width: 10%; font-size: 15px">County</div>
+    <div style="width: 10%; font-size: 15px">Sub County</div>
+    <div style="width: 10%; font-size: 15px">ID Number</div>
+    <div style="width: 10%; font-size: 15px">Actions</div>
   </div>
   <div
     *ngFor="let row of rows"
@@ -234,22 +234,34 @@
         (change)="onRowSelect($event, row)"
       />
     </div>
-    <div style="width: 5%">{{ row.member_id || row?.userId }}</div>
-    <div style="width: 10%">
+    <div class="text-truncate" style="width: 5%; font-size: 12px">
+      {{ row.member_id || row?.userId }}
+    </div>
+    <div class="text-truncate" style="width: 10%; font-size: 12px">
       {{ row.first_name || row?.firstName }}
       {{ row.last_name || row?.lastName }}
     </div>
-    <div style="width: 10%">{{ row.msisdn }}</div>
-    <div style="width: 10%">{{ row.gender }}</div>
-    <div style="width: 10%">{{ row.dob }}</div>
-    <div style="width: 10%">
+    <div class="text-truncate" style="width: 10%; font-size: 12px">
+      {{ row.msisdn }}
+    </div>
+    <div class="text-truncate" style="width: 10%; font-size: 12px">
+      {{ row.gender }}
+    </div>
+    <div class="text-truncate" style="width: 10%; font-size: 12px">
+      {{ row.dob }}
+    </div>
+    <div class="text-truncate" style="width: 10%; font-size: 12px;">
       {{ row.isActive === 1 ? "Active" : "Inactive" }}
     </div>
-    <div style="width: 10%">{{ row.county_title || row?.countyTitle }}</div>
-    <div style="width: 10%">
+    <div class="text-truncate" style="width: 10%; font-size: 12px;">
+      {{ row.county_title || row?.countyTitle }}
+    </div>
+    <div class="text-truncate" style="width: 10%; font-size: 12px;">
       {{ row.sub_county_title || row?.subCountyTitle }}
     </div>
-    <div style="width: 10%">{{ row.id_number || row?.idNumber }}</div>
+    <div class="text-truncate" style="width: 10%; font-size: 12px;">
+      {{ row.id_number || row?.idNumber }}
+    </div>
     <div style="width: 10%">
       <svg
         xmlns="http://www.w3.org/2000/svg"

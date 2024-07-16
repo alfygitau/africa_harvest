@@ -76,6 +76,8 @@ export class SurveyComponent implements OnInit {
   public totalSurveyMembers: number = 0;
   public totalMaleSurveyMembers: number = 0;
   public totalFemaleSurveyMembers: number = 0;
+  public percentageMale: number = 0;
+  public percentageFemale: number = 0;
   constructor(
     private formBuilder: FormBuilder,
     private groupsService: GroupsService,
@@ -132,6 +134,14 @@ export class SurveyComponent implements OnInit {
         show: true,
       },
       colors: ['#f4b044', '#238468'],
+      // title: {
+      //   text: 'County Distribution of Participants',
+      //   align: 'center',
+      //   style: {
+      //     fontSize: '20px',
+      //     fontWeight: 'normal',
+      //   },
+      // },
     };
     this.pieChartOptions = {
       series: [670, 330],
@@ -159,6 +169,14 @@ export class SurveyComponent implements OnInit {
         },
       ],
       colors: ['#f4b044', '#238468'],
+      // title: {
+      //   text: 'Gender Distribution of Participants',
+      //   align: 'center',
+      //   style: {
+      //     fontSize: '16px',
+      //     fontWeight: 'normal',
+      //   },
+      // },
     };
   }
 
@@ -206,10 +224,20 @@ export class SurveyComponent implements OnInit {
       this.totalSurveyMembers = res.message[0].survey_count;
       this.totalFemaleSurveyMembers = res.message[0].female_surveyed_count;
       this.totalMaleSurveyMembers = res.message[0].male_surveyed_count;
-      this.pieChartOptions.series = [
-        this.totalMaleSurveyMembers,
-        this.totalFemaleSurveyMembers,
-      ];
+      // this.pieChartOptions.series = [
+      //   this.totalMaleSurveyMembers,
+      //   this.totalFemaleSurveyMembers,
+      // ];
+
+      this.percentageMale =
+        (this.totalMaleSurveyMembers /
+          (this.totalFemaleSurveyMembers + this.totalMaleSurveyMembers)) *
+        100;
+
+      this.percentageFemale =
+        (this.totalFemaleSurveyMembers /
+          (this.totalFemaleSurveyMembers + this.totalMaleSurveyMembers)) *
+        100;
     });
   }
 
@@ -222,6 +250,15 @@ export class SurveyComponent implements OnInit {
         this.totalMaleSurveyMembers,
         this.totalFemaleSurveyMembers,
       ];
+      this.percentageMale =
+        (this.totalMaleSurveyMembers /
+          (this.totalFemaleSurveyMembers + this.totalMaleSurveyMembers)) *
+        100;
+
+      this.percentageFemale =
+        (this.totalFemaleSurveyMembers /
+          (this.totalFemaleSurveyMembers + this.totalMaleSurveyMembers)) *
+        100;
     });
   }
 
@@ -283,10 +320,6 @@ export class SurveyComponent implements OnInit {
           (item: { female_surveyed_count: number }) =>
             item.female_surveyed_count
         );
-
-        console.log('County Names:', countyNames);
-        console.log('Male Participants:', maleParticipants);
-        console.log('Female Participants:', femaleParticipants);
         this.barChartOptions = {
           ...this.barChartOptions,
           series: [
@@ -331,6 +364,15 @@ export class SurveyComponent implements OnInit {
           this.totalMaleSurveyMembers,
           this.totalFemaleSurveyMembers,
         ];
+        this.percentageMale =
+          (this.totalMaleSurveyMembers /
+            (this.totalFemaleSurveyMembers + this.totalMaleSurveyMembers)) *
+          100;
+
+        this.percentageFemale =
+          (this.totalFemaleSurveyMembers /
+            (this.totalFemaleSurveyMembers + this.totalMaleSurveyMembers)) *
+          100;
       });
     }
   }

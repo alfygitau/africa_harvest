@@ -164,13 +164,25 @@
       class="d-flex flex-row align-items-center"
       style="height: 50px; border-bottom: 1px solid #e9e9ef"
     >
-      <div style="width: 15%">{{ row.created_at | date }}</div>
-      <div style="width: 20%">{{ row.course.title }}</div>
-      <div style="width: 20%">{{ row.course_module.title }}</div>
-      <div style="width: 15%">{{ row.trainer.name }}</div>
-      <div style="width: 15%">{{ row.value_chain.value_chain_name }}</div>
-      <div style="width: 15%">{{ row.training_date }}</div>
-      <div style="width: 10%">
+      <div class="text-truncate" style="width: 15%; font-size: 12px">
+        {{ row.created_at | date }}
+      </div>
+      <div class="text-truncate" style="width: 20%; font-size: 12px">
+        {{ row.course.title }}
+      </div>
+      <div class="text-truncate" style="width: 20%; font-size: 12px">
+        {{ row.course_module.title }}
+      </div>
+      <div class="text-truncate" style="width: 15%; font-size: 12px">
+        {{ row.trainer.name }}
+      </div>
+      <div class="text-truncate" style="width: 15%; font-size: 12px">
+        {{ row.value_chain.value_chain_name }}
+      </div>
+      <div class="text-truncate" style="width: 15%; font-size: 12px">
+        {{ row.training_date }}
+      </div>
+      <div style="width: 10%; font-size: 12px">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

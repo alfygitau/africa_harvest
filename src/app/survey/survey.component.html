@@ -178,7 +178,7 @@
       style="color: #f4b044; font-size: 36px; font-weight: 700"
     ></span>
   </div>
-  <!-- <div
+  <div
     style="
       width: 20%;
       height: 120px;
@@ -192,14 +192,54 @@
     "
   >
     <span style="font-size: 14px; color: white"
-      >Total Projected Participants</span
+      >Gender distribution per county</span
     >
-    <span
-      [countUp]="totalProjectedSurveyMembers"
-      class="counter-value"
-      style="color: white; font-size: 36px; font-weight: 700"
-    ></span>
-  </div> -->
+    <div
+      style="
+        display: flex;
+        gap: 20px;
+        align-items: center;
+        justify-content: center;
+      "
+    >
+      <div
+        style="
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <p style="color: #f4b044; font-weight: bold">Male</p>
+        <div style="display: flex; align-items: center; gap: 5px">
+          <span
+            [countUp]="percentageMale"
+            class="counter-value"
+            style="color: white; font-size: 36px; font-weight: 700"
+          ></span>
+          <span style="color: white">%</span>
+        </div>
+      </div>
+      <div
+        style="
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <p style="color: #000; font-weight: bold">Female</p>
+        <div style="display: flex; align-items: center; gap: 5px">
+          <span
+            [countUp]="percentageFemale"
+            class="counter-value"
+            style="color: white; font-size: 36px; font-weight: 700"
+          ></span>
+          <span style="color: white">%</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div
@@ -212,7 +252,10 @@
     margin-top: 20px;
   "
 >
-  <div id="chart" style="width: 48% !important; padding: 10px !important">
+  <div id="chart" style="width: 49% !important; padding: 10px !important">
+    <p style="font-size: 16px; font-weight: 500">
+      County distribution of participants
+    </p>
     <apx-chart
       [series]="barChartOptions.series"
       [chart]="barChartOptions.chart"
@@ -226,7 +269,10 @@
       [colors]="barChartOptions.colors"
     ></apx-chart>
   </div>
-  <div id="piechart" style="width: 48% !important; padding: 10px !important">
+  <div id="piechart" style="width: 49% !important; padding: 10px !important">
+    <p style="font-size: 16px; font-weight: 500">
+      Gender distribution of participants in all counties
+    </p>
     <div id="chart">
       <apx-chart
         [series]="pieChartOptions.series"
@@ -238,7 +284,6 @@
         [colors]="pieChartOptions.colors"
       ></apx-chart>
     </div>
+    <p></p>
   </div>
 </div>
-
-

@@ -194,7 +194,6 @@ export class TotsComponent implements OnInit {
   }
 
   setPage(pageInfo: any) {
-    // this.dataParams.page_num = pageInfo.offset + 1;
     this.dataParams.page_num = pageInfo;
     let data = {
       page: this.dataParams.page_num,
