@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit {
               'user_info',
               JSON.stringify(res.message.user_info)
             );
-            this.router.navigate(['/']);
+            this.router.navigate(['/dashboard']);
           } else {
             this.toastr.error(res.message, 'Error');
           }

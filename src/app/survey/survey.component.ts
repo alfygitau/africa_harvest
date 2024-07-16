@@ -219,15 +219,17 @@ export class SurveyComponent implements OnInit {
       countyId: this.searchForm.get('countyId')?.value,
       subCountyId: this.searchForm.get('subCountyId')?.value,
       wardId: this.searchForm.get('wardId')?.value,
+      startDate: this.searchForm.get('startDate')?.value
+        ? this.searchForm.get('startDate')?.value
+        : '',
+      endDate: this.searchForm.get('endDate')?.value
+        ? this.searchForm.get('endDate')?.value
+        : '',
     };
     this.summaryService.getSurveyCount(obj).subscribe((res) => {
       this.totalSurveyMembers = res.message[0].survey_count;
       this.totalFemaleSurveyMembers = res.message[0].female_surveyed_count;
       this.totalMaleSurveyMembers = res.message[0].male_surveyed_count;
-      // this.pieChartOptions.series = [
-      //   this.totalMaleSurveyMembers,
-      //   this.totalFemaleSurveyMembers,
-      // ];
 
       this.percentageMale =
         (this.totalMaleSurveyMembers /

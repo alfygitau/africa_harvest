@@ -6,7 +6,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'dashboard',
     component: LayoutComponent,
     loadChildren: () =>
       import('./pages/pages.module').then((m) => m.PagesModule),
@@ -19,7 +19,7 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
-    path: 'account',
+    path: '',
     loadChildren: () =>
       import('./account/account.module').then((m) => m.AccountModule),
   },

@@ -10,7 +10,7 @@ export const MENU: MenuItem[] = [
     id: 2,
     label: 'MENUITEMS.DASHBOARDS.TEXT',
     icon: 'command',
-    link: '/',
+    link: '/dashboard',
   },
   {
     id: 3,

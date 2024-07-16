@@ -70,7 +70,7 @@ export class AuthenticationService {
         sessionStorage.removeItem('token');
          sessionStorage.removeItem('username');
          sessionStorage.removeItem('id');
-         this.router.navigate(['/account/login']);
+         this.router.navigate(['/login']);
      }
 
     /**

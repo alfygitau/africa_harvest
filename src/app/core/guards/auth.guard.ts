@@ -36,7 +36,7 @@ export class AuthGuard  {
         let isAuth = this.authenticationService.isAuthenticated()
 
         if(!isAuth) {
-            this.router.navigate(['/pages/login'])
+            this.router.navigate(['/login'])
         } else {
             return true
         }

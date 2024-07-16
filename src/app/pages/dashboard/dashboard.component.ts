@@ -99,6 +99,9 @@ export class DashboardComponent implements OnInit {
   malePercentage!: number;
   femalePercentage!: number;
   disabledPercentage!: number;
+  public totalSurveyMembers: number = 0;
+  public totalMaleSurveyMembers: number = 0;
+  public totalFemaleSurveyMembers: number = 0;
 
   trainingChart!: Partial<optionChart> | any;
   monthlyChart: Partial<optionChart> | any;
@@ -167,9 +170,11 @@ export class DashboardComponent implements OnInit {
     // this.filterGroups(this.searchForm.value);
     // this.filterCount(this.searchForm.value);
     // this.getTrainingsByLocationAndDate();
+    this.getTotalSurveyCount();
 
     this.searchForm.valueChanges.subscribe(() => {
       this.filterCount(this.searchForm.value);
+      this.fetchSurveyCount(this.searchForm.value);
 
       if (this.searchForm) {
         let ids = this.searchForm.get('countyId')?.value;
@@ -707,5 +712,21 @@ export class DashboardComponent implements OnInit {
         },
       ],
     };
+  }
+
+  getTotalSurveyCount() {
+    this.summaryService.getTotalSurveyCount().subscribe((res) => {
+      this.totalSurveyMembers = res.message.total_survey_count;
+      this.totalFemaleSurveyMembers = res.message.female_surveyed_count;
+      this.totalMaleSurveyMembers = res.message.male_surveyed_count;
+    });
+  }
+
+  fetchSurveyCount(obj: any) {
+    this.summaryService.getSurveyCount(obj).subscribe((res) => {
+      this.totalSurveyMembers = res.message[0].survey_count;
+      this.totalFemaleSurveyMembers = res.message[0].female_surveyed_count;
+      this.totalMaleSurveyMembers = res.message[0].male_surveyed_count;
+    });
   }
 }
