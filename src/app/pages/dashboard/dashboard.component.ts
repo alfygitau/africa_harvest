@@ -176,6 +176,8 @@ export class DashboardComponent implements OnInit {
     // this.filterCount(this.searchForm.value);
     // this.getTrainingsByLocationAndDate();
     this.getTotalSurveyCount();
+
+    
     this.searchForm.valueChanges.subscribe(() => {
       let obj = {
         countyId: this.searchForm
