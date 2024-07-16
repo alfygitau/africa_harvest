@@ -77,13 +77,9 @@ export type trainingOptions = {
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  styleUrls: ['./dashboard.component.css'],
 })
-/**
- *  Dashboard Component
- */
 export class DashboardComponent implements OnInit {
-  // bread crumb items
   breadCrumbItems!: Array<{}>;
   num: number = 0;
   searchForm!: FormGroup;
@@ -113,6 +109,12 @@ export class DashboardComponent implements OnInit {
 
   public selectedCounty: any[] = [];
   myCounties: any[] = [];
+  subcountyOptions = [{ subCountyId: 1, name: 'Select a subcounty' }];
+  wardOptions = [{ wardId: 1, name: 'Select a ward' }];
+  myGroups: any = [{ subCountyId: 1, name: 'Select a group' }];
+  selectedSubcounty: [] = [];
+  selectedWard: [] = [];
+  selectedGroup: [] = [];
 
   searchedStat: any;
   totalIncome: number = 0;
@@ -125,8 +127,7 @@ export class DashboardComponent implements OnInit {
     private membersService: MembersService,
     private vlcService: VlcService,
     private farmersService: FarmersService
-  ) {
-  }
+  ) {}
 
   option = {
     startVal: this.num,
@@ -152,9 +153,7 @@ export class DashboardComponent implements OnInit {
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 1);
     this.counties = counties;
-
     this.myCounties = this.transformCounties(counties);
-
     this.breadCrumbItems = [
       { label: 'Dashboard' },
       { label: 'Dashboard', active: true },
@@ -177,31 +176,30 @@ export class DashboardComponent implements OnInit {
     // this.filterCount(this.searchForm.value);
     // this.getTrainingsByLocationAndDate();
     this.getTotalSurveyCount();
-
     this.searchForm.valueChanges.subscribe(() => {
-      this.filterCount(this.searchForm.value);
-      this.fetchSurveyCount(this.searchForm.value);
-
-      if (this.searchForm) {
-        let ids = this.searchForm.get('countyId')?.value;
-        let filtered_array = this.counties.filter((obj: any) =>
-          ids.includes(obj.county_id)
-        );
-        filtered_array.forEach((element) => {
-          this.sub_counties = this.sub_counties.concat(element.sub_counties);
-        });
-      }
-
-      if (this.searchForm) {
-        let ids = this.searchForm.get('subCountyId')?.value;
-        let filtered_array = this.sub_counties.filter((obj: any) =>
-          ids.includes(obj.subCountyId)
-        );
-        filtered_array.forEach((element) => {
-          this.wards = this.wards.concat(element.wards);
-        });
-      }
-      this.filterGroups(this.searchForm.value);
+      let obj = {
+        countyId: this.searchForm
+          .get('countyId')
+          ?.value.map((county: any) => county.county_id),
+        subCountyId: this.searchForm
+          .get('subCountyId')
+          ?.value.map((subCounty: any) => subCounty.subCountyId),
+        wardId: this.searchForm
+          .get('wardId')
+          ?.value.map((ward: any) => ward.wardId),
+        groupId: this.searchForm
+          .get('groupId')
+          ?.value.map((group: any) => group.group_id),
+        startDate: this.searchForm.get('startDate')?.value
+          ? this.searchForm.get('startDate')?.value
+          : '',
+        endDate: this.searchForm.get('endDate')?.value
+          ? this.searchForm.get('endDate')?.value
+          : '',
+      };
+      this.filterCount(obj);
+      this.fetchSurveyCount(obj);
+      this.filterGroups(obj);
     });
 
     this.trainingChart = {
@@ -460,18 +458,34 @@ export class DashboardComponent implements OnInit {
     };
   }
 
+  filter(value: any) {
+    const selectedCountyIds = value?.map((county: any) => county.county_id);
+    if (selectedCountyIds) {
+      const filteredSubcounties = this.counties
+        .filter((county) => selectedCountyIds.includes(county.county_id))
+        .flatMap((county) => county.sub_counties);
+      console.log(filteredSubcounties);
+      this.subcountyOptions = [
+        { subCountyId: 1, name: 'Select a subcounty' },
+        ...filteredSubcounties,
+      ];
+      this.wardOptions = [{ wardId: 1, name: 'Select a ward' }];
+    }
+  }
+
+  filterWards(selectedSubcounties: any[]) {
+    this.wardOptions = [{ wardId: 1, name: 'Select a ward' }];
+    selectedSubcounties.forEach((subcounty) => {
+      if (subcounty && subcounty.wards) {
+        this.wardOptions.push(...subcounty.wards);
+      }
+    });
+  }
+
   transformCounties(data: any) {
     return data.map((county: any) => ({
       label: county.name,
       value: county.county_id,
-      subCounties: county.sub_counties.map((subCounty: any) => ({
-        label: subCounty.name,
-        value: subCounty.subCountyId,
-        wards: subCounty.wards.map((ward: any) => ({
-          label: ward.name,
-          value: ward.wardId,
-        })),
-      })),
     }));
   }
 
@@ -485,10 +499,9 @@ export class DashboardComponent implements OnInit {
         this.sub_counties = this.sub_counties.concat(element.sub_counties);
       });
     }
-    this.filterGroups(this.searchForm.value);
   }
 
-  fetchGroups(event: Event) {}
+  fetchGroups() {}
 
   getWards(event: Event) {
     if (this.searchForm) {
@@ -500,7 +513,6 @@ export class DashboardComponent implements OnInit {
         this.wards = this.wards.concat(element.wards);
       });
     }
-    this.filterGroups(this.searchForm.value);
   }
 
   search() {
@@ -509,7 +521,7 @@ export class DashboardComponent implements OnInit {
     this.filterVLCSummaryByLocation(this.searchForm.value);
     this.filterGroups(this.searchForm.value);
     this.filterCount(this.searchForm.value);
-    // this.getCourseSummary()
+    this.getCourseSummary();
   }
 
   getIncomeSummary(data: any) {
@@ -544,22 +556,21 @@ export class DashboardComponent implements OnInit {
 
   filterGroups(data: any) {
     if (this.searchForm) {
-      let obj = {
-        countyId: this.searchForm.get('countyId')?.value,
-        subCountyId: this.searchForm.get('subCountyId')?.value,
-        wardId: this.searchForm.get('wardId')?.value,
-        startDate: this.searchForm.get('startDate')?.value
-          ? this.searchForm.get('startDate')?.value
-          : '',
-        endDate: this.searchForm.get('endDate')?.value
-          ? this.searchForm.get('endDate')?.value
-          : '',
-      };
-      this.groupsService.getGroupsByLocation(obj).subscribe((res) => {
+      this.groupsService.getGroupsByLocation(data).subscribe((res) => {
         if (res.statusCode == 200) {
           this.groups = res.message;
           this.totalGroups = this.groups.length;
           this.cdr.markForCheck();
+          this.myGroups = [
+            { group_id: 1, name: 'Select a group' },
+            ...res.message.map((group: any) => ({
+              group_id: group.group_id,
+              name: group.group_name,
+              ward_id: group.ward_id,
+              description: group.description,
+              group_admin_name: group.group_admin.name,
+            })),
+          ];
         }
       });
       this.getTrainingsByLocationAndDate();
@@ -595,7 +606,6 @@ export class DashboardComponent implements OnInit {
         this.totalGroups = res.message.total_groups;
         this.ToTsNo = this.summary.total_tots;
         this.totalMembers = this.summary.total_members;
-
         this.totalNumber = this.summary.total_members;
         this.malePercentage =
           this.summary.total_male_members +
@@ -632,9 +642,26 @@ export class DashboardComponent implements OnInit {
   }
 
   getTrainingsByLocationAndDate() {
-    console.log(this.searchForm.value, 'double');
+    let obj = {
+      countyId: this.searchForm
+        .get('countyId')
+        ?.value.map((county: any) => county.county_id),
+      subCountyId: this.searchForm
+        .get('subCountyId')
+        ?.value.map((subCounty: any) => subCounty.subCountyId),
+      wardId: this.searchForm
+        .get('wardId')
+        ?.value.map((ward: any) => ward.wardId),
+      groupId: this.searchForm.get('groupId')?.value,
+      startDate: this.searchForm.get('startDate')?.value
+        ? this.searchForm.get('startDate')?.value
+        : '',
+      endDate: this.searchForm.get('endDate')?.value
+        ? this.searchForm.get('endDate')?.value
+        : '',
+    };
     this.farmersService
-      .getTotalMembersTrainedByLocation(this.searchForm.value)
+      .getTotalMembersTrainedByLocation(obj)
       .subscribe((res) => {
         if (res.statusCode == 200) {
           this.updateTrainedChart(res.message);
@@ -656,7 +683,6 @@ export class DashboardComponent implements OnInit {
   }
 
   updateTrainedChart(data: any) {
-    console.log('data', data);
     this.trainingChartCategories = data.map((row: any) => row.title);
     this.totalTrained = data.map((row: any) => row.total_members_trained);
 

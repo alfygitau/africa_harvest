@@ -273,7 +273,7 @@ export class TotsComponent implements OnInit {
     let data = {
       page: 1,
       dataObj: this.searchForm.value,
-      size: 50,
+      size: 100000,
     };
     this.totsService.exportAllMembers(data).subscribe((res) => {
       console.log(res);

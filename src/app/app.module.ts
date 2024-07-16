@@ -40,6 +40,10 @@ import { PaginationModule } from './pagination/pagination.module';
 import { HttpRequestInterceptor } from './http.interceptor';
 // import { MultiSelectModule } from 'primeng-lts/multiselect';
 
+// PrimeNG Modules
+import { MultiSelectModule } from 'primeng/multiselect';
+import { CardModule } from 'primeng/card';
+
 if (environment.defaultauth === 'firebase') {
   initFirebaseBackend(environment.firebaseConfig);
 } else {
@@ -79,6 +83,8 @@ export function createTranslateLoader(http: HttpClient): any {
     FormsModule,
     CommonModule,
     PaginationModule,
+    MultiSelectModule,
+    CardModule,
     // MultiSelectModule,
   ],
   providers: [

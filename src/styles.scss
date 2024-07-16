@@ -20,6 +20,9 @@
 @import "node_modules/@swimlane/ngx-datatable/themes/material.css";
 @import "node_modules/@swimlane/ngx-datatable/assets/icons.css";
 
+.p-multiselect {
+  width: 180px !important;
+}
 
 .ngx-datatable.bootstrap {
   background-color: transparent;

@@ -6,15 +6,6 @@
 <!-- end page title -->
 
 <div>
-  <p-multiSelect
-    [options]="counties"
-    [(ngModel)]="selectedCounty"
-    optionLabel="name"
-    placeholder="Select County"
-  ></p-multiSelect>
-</div>
-
-<div>
   <div class="card">
     <div class="card-body">
       <div class="row">
@@ -30,6 +21,7 @@
                   >Start Date</label
                 >
                 <input
+                  style="height: 43px !important"
                   class="form-control"
                   type="date"
                   placeholder="Start"
@@ -42,6 +34,7 @@
                   >End Date</label
                 >
                 <input
+                  style="height: 43px !important"
                   class="form-control"
                   type="date"
                   placeholder="End"
@@ -51,77 +44,47 @@
               </div>
               <div class="col-xl col-md-6">
                 <label for="county">County</label>
-                <ng-select
-                  id="county"
-                  [items]="counties"
-                  [multiple]="true"
-                  (change)="subCounties($event)"
-                  [virtualScroll]="true"
-                  bindLabel="name"
-                  bindValue="county_id"
-                  placeholder="County"
+                <p-multiSelect
+                  class="fixed-width-multiselect"
                   formControlName="countyId"
-                >
-                </ng-select>
+                  [options]="counties"
+                  [(ngModel)]="selectedCounty"
+                  optionLabel="name"
+                  placeholder="Select county"
+                  (onChange)="filter($event.value)"
+                ></p-multiSelect>
               </div>
               <div class="col-xl col-md-6">
                 <label for="county">Sub County</label>
-                <ng-select
-                  id="county"
-                  [items]="sub_counties"
-                  [multiple]="true"
-                  (change)="getWards($event)"
-                  [virtualScroll]="true"
-                  bindLabel="name"
-                  bindValue="subCountyId"
-                  placeholder="Sub County"
+                <p-multiSelect
+                  [options]="subcountyOptions"
                   formControlName="subCountyId"
-                >
-                </ng-select>
+                  [(ngModel)]="selectedSubcounty"
+                  optionLabel="name"
+                  placeholder="Select a subcounty"
+                  (onChange)="filterWards($event.value)"
+                ></p-multiSelect>
               </div>
               <div class="col-xl col-md-6">
                 <label for="county">Ward</label>
-                <ng-select
-                  id="county"
-                  (change)="filterGroups($event)"
-                  [items]="wards"
-                  [multiple]="true"
-                  [virtualScroll]="true"
-                  bindLabel="name"
-                  bindValue="wardId"
-                  placeholder="Ward"
+                <p-multiSelect
+                  [options]="wardOptions"
                   formControlName="wardId"
-                >
-                </ng-select>
+                  [(ngModel)]="selectedWard"
+                  optionLabel="name"
+                  placeholder="Select a ward"
+                ></p-multiSelect>
               </div>
               <div class="col-xl col-md-6">
                 <label for="county">Group</label>
-                <ng-select
-                  id="county"
-                  [items]="groups"
-                  [multiple]="true"
-                  [virtualScroll]="true"
-                  bindLabel="group_name"
-                  bindValue="group_id"
-                  placeholder="Group"
+                <p-multiSelect
+                  [options]="myGroups"
                   formControlName="groupId"
-                >
-                </ng-select>
+                  [(ngModel)]="selectedGroup"
+                  optionLabel="name"
+                  placeholder="Select a group"
+                ></p-multiSelect>
               </div>
-              <!-- <div class="col-xl col-md-6 d-flex align-items-end">
-                <button
-                  (click)="search()"
-                  style="
-                    color: #fff;
-                    margin-bottom: 2px;
-                    background-color: #f77e18;
-                  "
-                  class="btn w-100 btn-block mt-medium"
-                  type="submit"
-                >
-                  search
-                </button>
-              </div> -->
             </div>
           </form>
         </div>

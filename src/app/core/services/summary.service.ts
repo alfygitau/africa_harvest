@@ -59,4 +59,10 @@ export class SummaryService {
       )
       .pipe(map(this.extractData));
   }
+
+  getAllGroups() {
+    return this.http
+      .get(endpoint + 'groups/all?page=1&size=1000')
+      .pipe(map(this.extractData));
+  }
 }

@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { SurveyRoutingModule } from './survey-routing-module';
 import { CountUpModule } from 'ngx-countup';
 import { NgApexchartsModule } from "ng-apexcharts";
+// PrimeNG Modules
+import { MultiSelectModule } from 'primeng/multiselect';
+import { CardModule } from 'primeng/card';
 
 @NgModule({
   declarations: [],
@@ -14,7 +17,9 @@ import { NgApexchartsModule } from "ng-apexcharts";
     FormsModule,
     SurveyComponent,
     CountUpModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    MultiSelectModule,
+    CardModule
   ],
   providers: [],
   exports: [SurveyComponent],

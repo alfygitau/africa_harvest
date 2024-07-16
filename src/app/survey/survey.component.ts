@@ -32,6 +32,9 @@ import { NgbModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { GroupsService } from '../core/services/groups.service';
 import { SummaryService } from '../core/services/summary.service';
+// PrimeNG Modules
+import { MultiSelectModule } from 'primeng/multiselect';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-survey',
@@ -46,6 +49,8 @@ import { SummaryService } from '../core/services/summary.service';
     NgbPaginationModule,
     ReactiveFormsModule,
     NgSelectModule,
+    MultiSelectModule,
+    CardModule,
   ],
   templateUrl: './survey.component.html',
   styleUrl: './survey.component.scss',
@@ -70,6 +75,15 @@ export class SurveyComponent implements OnInit {
     page_num: 1,
     page_size: 10,
   };
+
+  public selectedCounty: any[] = [];
+  myCounties: any[] = [];
+  subcountyOptions = [{ subCountyId: 1, name: 'Select a subcounty' }];
+  wardOptions = [{ wardId: 1, name: 'Select a ward' }];
+  myGroups: any = [{ subCountyId: 1, name: 'Select a group' }];
+  selectedSubcounty: [] = [];
+  selectedWard: [] = [];
+  selectedGroup: [] = [];
 
   public breadCrumbItems!: Array<{}>;
   public totalProjectedSurveyMembers: number = 0;
@@ -186,6 +200,7 @@ export class SurveyComponent implements OnInit {
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 1);
     this.counties = counties;
+    this.myCounties = this.transformCounties(counties);
 
     this.searchForm = this.formBuilder.group({
       countyId: [[], Validators.required],
@@ -202,7 +217,28 @@ export class SurveyComponent implements OnInit {
     ];
 
     this.searchForm.valueChanges.subscribe(() => {
-      this.fetchSurveyCount();
+      let obj = {
+        countyId: this.searchForm
+          .get('countyId')
+          ?.value.map((county: any) => county.county_id),
+        subCountyId: this.searchForm
+          .get('subCountyId')
+          ?.value.map((subCounty: any) => subCounty.subCountyId),
+        wardId: this.searchForm
+          .get('wardId')
+          ?.value.map((ward: any) => ward.wardId),
+        groupId: this.searchForm
+          .get('groupId')
+          ?.value.map((group: any) => group.group_id),
+        startDate: this.searchForm.get('startDate')?.value
+          ? this.searchForm.get('startDate')?.value
+          : '',
+        endDate: this.searchForm.get('endDate')?.value
+          ? this.searchForm.get('endDate')?.value
+          : '',
+      };
+      this.fetchSurveyCount(obj);
+      this.filterGroups(obj);
     });
 
     this.dataParams = {
@@ -214,19 +250,39 @@ export class SurveyComponent implements OnInit {
     this.getSurveyList();
   }
 
-  fetchSurveyCount() {
-    let obj = {
-      countyId: this.searchForm.get('countyId')?.value,
-      subCountyId: this.searchForm.get('subCountyId')?.value,
-      wardId: this.searchForm.get('wardId')?.value,
-      startDate: this.searchForm.get('startDate')?.value
-        ? this.searchForm.get('startDate')?.value
-        : '',
-      endDate: this.searchForm.get('endDate')?.value
-        ? this.searchForm.get('endDate')?.value
-        : '',
-    };
-    this.summaryService.getSurveyCount(obj).subscribe((res) => {
+  filter(value: any) {
+    const selectedCountyIds = value?.map((county: any) => county.county_id);
+    if (selectedCountyIds) {
+      const filteredSubcounties = this.counties
+        .filter((county) => selectedCountyIds.includes(county.county_id))
+        .flatMap((county) => county.sub_counties);
+
+      this.subcountyOptions = [
+        { subCountyId: 1, name: 'Select a subcounty' },
+        ...filteredSubcounties,
+      ];
+      this.wardOptions = [{ wardId: 1, name: 'Select a ward' }];
+    }
+  }
+
+  filterWards(selectedSubcounties: any[]) {
+    this.wardOptions = [{ wardId: 1, name: 'Select a ward' }];
+    selectedSubcounties.forEach((subcounty) => {
+      if (subcounty && subcounty.wards) {
+        this.wardOptions.push(...subcounty.wards);
+      }
+    });
+  }
+
+  transformCounties(data: any) {
+    return data.map((county: any) => ({
+      label: county.name,
+      value: county.county_id,
+    }));
+  }
+
+  fetchSurveyCount(data: any) {
+    this.summaryService.getSurveyCount(data).subscribe((res) => {
       this.totalSurveyMembers = res.message[0].survey_count;
       this.totalFemaleSurveyMembers = res.message[0].female_surveyed_count;
       this.totalMaleSurveyMembers = res.message[0].male_surveyed_count;
@@ -310,8 +366,6 @@ export class SurveyComponent implements OnInit {
   fetchCountiesSurveyCount(): void {
     this.summaryService.getCountySurveyCount().subscribe(
       (res) => {
-        console.log('API Response:', res);
-
         const countyNames = res.message.map(
           (item: { county: string }) => item.county
         );
@@ -347,34 +401,21 @@ export class SurveyComponent implements OnInit {
 
   filterGroups(data: any) {
     if (this.searchForm) {
-      let obj = {
-        countyId: this.searchForm.get('countyId')?.value,
-        subCountyId: this.searchForm.get('subCountyId')?.value,
-        wardId: this.searchForm.get('wardId')?.value,
-        startDate: this.searchForm.get('startDate')?.value
-          ? this.searchForm.get('startDate')?.value
-          : '',
-        endDate: this.searchForm.get('endDate')?.value
-          ? this.searchForm.get('endDate')?.value
-          : '',
-      };
-      this.summaryService.getTotalSurveyCount().subscribe((res) => {
-        this.totalSurveyMembers = res.message.total_survey_count;
-        this.totalFemaleSurveyMembers = res.message.female_surveyed_count;
-        this.totalMaleSurveyMembers = res.message.male_surveyed_count;
-        this.pieChartOptions.series = [
-          this.totalMaleSurveyMembers,
-          this.totalFemaleSurveyMembers,
-        ];
-        this.percentageMale =
-          (this.totalMaleSurveyMembers /
-            (this.totalFemaleSurveyMembers + this.totalMaleSurveyMembers)) *
-          100;
-
-        this.percentageFemale =
-          (this.totalFemaleSurveyMembers /
-            (this.totalFemaleSurveyMembers + this.totalMaleSurveyMembers)) *
-          100;
+      this.groupsService.getGroupsByLocation(data).subscribe((res) => {
+        if (res.statusCode == 200) {
+          this.groups = res.message;
+          this.totalGroups = this.groups.length;
+          this.myGroups = [
+            { group_id: 1, name: 'Select a group' },
+            ...res.message.map((group: any) => ({
+              group_id: group.group_id,
+              name: group.group_name,
+              ward_id: group.ward_id,
+              description: group.description,
+              group_admin_name: group.group_admin.name,
+            })),
+          ];
+        }
       });
     }
   }
