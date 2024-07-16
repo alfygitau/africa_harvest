@@ -4,8 +4,9 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
-
-
+// PrimeNG Modules
+import { MultiSelectModule } from 'primeng/multiselect';
+import { CardModule } from 'primeng/card';
 
 // counter
 import { CountUpModule } from 'ngx-countup';
@@ -27,9 +28,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 @NgModule({
-  declarations: [
-    DashboardComponent,
-  ],
+  declarations: [DashboardComponent],
   imports: [
     CommonModule,
     WidgetModule,
@@ -48,10 +47,12 @@ import { NgxEchartsModule } from 'ngx-echarts';
     ReactiveFormsModule,
     NgbModule,
     NgSelectModule,
+    MultiSelectModule,
+    CardModule,
     NgxEchartsModule.forRoot({
-      echarts: () => import('echarts')
-    })
+      echarts: () => import('echarts'),
+    }),
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class PagesModule { }
+export class PagesModule {}

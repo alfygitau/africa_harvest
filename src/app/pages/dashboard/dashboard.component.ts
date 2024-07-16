@@ -111,6 +111,9 @@ export class DashboardComponent implements OnInit {
   chartOptions!: Partial<ChartOptions> | any;
   countyReport: Partial<countyOptions> | any;
 
+  public selectedCounty: any[] = [];
+  myCounties: any[] = [];
+
   searchedStat: any;
   totalIncome: number = 0;
 
@@ -122,7 +125,8 @@ export class DashboardComponent implements OnInit {
     private membersService: MembersService,
     private vlcService: VlcService,
     private farmersService: FarmersService
-  ) {}
+  ) {
+  }
 
   option = {
     startVal: this.num,
@@ -148,6 +152,8 @@ export class DashboardComponent implements OnInit {
     const startDate = new Date();
     startDate.setMonth(startDate.getMonth() - 1);
     this.counties = counties;
+
+    this.myCounties = this.transformCounties(counties);
 
     this.breadCrumbItems = [
       { label: 'Dashboard' },
@@ -452,6 +458,21 @@ export class DashboardComponent implements OnInit {
       ],
       colors: ['#98c1d9', '#540d6e'],
     };
+  }
+
+  transformCounties(data: any) {
+    return data.map((county: any) => ({
+      label: county.name,
+      value: county.county_id,
+      subCounties: county.sub_counties.map((subCounty: any) => ({
+        label: subCounty.name,
+        value: subCounty.subCountyId,
+        wards: subCounty.wards.map((ward: any) => ({
+          label: ward.name,
+          value: ward.wardId,
+        })),
+      })),
+    }));
   }
 
   subCounties(event: Event) {

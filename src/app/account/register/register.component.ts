@@ -81,7 +81,7 @@ export class RegisterComponent implements OnInit {
             (data: any) => {
               this.successmsg = true;
               if (this.successmsg) {
-                this.router.navigate(['/account/login']);
+                this.router.navigate(['/login']);
               }
             },
             (error: any) => {

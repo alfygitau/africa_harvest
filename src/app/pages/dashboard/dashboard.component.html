@@ -6,6 +6,15 @@
 <!-- end page title -->
 
 <div>
+  <p-multiSelect
+    [options]="counties"
+    [(ngModel)]="selectedCounty"
+    optionLabel="name"
+    placeholder="Select County"
+  ></p-multiSelect>
+</div>
+
+<div>
   <div class="card">
     <div class="card-body">
       <div class="row">
