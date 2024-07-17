@@ -20,6 +20,11 @@ import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { UsersService } from 'src/app/users/users.service';
 import { switchMap } from 'rxjs';
+import { GroupsService } from 'src/app/groups/groups.services';
+
+// PrimeNG Modules
+import { MultiSelectModule } from 'primeng/multiselect';
+import { CardModule } from 'primeng/card';
 
 @Component({
   selector: 'app-tots',
@@ -32,6 +37,8 @@ import { switchMap } from 'rxjs';
     FormsModule,
     CommonModule,
     NgbPagination,
+    MultiSelectModule,
+    CardModule,
   ],
   templateUrl: './tots.component.html',
   styleUrl: './tots.component.scss',
@@ -49,28 +56,39 @@ export class TotsComponent implements OnInit {
 
   updateForm!: FormGroup;
   selectedRows = new Set<number>();
-
+  groups: any[] = [];
   dataParams: any = {
     page_num: 1,
     page_size: 10,
   };
+
+  public selectedCounty: any[] = [];
+  myCounties: any[] = [];
+  subcountyOptions = [{ subCountyId: 1, name: 'Select a subcounty' }];
+  wardOptions = [{ wardId: 1, name: 'Select a ward' }];
+  myGroups: any = [{ subCountyId: 1, name: 'Select a group' }];
+  selectedSubcounty: [] = [];
+  selectedWard: [] = [];
+  selectedGroup: [] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
     private totsService: TotsService,
     private usersService: UsersService,
+    private groupsService: GroupsService,
     private router: Router,
     private modalService: NgbModal
   ) {}
   ngOnInit(): void {
     const date = new Date();
     const startDate = new Date();
-    startDate.setMonth(startDate.getMonth() - 1);
+    startDate.setMonth(startDate.getMonth() - 5);
     this.dataParams.page_num = 1;
     this.dataParams.page_size = 10;
 
     this.counties = counties;
+    this.myCounties = this.transformCounties(counties);
     this.breadCrumbItems = [
       { label: 'Reports' },
       { label: 'ToTs', active: true },
@@ -97,13 +115,68 @@ export class TotsComponent implements OnInit {
       subCountyTitle: ['', Validators.required],
     });
 
-    this.getUsers();
-    // this.onSubmit();
+    this.searchForm.valueChanges.subscribe(() => {
+      let obj = {
+        countyId: this.searchForm
+          .get('countyId')
+          ?.value.map((county: any) => county.county_id),
+        subCountyId: this.searchForm
+          .get('subCountyId')
+          ?.value.map((subCounty: any) => subCounty.subCountyId),
+        wardId: this.searchForm
+          .get('wardId')
+          ?.value.map((ward: any) => ward.wardId),
+        groupId: this.searchForm
+          .get('groupId')
+          ?.value.map((group: any) => group.group_id),
+        startDate: this.searchForm.get('startDate')?.value
+          ? this.searchForm.get('startDate')?.value
+          : '',
+        endDate: this.searchForm.get('endDate')?.value
+          ? this.searchForm.get('endDate')?.value
+          : '',
+      };
+      let data = {
+        page: this.dataParams.page_num,
+        dataObj: obj,
+        size: this.dataParams.page_size,
+      };
+      this.filterGroups(obj);
+      this.onSubmit(data);
+    });
 
-    // Trigger fetch when form changes or on initialization
-    this.searchForm.valueChanges
-      .pipe(switchMap(async () => this.onSubmit()))
-      .subscribe();
+    this.getUsers();
+  }
+
+  filter(value: any) {
+    const selectedCountyIds = value?.map((county: any) => county.county_id);
+    if (selectedCountyIds) {
+      const filteredSubcounties = this.counties
+        .filter((county) => selectedCountyIds.includes(county.county_id))
+        .flatMap((county) => county.sub_counties);
+      console.log(filteredSubcounties);
+      this.subcountyOptions = [
+        { subCountyId: 1, name: 'Select a subcounty' },
+        ...filteredSubcounties,
+      ];
+      this.wardOptions = [{ wardId: 1, name: 'Select a ward' }];
+    }
+  }
+
+  filterWards(selectedSubcounties: any[]) {
+    this.wardOptions = [{ wardId: 1, name: 'Select a ward' }];
+    selectedSubcounties.forEach((subcounty) => {
+      if (subcounty && subcounty.wards) {
+        this.wardOptions.push(...subcounty.wards);
+      }
+    });
+  }
+
+  transformCounties(data: any) {
+    return data.map((county: any) => ({
+      label: county.name,
+      value: county.county_id,
+    }));
   }
 
   handleSubmit(event: Event) {}
@@ -145,8 +218,7 @@ export class TotsComponent implements OnInit {
     }
 
     this.updateForm.patchValue({
-      firstName:
-        this.selectedTrainer.first_name,
+      firstName: this.selectedTrainer.first_name,
       lastName: this.selectedTrainer.last_name,
       email: this.selectedTrainer.email,
       idNumber: this.selectedTrainer.id_number,
@@ -179,12 +251,7 @@ export class TotsComponent implements OnInit {
     return [year, month, day].join('-');
   }
 
-  onSubmit() {
-    let data = {
-      page: this.dataParams.page_num,
-      dataObj: this.searchForm.value,
-      size: this.dataParams.page_size,
-    };
+  onSubmit(data: any) {
     this.totsService.getTotsByLocations(data).subscribe((res) => {
       if (res.statusCode == 200) {
         this.rows = res.message;
@@ -195,9 +262,30 @@ export class TotsComponent implements OnInit {
 
   setPage(pageInfo: any) {
     this.dataParams.page_num = pageInfo;
+    let obj = {
+      countyId: this.searchForm
+        .get('countyId')
+        ?.value.map((county: any) => county.county_id),
+      subCountyId: this.searchForm
+        .get('subCountyId')
+        ?.value.map((subCounty: any) => subCounty.subCountyId),
+      wardId: this.searchForm
+        .get('wardId')
+        ?.value.map((ward: any) => ward.wardId),
+      groupId: this.searchForm
+        .get('groupId')
+        ?.value.map((group: any) => group.group_id),
+      startDate: this.searchForm.get('start_date')?.value
+        ? this.searchForm.get('start_date')?.value
+        : '',
+      endDate: this.searchForm.get('end_date')?.value
+        ? this.searchForm.get('end_date')?.value
+        : '',
+    };
+
     let data = {
       page: this.dataParams.page_num,
-      dataObj: this.searchForm.value,
+      dataObj: obj,
       size: this.dataParams.page_size,
     };
     this.totsService.getTotsByLocations(data).subscribe((res) => {
@@ -211,9 +299,7 @@ export class TotsComponent implements OnInit {
       .subscribe((res) => {
         if (res.statusCode == 200) {
           this.rows = res.message;
-          // this.filteredArray = this.rows
           this.cdr.markForCheck();
-          // console.log(this.rows)
         }
       });
   }
@@ -226,21 +312,10 @@ export class TotsComponent implements OnInit {
     filtered_array.forEach((element) => {
       this.sub_counties = this.sub_counties.concat(element.sub_counties);
     });
-    this.onSubmit();
   }
 
-  filterWards(event: Event) {
-    let ids = this.searchForm.get('subCountyId')?.value;
-    let filtered_array = this.sub_counties.filter((obj: any) =>
-      ids.includes(obj.subCountyId)
-    );
-    filtered_array.forEach((element) => {
-      this.wards = this.wards.concat(element.wards);
-    });
-    this.onSubmit();
-  }
   onWardSelect() {
-    this.onSubmit();
+    // this.onSubmit();
   }
 
   view(row: Tot) {
@@ -286,5 +361,25 @@ export class TotsComponent implements OnInit {
       this.cdr.markForCheck();
       this.cdr.markForCheck();
     });
+  }
+  filterGroups(data: any) {
+    if (this.searchForm) {
+      this.groupsService.getGroupsByLocation(data).subscribe((res) => {
+        if (res.statusCode == 200) {
+          this.groups = res.message;
+          this.cdr.markForCheck();
+          this.myGroups = [
+            { group_id: 1, name: 'Select a group' },
+            ...res.message.map((group: any) => ({
+              group_id: group.group_id,
+              name: group.group_name,
+              ward_id: group.ward_id,
+              description: group.description,
+              group_admin_name: group.group_admin.name,
+            })),
+          ];
+        }
+      });
+    }
   }
 }

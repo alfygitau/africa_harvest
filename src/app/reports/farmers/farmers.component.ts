@@ -109,7 +109,7 @@ export class FarmersComponent implements OnInit {
   ngOnInit(): void {
     const date = new Date();
     const startDate = new Date();
-    startDate.setMonth(startDate.getMonth() - 1);
+    startDate.setMonth(startDate.getMonth() - 5);
     this.dataParams.page_num = 1;
     this.dataParams.page_size = 10;
 
@@ -190,51 +190,14 @@ export class FarmersComponent implements OnInit {
           ? this.searchForm.get('end_date')?.value
           : '',
       };
-
       let data = {
         page: this.dataParams.page_num,
-        dataObj: {
-          countyId: this.searchForm
-            .get('countyId')
-            ?.value.map((county: any) => county.county_id),
-          subCountyId: this.searchForm
-            .get('subCountyId')
-            ?.value.map((subCounty: any) => subCounty.subCountyId),
-          wardId: this.searchForm
-            .get('wardId')
-            ?.value.map((ward: any) => ward.wardId),
-          groupId: this.searchForm
-            .get('groupId')
-            ?.value.map((group: any) => group.group_id),
-          startDate: this.searchForm.get('start_date')?.value
-            ? this.searchForm.get('start_date')?.value
-            : '',
-          endDate: this.searchForm.get('end_date')?.value
-            ? this.searchForm.get('end_date')?.value
-            : '',
-        },
+        dataObj: obj,
         size: this.dataParams.page_size,
       };
       this.filterGroups(obj);
       this.getUsers(data);
     });
-
-    const countyControl = this.updateFarmerForm.get('county');
-    const subcountyControl = this.updateFarmerForm.get('subcounty');
-
-    if (countyControl) {
-      countyControl.valueChanges.subscribe((countyId) => {
-        this.updateSubcounties = this.usersService.fetchSubCounties(
-          Number(countyId)
-        );
-      });
-    }
-
-    if (subcountyControl) {
-      subcountyControl.valueChanges.subscribe((subcountyId) => {
-        this.updateWards = this.usersService.getWards(Number(subcountyId));
-      });
-    }
   }
 
   filter(value: any) {

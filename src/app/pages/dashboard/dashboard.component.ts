@@ -151,7 +151,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     const date = new Date();
     const startDate = new Date();
-    startDate.setMonth(startDate.getMonth() - 1);
+    startDate.setMonth(startDate.getMonth() - 6);
     this.counties = counties;
     this.myCounties = this.transformCounties(counties);
     this.breadCrumbItems = [
@@ -177,7 +177,7 @@ export class DashboardComponent implements OnInit {
     // this.getTrainingsByLocationAndDate();
     this.getTotalSurveyCount();
 
-    
+
     this.searchForm.valueChanges.subscribe(() => {
       let obj = {
         countyId: this.searchForm

@@ -32,7 +32,7 @@ export class TotsService {
     return this.http
       .post(
         endpoint +
-          '/members/by-location?page=' +
+          'members/by-location?page=' +
           data.page +
           '&size=' +
           data?.size,

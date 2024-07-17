@@ -76,7 +76,7 @@ export class GroupsComponent implements OnInit {
   ngOnInit(): void {
     const date = new Date();
     const startDate = new Date();
-    startDate.setMonth(startDate.getMonth() - 1);
+    startDate.setMonth(startDate.getMonth() - 5);
     this.dataParams.page_num = 1;
     this.dataParams.page_size = 10;
 
@@ -119,26 +119,9 @@ export class GroupsComponent implements OnInit {
           ? this.searchForm.get('end_date')?.value
           : '',
       };
-
       let data = {
         page: this.dataParams.page_num,
-        dataObj: {
-          countyId: this.searchForm
-            .get('countyId')
-            ?.value.map((county: any) => county.county_id),
-          subCountyId: this.searchForm
-            .get('subCountyId')
-            ?.value.map((subCounty: any) => subCounty.subCountyId),
-          wardId: this.searchForm
-            .get('wardId')
-            ?.value.map((ward: any) => ward.wardId),
-          startDate: this.searchForm.get('start_date')?.value
-            ? this.searchForm.get('start_date')?.value
-            : '',
-          endDate: this.searchForm.get('end_date')?.value
-            ? this.searchForm.get('end_date')?.value
-            : '',
-        },
+        dataObj: obj,
         size: this.dataParams.page_size,
       };
       this.filterGroups(obj);
@@ -256,18 +239,6 @@ export class GroupsComponent implements OnInit {
     this.search();
   }
 
-  // filterWards(event: Event) {
-  //   let ids = this.searchForm.get('subCountyId')?.value;
-  //   let filtered_array = this.sub_counties.filter((obj: any) =>
-  //     ids.includes(obj.subCountyId)
-  //   );
-  //   filtered_array.forEach((element) => {
-  //     this.wards = this.wards.concat(element.wards);
-  //   });
-
-  //   this.search();
-  // }
-
   getWards() {
     let ids = this.searchForm.get('subCountyId')?.value;
     let filtered_array = this.sub_counties.filter((obj: any) =>
@@ -284,8 +255,6 @@ export class GroupsComponent implements OnInit {
   }
 
   setPage(pageInfo: any) {
-    console.log(pageInfo);
-    // this.dataParams.page_num = pageInfo.offset + 1;
     this.dataParams.page_num = pageInfo;
     this.groupsService
       .getDynamicGroups(this.dataParams.page_num)
