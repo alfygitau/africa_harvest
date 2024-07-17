@@ -38,7 +38,7 @@ export class BackendInterceptor implements HttpInterceptor {
       }),
       catchError((error) => {
       if(error.status==401){
-        this.router.navigateByUrl('/login')
+        this.router.navigateByUrl('/')
       }
        return throwError(error);
       }));

@@ -129,7 +129,7 @@ export class TrainingsComponent implements OnInit {
         size: this.dataParams.page_size,
       };
       this.filterGroups(obj);
-      this.getTrainingWithFilters(obj);
+      // this.getTrainingWithFilters(obj);
     });
 
     this.getTrainings();
