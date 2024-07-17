@@ -15,8 +15,10 @@
             class="col-lg-12 d-flex w-100"
             style="padding-right: 0px !important"
           >
-            <div class="row d-flex w-100 justify-content-between">
-              <div class="col-xl col-md-6">
+            <div
+              class="d-flex flex-sm-column flex-md-column flex-lg-row flex-wrap justify-content-between w-100"
+            >
+              <div class="d-flex flex-column">
                 <label for="example-datetime-local-input" class="form-label"
                   >Start Date</label
                 >
@@ -29,7 +31,7 @@
                   id="example-datetime-local-input"
                 />
               </div>
-              <div class="col-xl-2 col-md-6">
+              <div class="d-flex flex-column">
                 <label for="example-datetime-local-input" class="form-label"
                   >End Date</label
                 >
@@ -42,7 +44,7 @@
                   id="example-datetime-local-input"
                 />
               </div>
-              <div class="col-xl col-md-6">
+              <div class="d-flex flex-column">
                 <label for="county">County</label>
                 <p-multiSelect
                   class="fixed-width-multiselect"
@@ -54,7 +56,7 @@
                   (onChange)="filter($event.value)"
                 ></p-multiSelect>
               </div>
-              <div class="col-xl col-md-6">
+              <div class="d-flex flex-column">
                 <label for="county">Sub County</label>
                 <p-multiSelect
                   [options]="subcountyOptions"
@@ -65,7 +67,7 @@
                   (onChange)="filterWards($event.value)"
                 ></p-multiSelect>
               </div>
-              <div class="col-xl col-md-6">
+              <div class="d-flex flex-column">
                 <label for="county">Ward</label>
                 <p-multiSelect
                   [options]="wardOptions"
@@ -75,7 +77,7 @@
                   placeholder="Select a ward"
                 ></p-multiSelect>
               </div>
-              <div class="col-xl col-md-6">
+              <div class="d-flex flex-column">
                 <label for="county">Group</label>
                 <p-multiSelect
                   [options]="myGroups"

@@ -7,56 +7,82 @@
 <div>
   <div class="card">
     <div class="card-body">
-      <form [formGroup]="searchForm">
-        <div class="row">
-          <div class="col-xl col-md-3">
-            <div class="form-group">
-              <ng-select
-                [items]="counties"
-                (change)="subCounties()"
-                [virtualScroll]="true"
-                bindLabel="name"
-                [multiple]="true"
-                bindValue="county_id"
-                placeholder="Select County"
-                formControlName="countyId"
-              >
-              </ng-select>
-            </div>
+      <form [formGroup]="searchForm" class="col-lg-12 d-flex w-100">
+        <div
+          class="d-flex flex-sm-column flex-md-column flex-lg-row flex-wrap justify-content-between w-100"
+        >
+          <div class="d-flex flex-column">
+            <label for="example-datetime-local-input" class="form-label"
+              >Start Date</label
+            >
+            <input
+              style="width: 180px !important"
+              class="form-control"
+              type="date"
+              placeholder="Start"
+              formControlName="start_date"
+              id="example-datetime-local-input"
+            />
           </div>
-          <div class="col-xl col-md-3">
-            <div class="form-group">
-              <ng-select
-                [items]="sub_counties"
-                (change)="getWards()"
-                [virtualScroll]="true"
-                bindLabel="name"
-                [multiple]="true"
-                bindValue="subCountyId"
-                placeholder="Select Sub County"
-                formControlName="subCountyId"
-              >
-              </ng-select>
-            </div>
+          <div class="d-flex flex-column">
+            <label for="example-datetime-local-input" class="form-label"
+              >End Date</label
+            >
+            <input
+              class="form-control"
+              style="width: 180px !important"
+              type="date"
+              placeholder="End"
+              formControlName="end_date"
+              id="example-datetime-local-input"
+            />
           </div>
-          <div class="col-xl col-md-3">
-            <div class="form-group">
-              <ng-select
-                [items]="wards"
-                [virtualScroll]="true"
-                bindLabel="name"
-                [multiple]="true"
-                bindValue="wardId"
-                placeholder="Select Ward"
-                formControlName="wardId"
-                (change)="onGroupSelect()"
-              >
-              </ng-select>
-            </div>
+          <div class="d-flex flex-column">
+            <label for="county">County</label>
+            <p-multiSelect
+              class="fixed-width-multiselect"
+              formControlName="countyId"
+              [options]="counties"
+              [(ngModel)]="selectedCounty"
+              optionLabel="name"
+              placeholder="Select county"
+              (onChange)="filter($event.value)"
+            ></p-multiSelect>
           </div>
+          <div class="d-flex flex-column">
+            <label for="county">Sub County</label>
+            <p-multiSelect
+              [options]="subcountyOptions"
+              formControlName="subCountyId"
+              [(ngModel)]="selectedSubcounty"
+              optionLabel="name"
+              placeholder="Select a subcounty"
+              (onChange)="filterWards($event.value)"
+            ></p-multiSelect>
+          </div>
+          <div class="d-flex flex-column">
+            <label for="county">Ward</label>
+            <p-multiSelect
+              [options]="wardOptions"
+              formControlName="wardId"
+              [(ngModel)]="selectedWard"
+              optionLabel="name"
+              placeholder="Select a ward"
+            ></p-multiSelect>
+          </div>
+          <!-- <div class="d-flex flex-column">
+            <label for="county">Group</label>
+            <p-multiSelect
+              [options]="myGroups"
+              formControlName="groupId"
+              [(ngModel)]="selectedGroup"
+              optionLabel="name"
+              placeholder="Select a group"
+            ></p-multiSelect>
+          </div> -->
         </div>
       </form>
-      <div style="margin-top: 20px; margin-bottom: 10px; width: 100%">
+      <!-- <div style="margin-top: 20px; margin-bottom: 10px; width: 100%">
         <input
           type="text"
           placeholder="Search a group id, name or description"
@@ -69,7 +95,7 @@
             padding-right: 10px;
           "
         />
-      </div>
+      </div> -->
     </div>
   </div>
   <div

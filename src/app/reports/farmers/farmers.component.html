@@ -7,12 +7,15 @@
   <div class="card">
     <div class="card-body">
       <form [formGroup]="searchForm" class="col-lg-12 d-flex w-100">
-        <div class="row d-flex justify-content-between w-100">
-          <div class="col-xl col-md-6">
+        <div
+          class="d-flex flex-sm-column flex-md-column flex-lg-row flex-wrap justify-content-between w-100"
+        >
+          <div class="d-flex flex-column">
             <label for="example-datetime-local-input" class="form-label"
               >Start Date</label
             >
             <input
+              style="width: 180px !important"
               class="form-control"
               type="date"
               placeholder="Start"
@@ -20,19 +23,20 @@
               id="example-datetime-local-input"
             />
           </div>
-          <div class="col-xl-2 col-md-6">
+          <div class="d-flex flex-column">
             <label for="example-datetime-local-input" class="form-label"
               >End Date</label
             >
             <input
               class="form-control"
+              style="width: 180px !important"
               type="date"
               placeholder="End"
               formControlName="end_date"
               id="example-datetime-local-input"
             />
           </div>
-          <div class="col-xl col-md-6">
+          <div class="d-flex flex-column">
             <label for="county">County</label>
             <p-multiSelect
               class="fixed-width-multiselect"
@@ -44,7 +48,7 @@
               (onChange)="filter($event.value)"
             ></p-multiSelect>
           </div>
-          <div class="col-xl col-md-6">
+          <div class="d-flex flex-column">
             <label for="county">Sub County</label>
             <p-multiSelect
               [options]="subcountyOptions"
@@ -55,7 +59,7 @@
               (onChange)="filterWards($event.value)"
             ></p-multiSelect>
           </div>
-          <div class="col-xl col-md-6">
+          <div class="d-flex flex-column">
             <label for="county">Ward</label>
             <p-multiSelect
               [options]="wardOptions"
@@ -65,7 +69,7 @@
               placeholder="Select a ward"
             ></p-multiSelect>
           </div>
-          <div class="col-xl col-md-6">
+          <div class="d-flex flex-column">
             <label for="county">Group</label>
             <p-multiSelect
               [options]="myGroups"
@@ -83,7 +87,6 @@
           margin-bottom: 10px;
           width: 100%;
           padding-left: 0px;
-          padding-right: 20px;
           display: flex;
           align-items: center;
           justify-content: end;
