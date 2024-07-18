@@ -561,7 +561,7 @@ export class DashboardComponent implements OnInit {
       this.groupsService.getGroupsByLocation(data).subscribe((res) => {
         if (res.statusCode == 200) {
           this.groups = res.message;
-          this.totalGroups = this.groups.length;
+          // this.totalGroups = this.groups.length;
           this.cdr.markForCheck();
           this.myGroups = [
             { group_id: 1, name: 'Select a group' },

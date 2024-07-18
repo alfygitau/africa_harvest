@@ -20,6 +20,17 @@
 @import "node_modules/@swimlane/ngx-datatable/themes/material.css";
 @import "node_modules/@swimlane/ngx-datatable/assets/icons.css";
 
+/* Hide scrollbar for Chrome, Safari and Opera */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.hide-scrollbar {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
 .p-multiselect {
   width: 180px !important;
   font-size: 14px;
