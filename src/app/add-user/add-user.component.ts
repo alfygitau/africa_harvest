@@ -15,6 +15,7 @@ import { SubCounty } from '../shared/data/subCounty.model';
 import { Ward } from '../shared/data/ward.model';
 import { ToastrService } from 'ngx-toastr';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-user',
@@ -31,6 +32,8 @@ export class AddUserComponent implements OnInit {
   isDisabled: boolean = true;
   allRoles: any = [];
   userTypes: any = [];
+  userId = '';
+  selectedRole: number | null = null;
 
   counties: County[] = [];
   subCounties: SubCounty[] = [];
@@ -43,7 +46,8 @@ export class AddUserComponent implements OnInit {
     private fb: FormBuilder,
     private usersService: UsersService,
     private toastr: ToastrService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private router: Router
   ) {
     this.userForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -143,19 +147,15 @@ export class AddUserComponent implements OnInit {
           msisdn: this.userForm.value.phoneNumber,
           username: this.userForm.value.username,
           password: this.userForm.value.password,
-          userTypeId: this.userForm.value.userType,
-          wardId: this.userForm.value.ward,
+          userTypeId: Number(this.userForm.value.userType),
+          wardId: Number(this.userForm.value.ward),
         };
         await this.usersService.createUser(formData).subscribe(
           (res: any) => {
             if (res?.statusCode === 201) {
-              console.log(res);
-              this.userRoleCreate({
-                userId: res.message.ID,
-                roleId: this.userForm.value.role,
-              });
-              this.userForm.reset();
-              this.toastr.success('Success', 'User added successfully');
+              this.userId = res.message.ID;
+              // this.userForm.reset();
+              // this.userForm.value.role = '';
               this.modalService.open(this.userModal, {
                 centered: true,
                 windowClass: 'modal-user-holder',
@@ -185,6 +185,9 @@ export class AddUserComponent implements OnInit {
   fetchAllRoles() {
     this.usersService.getAllRoles().subscribe((res) => {
       this.allRoles = res.message;
+      if (this.allRoles.length > 0) {
+        this.userForm.patchValue({ role: this.allRoles[0].roleId });
+      }
     });
   }
 
@@ -194,7 +197,17 @@ export class AddUserComponent implements OnInit {
     });
   }
 
-  userRoleCreate(payload: any) {
-    this.usersService.finalizeUserCreation(payload).subscribe((res) => {});
+  userRoleCreate() {
+    let payload = {
+      userId: this.userId,
+      roleId: Number(this.userForm.value.role),
+    };
+    this.usersService.finalizeUserCreation(payload).subscribe((res) => {
+      if (res.statusCode === 201 || res.statusCode === 200) {
+        this.modalService.dismissAll();
+        this.toastr.success('Success', 'User added successfully');
+        this.router.navigate(['/users/userlist']);
+      }
+    });
   }
 }

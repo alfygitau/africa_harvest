@@ -332,7 +332,7 @@
           formControlName="role"
           class="form-select"
         >
-          <option value="">Select user role</option>
+          <option selected value="">Select user role</option>
           <option *ngFor="let role of allRoles" [value]="role.roleId">
             {{ role.title }}
           </option>
@@ -340,6 +340,7 @@
       </form>
       <div style="margin-top: 20px; width: 100%; margin-bottom: 20px">
         <button
+          (click)="userRoleCreate()"
           class="bg-gray"
           style="height: 50px; border-radius: 10px; width: 100%; border: none"
         >

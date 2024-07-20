@@ -84,7 +84,7 @@ export class UsersService {
 
   finalizeUserCreation(payload: any) {
     return this.http
-      .post(endpoint + 'user/roles/create', payload)
+      .post(endpoint + 'user-roles/create', payload)
       .pipe(map(this.extractData));
   }
 }
