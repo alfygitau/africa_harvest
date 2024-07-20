@@ -55,7 +55,6 @@ export class SurveyListComponent implements OnInit {
   }
 
   setPage(pageInfo: any) {
-    console.log(pageInfo);
     this.dataParams.page_num = pageInfo;
     this.summaryService.getSurveyList(this.dataParams).subscribe((res) => {
       this.rows = res.message.surveys;
