@@ -157,6 +157,7 @@
         <p
           class="d-flex flex-row align-items-center gap-2"
           (click)="exportSelectedMembers()"
+          style="cursor: pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -174,11 +175,12 @@
               opacity="0.5"
             />
           </svg>
-          Export Selected Members
+          Export selected Tots
         </p>
         <p
           class="d-flex align-items-center flex-row gap-2"
           (click)="exportEntireMembersReport()"
+          style="cursor: pointer"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -196,11 +198,10 @@
               opacity="0.5"
             />
           </svg>
-          Export All Members
+          Export All Tots
         </p>
       </div>
     </div>
-    <!-- </form> -->
   </div>
 </div>
 <div
@@ -271,7 +272,7 @@
       {{ row.county_title || row?.countyTitle }}
     </div>
     <div class="text-truncate" style="width: 10%; font-size: 12px">
-      {{ row.sub_county_title || row?.subCountyTitle }}
+      {{ row.subcountyTitle || row?.subCountyTitle }}
     </div>
     <div class="text-truncate" style="width: 10%; font-size: 12px">
       {{ row.id_number || row?.idNumber }}
@@ -571,7 +572,7 @@
     <div>
       <ngb-pagination
         (pageChange)="setPage($event)"
-        [collectionSize]="800"
+        [collectionSize]="totalCounts"
         [(page)]="dataParams.page_num"
         [maxSize]="5"
         [boundaryLinks]="true"

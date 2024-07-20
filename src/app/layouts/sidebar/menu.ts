@@ -39,32 +39,32 @@ export const MENU: MenuItem[] = [
       },
     ],
   },
-  {
-    id: 7,
-    label: 'Farmers',
-    icon: 'users',
-    subItems: [
-      {
-        id: 8,
-        label: 'Add Farmer',
-        link: '/farmers/add-farmer',
-        parentId: 7,
-      },
-    ],
-  },
-  {
-    id: 9,
-    label: 'Groups',
-    icon: 'user-plus',
-    subItems: [
-      {
-        id: 10,
-        label: 'Add Group',
-        link: '/groups/add-group',
-        parentId: 9,
-      },
-    ],
-  },
+  // {
+  //   id: 7,
+  //   label: 'Farmers',
+  //   icon: 'users',
+  //   subItems: [
+  //     {
+  //       id: 8,
+  //       label: 'Add Farmer',
+  //       link: '/farmers/add-farmer',
+  //       parentId: 7,
+  //     },
+  //   ],
+  // },
+  // {
+  //   id: 9,
+  //   label: 'Groups',
+  //   icon: 'user-plus',
+  //   subItems: [
+  //     {
+  //       id: 10,
+  //       label: 'Add Group',
+  //       link: '/groups/add-group',
+  //       parentId: 9,
+  //     },
+  //   ],
+  // },
   {
     id: 11,
     label: 'Seeds Distribution',

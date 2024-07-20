@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { SharedModule } from '../shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { PaginationModule } from '../pagination/pagination.module';
@@ -14,6 +14,7 @@ import { counties } from '../shared/data/Counties';
 import { SubCounty } from '../shared/data/subCounty.model';
 import { Ward } from '../shared/data/ward.model';
 import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-user',
@@ -23,10 +24,13 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './add-user.component.scss',
 })
 export class AddUserComponent implements OnInit {
+  @ViewChild('userModal') userModal: any;
   public breadCrumbItems!: Array<{}>;
   userForm: FormGroup;
   isCIO: boolean = false;
   isDisabled: boolean = true;
+  allRoles: any = [];
+  userTypes: any = [];
 
   counties: County[] = [];
   subCounties: SubCounty[] = [];
@@ -38,7 +42,8 @@ export class AddUserComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private usersService: UsersService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private modalService: NgbModal
   ) {
     this.userForm = this.fb.group({
       firstName: ['', Validators.required],
@@ -49,6 +54,7 @@ export class AddUserComponent implements OnInit {
       dateOfBirth: [this.formatDate(new Date()), Validators.required],
       phoneNumber: ['', Validators.required],
       role: ['', Validators.required],
+      userType: ['', Validators.required],
       gender: ['', Validators.required],
       county: ['', Validators.required],
       subcounty: ['', Validators.required],
@@ -75,7 +81,8 @@ export class AddUserComponent implements OnInit {
       { label: 'Add user', active: true },
     ];
     this.getCounties();
-
+    this.fetchAllRoles();
+    this.fetchAllUserTypes();
     const countyControl = this.userForm.get('county');
     const subcountyControl = this.userForm.get('subcounty');
 
@@ -102,7 +109,6 @@ export class AddUserComponent implements OnInit {
     );
     this.cio_county_id = county?.county_id;
     this.isCIO = this.roles ? this.roles.includes('CIO') : false;
-    console.log(this.isCIO);
 
     this.userForm.patchValue({
       firstName: '',
@@ -137,14 +143,24 @@ export class AddUserComponent implements OnInit {
           msisdn: this.userForm.value.phoneNumber,
           username: this.userForm.value.username,
           password: this.userForm.value.password,
-          userTypeId: this.userForm.value.role,
+          userTypeId: this.userForm.value.userType,
           wardId: this.userForm.value.ward,
         };
         await this.usersService.createUser(formData).subscribe(
           (res: any) => {
             if (res?.statusCode === 201) {
+              console.log(res);
+              this.userRoleCreate({
+                userId: res.message.ID,
+                roleId: this.userForm.value.role,
+              });
               this.userForm.reset();
               this.toastr.success('Success', 'User added successfully');
+              this.modalService.open(this.userModal, {
+                centered: true,
+                windowClass: 'modal-user-holder',
+                size: 'md',
+              });
             } else {
               this.toastr.error('Error', res.message);
             }
@@ -164,5 +180,21 @@ export class AddUserComponent implements OnInit {
 
   getCounties(): void {
     this.counties = this.usersService.fetchCounties();
+  }
+
+  fetchAllRoles() {
+    this.usersService.getAllRoles().subscribe((res) => {
+      this.allRoles = res.message;
+    });
+  }
+
+  fetchAllUserTypes() {
+    this.usersService.getUserTypes().subscribe((res) => {
+      this.userTypes = res.message;
+    });
+  }
+
+  userRoleCreate(payload: any) {
+    this.usersService.finalizeUserCreation(payload).subscribe((res) => {});
   }
 }

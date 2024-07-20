@@ -53,6 +53,7 @@ export class TotsComponent implements OnInit {
   ColumnMode = ColumnMode;
   rows: any = [];
   public selectedTrainer: Partial<Trainer> = {};
+  public totalCounts: number = 1;
 
   updateForm!: FormGroup;
   selectedRows = new Set<number>();
@@ -135,6 +136,7 @@ export class TotsComponent implements OnInit {
         endDate: this.searchForm.get('endDate')?.value
           ? this.searchForm.get('endDate')?.value
           : '',
+        userTypeId: 2,
       };
       let data = {
         page: this.dataParams.page_num,
@@ -145,7 +147,34 @@ export class TotsComponent implements OnInit {
       this.onSubmit(data);
     });
 
-    this.getUsers();
+    let obj = {
+      countyId: this.searchForm
+        .get('countyId')
+        ?.value.map((county: any) => county.county_id),
+      subCountyId: this.searchForm
+        .get('subCountyId')
+        ?.value.map((subCounty: any) => subCounty.subCountyId),
+      wardId: this.searchForm
+        .get('wardId')
+        ?.value.map((ward: any) => ward.wardId),
+      groupId: this.searchForm
+        .get('groupId')
+        ?.value.map((group: any) => group.group_id),
+      startDate: this.searchForm.get('startDate')?.value
+        ? this.searchForm.get('startDate')?.value
+        : '',
+      endDate: this.searchForm.get('endDate')?.value
+        ? this.searchForm.get('endDate')?.value
+        : '',
+      userTypeId: 2,
+    };
+    let data = {
+      page: this.dataParams.page_num,
+      dataObj: obj,
+      size: this.dataParams.page_size,
+    };
+
+    this.onSubmit(data);
   }
 
   filter(value: any) {
@@ -254,7 +283,8 @@ export class TotsComponent implements OnInit {
   onSubmit(data: any) {
     this.totsService.getTotsByLocations(data).subscribe((res) => {
       if (res.statusCode == 200) {
-        this.rows = res.message;
+        this.rows = res.message.tots;
+        this.totalCounts = res.message.totalCount;
         this.cdr.markForCheck();
       }
     });
@@ -281,6 +311,7 @@ export class TotsComponent implements OnInit {
       endDate: this.searchForm.get('end_date')?.value
         ? this.searchForm.get('end_date')?.value
         : '',
+      userTypeId: 2,
     };
 
     let data = {
@@ -289,20 +320,22 @@ export class TotsComponent implements OnInit {
       size: this.dataParams.page_size,
     };
     this.totsService.getTotsByLocations(data).subscribe((res) => {
-      this.rows = res.message;
+      this.rows = res.message.tots;
+      this.totalCounts = res.message.totalCount;
     });
   }
 
-  getUsers() {
-    this.totsService
-      .getAllToTs(this.dataParams.page_num, this.dataParams.page_size)
-      .subscribe((res) => {
-        if (res.statusCode == 200) {
-          this.rows = res.message;
-          this.cdr.markForCheck();
-        }
-      });
-  }
+  // getUsers() {
+  //   this.totsService
+  //     .getAllToTs(this.dataParams.page_num, this.dataParams.page_size)
+  //     .subscribe((res) => {
+  //       if (res.statusCode == 200) {
+  //         console.log(res.message);
+  //         this.rows = res.message;
+  //         this.cdr.markForCheck();
+  //       }
+  //     });
+  // }
 
   subCounties(event: Event) {
     let ids = this.searchForm.get('countyId')?.value;
@@ -333,7 +366,6 @@ export class TotsComponent implements OnInit {
       userId: Array.from(this.selectedRows),
     };
     this.totsService.exportMembers(data).subscribe((res) => {
-      console.log(res);
       const a = document.createElement('a');
       const objectUrl = URL.createObjectURL(res);
       a.href = objectUrl;
@@ -345,13 +377,33 @@ export class TotsComponent implements OnInit {
     });
   }
   exportEntireMembersReport() {
+    let obj = {
+      countyId: this.searchForm
+        .get('countyId')
+        ?.value.map((county: any) => county.county_id),
+      subCountyId: this.searchForm
+        .get('subCountyId')
+        ?.value.map((subCounty: any) => subCounty.subCountyId),
+      wardId: this.searchForm
+        .get('wardId')
+        ?.value.map((ward: any) => ward.wardId),
+      groupId: this.searchForm
+        .get('groupId')
+        ?.value.map((group: any) => group.group_id),
+      startDate: this.searchForm.get('start_date')?.value
+        ? this.searchForm.get('start_date')?.value
+        : '',
+      endDate: this.searchForm.get('end_date')?.value
+        ? this.searchForm.get('end_date')?.value
+        : '',
+      userTypeId: 2,
+    };
     let data = {
       page: 1,
-      dataObj: this.searchForm.value,
+      dataObj: obj,
       size: 100000,
     };
     this.totsService.exportAllMembers(data).subscribe((res) => {
-      console.log(res);
       const a = document.createElement('a');
       const objectUrl = URL.createObjectURL(res);
       a.href = objectUrl;

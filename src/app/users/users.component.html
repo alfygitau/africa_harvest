@@ -1,6 +1,6 @@
 <div>
   <app-pagetitle
-    title="Users"
+    title="Admin users"
     [breadcrumbItems]="breadCrumbItems"
   ></app-pagetitle>
   <div
@@ -26,7 +26,7 @@
         Users List <span>({{ users.length }})</span>
       </p>
       <div style="display: flex; align-items: center; gap: 10px; height: 100%">
-        <div>
+        <!-- <div>
           <input
             type="text"
             placeholder="Search a user with id, msisdn, phone number"
@@ -58,7 +58,7 @@
           >
             Search
           </button>
-        </div>
+        </div>-->
         <div
           style="
             background-color: #fbb43c;
@@ -83,7 +83,7 @@
               d="M7 9V7h14v2zm0 4v-2h14v2zm0 4v-2h14v2zM4 9q-.425 0-.712-.288T3 8t.288-.712T4 7t.713.288T5 8t-.288.713T4 9m0 4q-.425 0-.712-.288T3 12t.288-.712T4 11t.713.288T5 12t-.288.713T4 13m0 4q-.425 0-.712-.288T3 16t.288-.712T4 15t.713.288T5 16t-.288.713T4 17"
             />
           </svg>
-        </div>
+        </div> 
         <div
           style="
             background-color: #e9e9ef;
@@ -205,11 +205,10 @@
               display: flex;
               align-items: center;
               justify-content: start;
+              font-size: 12px;
             "
           >
-            <p style="width: 90%; font-size: 12px" class="truncate">
-              {{ user?.email }}
-            </p>
+            {{ user?.email }}
           </div>
           <div
             style="
@@ -670,7 +669,7 @@
         ></app-pagination> -->
         <ngb-pagination
           (pageChange)="onPageChange($event)"
-          [collectionSize]="totalUsers"
+          [collectionSize]="50"
           [(page)]="size"
           [maxSize]="5"
           [boundaryLinks]="true"

@@ -165,18 +165,19 @@
             </select>
           </div>
           <div class="d-flex flex-column" style="margin-bottom: 10px">
-            <label for="role" style="margin-bottom: 0px">Role</label>
+            <label for="role" style="margin-bottom: 0px">User Type</label>
             <select
-              formControlName="role"
-              id="role"
-              placeholder="Select a role"
+              formControlName="userType"
+              id="usertype"
+              placeholder="Select a user type"
               class="form-select"
               style="height: 50px !important"
               aria-label="Default select example"
             >
-              <option value="">Select a role</option>
-              <option value="2">Admin</option>
-              <option value="10">Tot</option>
+              <option value="">Select a user type</option>
+              <option *ngFor="let type of userTypes" [value]="type.userTypeId">
+                {{ type.title }}
+              </option>
             </select>
           </div>
           <div
@@ -317,4 +318,34 @@
       </div>
     </form>
   </div>
+  <!-- Modal Template -->
+  <ng-template #userModal let-modal>
+    <div
+      class="modal-body d-flex flex-column justify-content-center align-items-center"
+      style="height: 300px"
+    >
+      <form [formGroup]="userForm" style="width: 100%">
+        <p>Select role</p>
+        <select
+          name="role"
+          id="role"
+          formControlName="role"
+          class="form-select"
+        >
+          <option value="">Select user role</option>
+          <option *ngFor="let role of allRoles" [value]="role.roleId">
+            {{ role.title }}
+          </option>
+        </select>
+      </form>
+      <div style="margin-top: 20px; width: 100%; margin-bottom: 20px">
+        <button
+          class="bg-gray"
+          style="height: 50px; border-radius: 10px; width: 100%; border: none"
+        >
+          Add User
+        </button>
+      </div>
+    </div>
+  </ng-template>
 </div>

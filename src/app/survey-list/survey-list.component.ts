@@ -32,7 +32,7 @@ export class SurveyListComponent implements OnInit {
     page_num: 1,
     page_size: 10,
   };
-
+  public totalCounts: number = 1;
   public breadCrumbItems!: Array<{}>;
 
   constructor(private summaryService: SummaryService) {}
@@ -49,14 +49,17 @@ export class SurveyListComponent implements OnInit {
   getSurveyList() {
     let obj = this.dataParams;
     this.summaryService.getSurveyList(obj).subscribe((res) => {
-      this.rows = res.message;
+      this.rows = res.message.surveys;
+      this.totalCounts = res.message.total_count;
     });
   }
 
   setPage(pageInfo: any) {
+    console.log(pageInfo);
     this.dataParams.page_num = pageInfo;
     this.summaryService.getSurveyList(this.dataParams).subscribe((res) => {
-      this.rows = res.message;
+      this.rows = res.message.surveys;
+      this.totalCounts = res.message.total_count;
     });
   }
 }

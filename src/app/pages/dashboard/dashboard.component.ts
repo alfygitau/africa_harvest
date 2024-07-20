@@ -177,7 +177,6 @@ export class DashboardComponent implements OnInit {
     // this.getTrainingsByLocationAndDate();
     this.getTotalSurveyCount();
 
-
     this.searchForm.valueChanges.subscribe(() => {
       let obj = {
         countyId: this.searchForm
@@ -466,7 +465,6 @@ export class DashboardComponent implements OnInit {
       const filteredSubcounties = this.counties
         .filter((county) => selectedCountyIds.includes(county.county_id))
         .flatMap((county) => county.sub_counties);
-      console.log(filteredSubcounties);
       this.subcountyOptions = [
         { subCountyId: 1, name: 'Select a subcounty' },
         ...filteredSubcounties,

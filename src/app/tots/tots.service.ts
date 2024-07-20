@@ -32,7 +32,7 @@ export class TotsService {
     return this.http
       .post(
         endpoint +
-          'members/by-location?page=' +
+          'users/tots?page=' +
           data.page +
           '&size=' +
           data?.size,
@@ -59,7 +59,7 @@ export class TotsService {
   }
   exportAllMembers(data: any) {
     return this.http
-      .post(endpoint + 'users/xlsx', data.dataObj, { responseType: 'blob' })
+      .post(endpoint + 'users/xlsx?page=' + data.page + '&size=' + data.size, data.dataObj, { responseType: 'blob' })
       .pipe(map(this.extractData));
   }
 }

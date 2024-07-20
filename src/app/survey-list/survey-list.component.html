@@ -193,7 +193,7 @@
           <div>
             <ngb-pagination
               (pageChange)="setPage($event)"
-              [collectionSize]="200"
+              [collectionSize]="totalCounts"
               [(page)]="dataParams.page_num"
               [maxSize]="5"
               [boundaryLinks]="true"

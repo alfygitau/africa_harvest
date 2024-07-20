@@ -45,7 +45,14 @@ export class GroupsService {
 
   getGroupsByLocation(data: any): Observable<any> {
     return this.http
-      .post(endpoint + 'groups/by-locations', data)
+      .post(
+        endpoint +
+          'groups/by-locations?page=' +
+          data.page +
+          '&size=' +
+          data.size,
+        data.dataObj
+      )
       .pipe(map(this.extractData));
   }
 
@@ -64,6 +71,14 @@ export class GroupsService {
   getSeedDistributionReport() {
     return this.http
       .get(endpoint + 'seed-distribution')
+      .pipe(map(this.extractData));
+  }
+
+  exportAllGroups(data: any) {
+    return this.http
+      .get(endpoint + 'groups/xlsx?page=' + data.page + '&size=' + data?.size, {
+        responseType: 'blob',
+      })
       .pipe(map(this.extractData));
   }
 }

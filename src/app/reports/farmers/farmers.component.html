@@ -93,6 +93,7 @@
         "
       >
         <p
+          style="cursor: pointer"
           class="d-flex flex-row align-items-center gap-2"
           (click)="exportSelectedMembers()"
         >
@@ -115,6 +116,7 @@
           Export Selected Members
         </p>
         <p
+          style="cursor: pointer"
           class="d-flex align-items-center flex-row gap-2"
           (click)="exportEntireMembersReport()"
         >
@@ -679,7 +681,7 @@
           <div>
             <ngb-pagination
               (pageChange)="setPage($event)"
-              [collectionSize]="200"
+              [collectionSize]="totalCounts"
               [(page)]="dataParams.page_num"
               [maxSize]="5"
               [boundaryLinks]="true"

@@ -82,6 +82,7 @@ export class GroupsComponent implements OnInit {
 
     this.counties = counties;
     this.myCounties = this.transformCounties(counties);
+    console.log(this.myCounties);
     this.breadCrumbItems = [
       { label: 'Reports' },
       { label: 'Groups', active: true },
@@ -124,7 +125,7 @@ export class GroupsComponent implements OnInit {
         dataObj: obj,
         size: this.dataParams.page_size,
       };
-      this.filterGroups(obj);
+      this.filterGroups(data);
     });
   }
 
@@ -256,11 +257,50 @@ export class GroupsComponent implements OnInit {
 
   setPage(pageInfo: any) {
     this.dataParams.page_num = pageInfo;
-    this.groupsService
-      .getDynamicGroups(this.dataParams.page_num)
-      .subscribe((res) => {
-        this.groups = res.message;
-        this.cdr.markForCheck();
-      });
+    let obj = {
+      countyId: this.searchForm
+        .get('countyId')
+        ?.value.map((county: any) => county.county_id),
+      subCountyId: this.searchForm
+        .get('subCountyId')
+        ?.value.map((subCounty: any) => subCounty.subCountyId),
+      wardId: this.searchForm
+        .get('wardId')
+        ?.value.map((ward: any) => ward.wardId),
+      groupId: this.searchForm
+        .get('groupId')
+        ?.value.map((group: any) => group.group_id),
+      startDate: this.searchForm.get('start_date')?.value
+        ? this.searchForm.get('start_date')?.value
+        : '',
+      endDate: this.searchForm.get('end_date')?.value
+        ? this.searchForm.get('end_date')?.value
+        : '',
+    };
+    let data = {
+      page: this.dataParams.page_num,
+      dataObj: obj,
+      size: this.dataParams.page_size,
+    };
+    this.groupsService.getGroupsByLocation(data).subscribe((res) => {
+      this.groups = res.message;
+      this.cdr.markForCheck();
+    });
+  }
+
+  exportAllGroups() {
+    let data = {
+      page: 1,
+      size: 250,
+    };
+    this.groupsService.exportAllGroups(data).subscribe((res) => {
+      const a = document.createElement('a');
+      const objectUrl = URL.createObjectURL(res);
+      a.href = objectUrl;
+      a.download = 'groups.xlsx';
+      a.click();
+      URL.revokeObjectURL(objectUrl);
+      this.cdr.markForCheck();
+    });
   }
 }

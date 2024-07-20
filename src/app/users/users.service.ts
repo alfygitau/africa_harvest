@@ -15,6 +15,10 @@ import { NewUser } from '../core/models/user.model';
 export class UsersService {
   public users = [];
   private counties: County[] = counties;
+  private extractData(res: any) {
+    const body = res;
+    return body || {};
+  }
 
   constructor(private http: HttpClient) {}
 
@@ -24,7 +28,7 @@ export class UsersService {
       .set('size', size.toString());
 
     return this.http
-      .get<{ message: UserInfo[] }>(endpoint + 'users/all', { params })
+      .get<{ message: UserInfo[] }>(endpoint + 'users/tots/1', { params })
       .pipe(map((response) => response.message));
   }
 
@@ -68,5 +72,19 @@ export class UsersService {
 
   updateMember(memberId: number, payload: Partial<NewUser>) {
     return this.http.put(endpoint + 'member/update/' + memberId, payload);
+  }
+
+  getAllRoles() {
+    return this.http.get(endpoint + 'roles/').pipe(map(this.extractData));
+  }
+
+  getUserTypes() {
+    return this.http.get(endpoint + 'usertypes/').pipe(map(this.extractData));
+  }
+
+  finalizeUserCreation(payload: any) {
+    return this.http
+      .post(endpoint + 'user/roles/create', payload)
+      .pipe(map(this.extractData));
   }
 }

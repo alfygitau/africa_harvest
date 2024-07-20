@@ -67,7 +67,7 @@ export class FarmersComponent implements OnInit {
   public updateCounties: County[] = [];
   public updateSubcounties: SubCounty[] = [];
   public updateWards: Ward[] = [];
-
+  public totalCounts: number = 1;
   public selectedFarmer!: Farmer;
 
   dataParams: any = {
@@ -316,7 +316,8 @@ export class FarmersComponent implements OnInit {
     }
     this.farmersService.getMembersByLocations(data).subscribe((res) => {
       if (res.statusCode == 200) {
-        this.rows = res.message;
+        this.rows = res.message.members;
+        this.totalCounts = res.message.counts;
         this.cdr.markForCheck();
       }
     });
@@ -361,7 +362,8 @@ export class FarmersComponent implements OnInit {
   getUsers(data: any) {
     this.farmersService.getClients(data).subscribe((res) => {
       if (res.statusCode == 200) {
-        this.rows = res.message;
+        this.rows = res.message.members;
+        this.totalCounts = res.message.counts;
         this.cdr.markForCheck();
       }
     });
@@ -382,9 +384,29 @@ export class FarmersComponent implements OnInit {
     });
   }
   exportEntireMembersReport() {
+    let obj = {
+      countyId: this.searchForm
+        .get('countyId')
+        ?.value.map((county: any) => county.county_id),
+      subCountyId: this.searchForm
+        .get('subCountyId')
+        ?.value.map((subCounty: any) => subCounty.subCountyId),
+      wardId: this.searchForm
+        .get('wardId')
+        ?.value.map((ward: any) => ward.wardId),
+      groupId: this.searchForm
+        .get('groupId')
+        ?.value.map((group: any) => group.group_id),
+      startDate: this.searchForm.get('start_date')?.value
+        ? this.searchForm.get('start_date')?.value
+        : '',
+      endDate: this.searchForm.get('end_date')?.value
+        ? this.searchForm.get('end_date')?.value
+        : '',
+    };
     let data = {
       page: 1,
-      dataObj: this.searchForm.value,
+      dataObj: obj,
       size: 100000,
     };
     this.farmersService.exportAllMembers(data).subscribe((res) => {
@@ -430,7 +452,8 @@ export class FarmersComponent implements OnInit {
     };
     this.farmersService.getClients(data).subscribe((res) => {
       if (res.statusCode == 200) {
-        this.rows = res.message;
+        this.rows = res.message.members;
+        this.totalCounts = res.message.counts;
         this.cdr.markForCheck();
       }
     });

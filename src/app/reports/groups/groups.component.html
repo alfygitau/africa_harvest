@@ -82,20 +82,41 @@
           </div> -->
         </div>
       </form>
-      <!-- <div style="margin-top: 20px; margin-bottom: 10px; width: 100%">
-        <input
-          type="text"
-          placeholder="Search a group id, name or description"
-          style="
-            border: 1px solid #e9e9ef;
-            border-radius: 5px;
-            width: 100%;
-            height: 40px;
-            padding-left: 10px;
-            padding-right: 10px;
-          "
-        />
-      </div> -->
+      <div
+        style="
+          margin-top: 20px;
+          width: 100%;
+          padding-left: 0px;
+          display: flex;
+          align-items: center;
+          justify-content: end;
+          gap: 20px;
+        "
+      >
+        <p
+          class="d-flex align-items-center flex-row gap-2"
+          (click)="exportAllGroups()"
+          style="cursor: pointer"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <path
+              fill="#3fc057"
+              d="M15.707 13.293a1 1 0 0 0-1.414 0L13 14.586V3a1 1 0 0 0-2 0v11.586l-1.293-1.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l3-3a1 1 0 0 0 0-1.414"
+            />
+            <path
+              fill="#3fc057"
+              d="M18 9h-5v5.586l1.293-1.293a1 1 0 0 1 1.414 1.414l-3 3a1 1 0 0 1-1.414 0l-3-3a1 1 0 0 1 1.414-1.414L11 14.586V9H6a3.003 3.003 0 0 0-3 3v7a3.003 3.003 0 0 0 3 3h12a3.003 3.003 0 0 0 3-3v-7a3.003 3.003 0 0 0-3-3"
+              opacity="0.5"
+            />
+          </svg>
+          Export all groups
+        </p>
+      </div>
     </div>
   </div>
   <div
@@ -194,7 +215,7 @@
       <div>
         <ngb-pagination
           (pageChange)="setPage($event)"
-          [collectionSize]="200"
+          [collectionSize]="3000"
           [(page)]="dataParams.page_num"
           [maxSize]="5"
           [boundaryLinks]="true"

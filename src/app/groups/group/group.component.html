@@ -1,54 +1,99 @@
-<app-pagetitle [title]="group.group_name" [breadcrumbItems]="breadCrumbItems"></app-pagetitle>
+<app-pagetitle
+  [title]="group.group_name"
+  [breadcrumbItems]="breadCrumbItems"
+></app-pagetitle>
 
-
-<div>
-    <div class="card">
-        <div class="card-body">
-            <p style="font-weight: bold; color: #fbab3d">Group Admin</p>
-            <div class="d-flex" style="gap: 10px;">
-                <img
-                class="rounded-circle header-profile-user"
-                src="assets/images/users/avatar-1.jpg"
-                alt="Header Avatar"
-                />
-                <div class="d-flex flex-column">
-                    <h5 class="font-size-16 mb-1">Name: {{ group.group_admin.name }}</h5>
-                    <p class="text-muted font-size-13 mb-0">Phone no: {{ group.group_admin.msisdn }}</p>
-                </div>
-            </div>
+<div class="w-100">
+  <div class="card p-2 d-flex flex-row justify-content-between w-100">
+    <div class="w-50 d-flex flex-column justify-content-center">
+      <p style="color: #fbab3d">Group details</p>
+      <div class="d-flex flex-row gap-2">
+        <p>Group Name:</p>
+        <p>{{ group.group_name }}</p>
+      </div>
+      <div class="d-flex flex-row gap-2">
+        <p>Group Code:</p>
+        <p>{{ group.group_code }}</p>
+      </div>
+      <div class="d-flex flex-row gap-2">
+        <p>Date created:</p>
+        <p>{{ group.created_at }}</p>
+      </div>
+    </div>
+    <div class="card-body w-50">
+      <p style="color: #fbab3d">Group Admin</p>
+      <div class="d-flex">
+        <div class="d-flex flex-column gap-1">
+          <h5 class="font-size-16">Name: {{ group.group_admin.name }}</h5>
+          <p class="text-muted font-size-13">
+            Phone no: {{ group.group_admin.msisdn }}
+          </p>
+          <p class="text-muted font-size-13">
+            Email: {{ group.group_admin.email }}
+          </p>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div class="card">
-        <ngx-datatable 
-            #table
-            [externalPaging]="false" 
-            (page)="setPage($event)" 
-            [count]="rows.length" 
-            [offset]="dataParams.page_num" 
-            [limit]="dataParams.page_size" 
-            [rows]="rows" 
-            [rowHeight]="50" 
-            [columnMode]="ColumnMode.force" 
-            [headerHeight]="50" 
-            [footerHeight]="50" 
-            class="bootstrap core-bootstrap" 
+  <p>Group Description</p>
+  <div class="card" style="min-height: 100px; padding: 20px">
+    <p>{{ group?.description }}</p>
+  </div>
+</div>
+
+<p>Group members</p>
+<div style="background-color: white; padding: 10px; width: 100%">
+  <ngx-datatable
+    #table
+    [externalPaging]="false"
+    (page)="setPage($event)"
+    [count]="rows.length"
+    [offset]="dataParams.page_num"
+    [limit]="dataParams.page_size"
+    [rows]="rows"
+    [rowHeight]="50"
+    [columnMode]="ColumnMode.force"
+    [headerHeight]="50"
+    [footerHeight]="50"
+    class="bootstrap core-bootstrap"
+  >
+    <ngx-datatable-column name="Name">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        {{ row.first_name }} {{ row.last_name }}
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Mobile" prop="msisdn"></ngx-datatable-column>
+    <ngx-datatable-column
+      name="ID Number"
+      prop="id_number"
+    ></ngx-datatable-column>
+    <ngx-datatable-column
+      name="County"
+      prop="county_title"
+    ></ngx-datatable-column>
+    <ngx-datatable-column
+      name="Sub County"
+      prop="sub_county_title"
+    ></ngx-datatable-column>
+    <ngx-datatable-column name="Ward" prop="ward_name"></ngx-datatable-column>
+    <ngx-datatable-column name="More Details" prop="more">
+      <ng-template let-row="row" ngx-datatable-cell-template>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          (click)="view(row)"
         >
-        <ngx-datatable-column name="Name" >
-            <ng-template let-row="row" ngx-datatable-cell-template >
-            {{row.first_name }} {{row.last_name }}
-            </ng-template>
-        </ngx-datatable-column>
-        <ngx-datatable-column name="Mobile"  prop="msisdn" ></ngx-datatable-column>
-        <ngx-datatable-column name="ID Number"  prop="id_number" ></ngx-datatable-column>
-        <ngx-datatable-column name="County"  prop="county_title" ></ngx-datatable-column>
-        <ngx-datatable-column name="Sub County"  prop="sub_county_title" ></ngx-datatable-column>
-        <ngx-datatable-column name="Ward"  prop="ward_name" ></ngx-datatable-column>
-        <ngx-datatable-column name="More Details"  prop="more">
-            <ng-template let-row="row" ngx-datatable-cell-template >
-            <i class="fa-solid fa-eye text-success" style="font-size:20px;" (click)="view(row)"></i>
-            </ng-template>
-        </ngx-datatable-column>
-      </ngx-datatable>
-    </div>
+          <g fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3" />
+            <path
+              d="M20.188 10.934c.388.472.582.707.582 1.066c0 .359-.194.594-.582 1.066C18.768 14.79 15.636 18 12 18c-3.636 0-6.768-3.21-8.188-4.934c-.388-.472-.582-.707-.582-1.066c0-.359.194-.594.582-1.066C5.232 9.21 8.364 6 12 6c3.636 0 6.768 3.21 8.188 4.934Z"
+            />
+          </g>
+        </svg>
+      </ng-template>
+    </ngx-datatable-column>
+  </ngx-datatable>
 </div>
