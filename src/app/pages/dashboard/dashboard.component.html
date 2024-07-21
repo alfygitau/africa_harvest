@@ -45,6 +45,7 @@
                 <ng-select
                   id="county"
                   [items]="counties"
+                  [disabled]="disableCountyDropdown"
                   [multiple]="true"
                   (change)="subCounties($event)"
                   [virtualScroll]="true"

@@ -110,6 +110,9 @@ export class DashboardComponent implements OnInit {
 
   searchedStat: any;
   totalIncome: number = 0;
+  role: any
+  userCountyId!: any
+  disableCountyDropdown: boolean = false
 
   constructor(
     private formBuilder: FormBuilder,
@@ -119,7 +122,12 @@ export class DashboardComponent implements OnInit {
     private membersService: MembersService,
     private vlcService: VlcService,
     private farmersService: FarmersService
-  ) {}
+  ) {
+    let roles = sessionStorage.getItem('roles')
+    this.userCountyId = sessionStorage.getItem('userCountyId') || 0
+    this.role = localStorage.getItem('roles')
+    console.log(parseInt(this.userCountyId))
+  }
 
   option = {
     startVal: this.num,
@@ -149,19 +157,51 @@ export class DashboardComponent implements OnInit {
     this.breadCrumbItems = [
       { label: 'Dashboard' },
       { label: 'Dashboard', active: true },
-    ];
+    ]; 
 
-    this.searchForm = this.formBuilder.group({
-      countyId: [[], Validators.required],
-      subCountyId: [[], Validators.required],
-      wardId: [[], Validators.required],
-      groupId: [[], Validators.required],
-      startDate: [this.formatDate(startDate), Validators.required],
-      endDate: [this.formatDate(date), Validators.required],
-    });
-    this.getSummary();
-    this.getCourseSummary();
-    this.memberValueChain();
+    if(this.role.includes('CIO')) {
+      this.disableCountyDropdown = true
+      this.searchForm = this.formBuilder.group({
+        countyId: [[parseInt(this.userCountyId)], Validators.required],
+        subCountyId: [[], Validators.required],
+        wardId: [[], Validators.required],
+        groupId: [[], Validators.required],
+        startDate: [this.formatDate(startDate), Validators.required],
+        endDate: [this.formatDate(date), Validators.required],
+      });
+      this.searchForm.get('countyId')?.disable()
+      let data = {
+        "countyId": [ parseInt(this.userCountyId) ],
+        "subCountyId": [],
+        "wardId": [],
+        "groupId": [],
+        "startDate": this.formatDate(startDate),
+        "endDate": this.formatDate(date)
+      }
+      this.callSubCounties()
+      
+      this.filterCount(data)
+      this.filterVLCSummaryByLocation(data)
+      
+      this.getIncomeSummary(data);
+      this.filterVLCSummaryByLocation(data);
+      // this.filterGroups(data);
+      this.getTrainingsByLocationAndDate(data)
+      this.filterCount(data);
+    } else {
+      this.searchForm = this.formBuilder.group({
+        countyId: [[], Validators.required],
+        subCountyId: [[], Validators.required],
+        wardId: [[], Validators.required],
+        groupId: [[], Validators.required],
+        startDate: [this.formatDate(startDate), Validators.required],
+        endDate: [this.formatDate(date), Validators.required],
+      });
+
+      this.getSummary();
+      this.getCourseSummary();
+      this.memberValueChain();
+    }
     // this.getIncomeSummary(this.searchForm.value);
     // this.filterVLCSummaryByLocation(this.searchForm.value);
     // this.filterGroups(this.searchForm.value);
@@ -449,6 +489,19 @@ export class DashboardComponent implements OnInit {
     };
   }
 
+  callSubCounties() {
+    if (this.searchForm) {
+      let ids = this.searchForm.get('countyId')?.value;
+      let filtered_array = this.counties.filter((obj: any) =>
+        ids.includes(obj.county_id)
+      );
+      filtered_array.forEach((element) => {
+        this.sub_counties = this.sub_counties.concat(element.sub_counties);
+      });
+    }
+    this.filterGroups(this.searchForm.value);
+  }
+
   subCounties(event: Event) {
     if (this.searchForm) {
       let ids = this.searchForm.get('countyId')?.value;
@@ -490,7 +543,6 @@ export class DashboardComponent implements OnInit {
     this.membersService
       .getTotalMembersCountiesIncomeSummary(data)
       .subscribe((res) => {
-        console.log(res);
         if (res.statusCode == 200) {
           this.searchedStat = res.message.message;
           this.totalMembers = res.message.message.members[0];
@@ -536,7 +588,7 @@ export class DashboardComponent implements OnInit {
           this.cdr.markForCheck();
         }
       });
-      this.getTrainingsByLocationAndDate();
+      this.getTrainingsByLocationAndDate(this.searchForm.value);
     }
   }
 
@@ -550,19 +602,73 @@ export class DashboardComponent implements OnInit {
         this.totalNumber = males + females;
         this.totalMembers = res?.message?.total_members;
         let pwd =
-          res.message.total_disabled_male_tots +
-          res.message.total_disabled_female_tots;
+        res.message.total_disabled_male_tots +
+        res.message.total_disabled_female_tots;
         this.malePercentage = (males / this.totalNumber) * 100;
         this.femalePercentage = (females / this.totalNumber) * 100;
         this.disabledPercentage = (pwd / this.totalNumber) * 100;
-
-        this.setGenderChart();
+        
+        console.log(males, females)
+        // this.setGenderChart();
+        this.genderData = {
+          tooltip: {
+            trigger: 'item',
+            formatter: '{a} <br/>{b} : {c} ({d}%)',
+          },
+    
+          legend: {
+            orient: 'horizontal',
+            bottom: 'bottom',
+          },
+          series: [
+            {
+              name: 'Gender Comparison',
+              type: 'pie',
+              roseType: 'area',
+              radius: [20, 120],
+              center: ['50%', '50%'],
+    
+              // roseType: 'area',
+              // itemStyle: {
+              //   borderRadius: 5
+              // },
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)',
+                },
+              },
+              data: [
+                {
+                  value:
+                   this.malePercentage,
+                  name: 'Male',
+                },
+                {
+                  value: this.femalePercentage,
+                  name: 'Female',
+                },
+                {
+                  value: this.disabledPercentage,
+                  name: 'Living with disability',
+                },
+              ],
+            },
+          ],
+        };
+        this.cdr.markForCheck()
         this.cdr.markForCheck();
       }
     });
   }
 
   getSummary() {
+    if(this.role.includes('CIO')) {
+      console.log('im a cio')
+    } else {
+      console.log('im not')
+    }
     this.summaryService.getSummary().subscribe((res) => {
       if (res.statusCode == 200) {
         this.summary = res.message;
@@ -605,10 +711,9 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getTrainingsByLocationAndDate() {
-    console.log(this.searchForm.value, 'double');
+  getTrainingsByLocationAndDate(data:any) {
     this.farmersService
-      .getTotalMembersTrainedByLocation(this.searchForm.value)
+      .getTotalMembersTrainedByLocation(data)
       .subscribe((res) => {
         if (res.statusCode == 200) {
           this.updateTrainedChart(res.message);
@@ -630,7 +735,6 @@ export class DashboardComponent implements OnInit {
   }
 
   updateTrainedChart(data: any) {
-    console.log('data', data);
     this.trainingChartCategories = data.map((row: any) => row.title);
     this.totalTrained = data.map((row: any) => row.total_members_trained);
 
@@ -707,5 +811,6 @@ export class DashboardComponent implements OnInit {
         },
       ],
     };
+    this.cdr.markForCheck()
   }
 }
