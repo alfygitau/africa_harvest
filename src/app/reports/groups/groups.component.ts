@@ -82,7 +82,7 @@ export class GroupsComponent implements OnInit {
 
     this.counties = counties;
     this.myCounties = this.transformCounties(counties);
-    console.log(this.myCounties);
+    
     this.breadCrumbItems = [
       { label: 'Reports' },
       { label: 'Groups', active: true },

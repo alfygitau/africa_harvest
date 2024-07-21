@@ -3,6 +3,126 @@
   [breadcrumbItems]="breadCrumbItems"
 ></app-pagetitle>
 
+<div
+  style="
+    background-color: white;
+    border-radius: 10px;
+    width: 100%;
+    padding: 20px;
+  "
+>
+  <form [formGroup]="searchForm" class="col-lg-12 d-flex w-100">
+    <div
+      class="d-flex flex-sm-column flex-md-column flex-lg-row flex-wrap justify-content-between w-100"
+    >
+      <div class="d-flex flex-column">
+        <label for="example-datetime-local-input" class="form-label"
+          >Start Date</label
+        >
+        <input
+          style="width: 180px !important"
+          class="form-control"
+          type="date"
+          placeholder="Start"
+          formControlName="start_date"
+          id="example-datetime-local-input"
+        />
+      </div>
+      <div class="d-flex flex-column">
+        <label for="example-datetime-local-input" class="form-label"
+          >End Date</label
+        >
+        <input
+          class="form-control"
+          style="width: 180px !important"
+          type="date"
+          placeholder="End"
+          formControlName="end_date"
+          id="example-datetime-local-input"
+        />
+      </div>
+      <div class="d-flex flex-column">
+        <label for="county">County</label>
+        <p-multiSelect
+          class="fixed-width-multiselect"
+          formControlName="countyId"
+          [options]="counties"
+          [(ngModel)]="selectedCounty"
+          optionLabel="name"
+          placeholder="Select county"
+          (onChange)="filter($event.value)"
+        ></p-multiSelect>
+      </div>
+      <div class="d-flex flex-column">
+        <label for="county">Sub County</label>
+        <p-multiSelect
+          [options]="subcountyOptions"
+          formControlName="subCountyId"
+          [(ngModel)]="selectedSubcounty"
+          optionLabel="name"
+          placeholder="Select a subcounty"
+          (onChange)="filterWards($event.value)"
+        ></p-multiSelect>
+      </div>
+      <div class="d-flex flex-column">
+        <label for="county">Ward</label>
+        <p-multiSelect
+          [options]="wardOptions"
+          formControlName="wardId"
+          [(ngModel)]="selectedWard"
+          optionLabel="name"
+          placeholder="Select a ward"
+        ></p-multiSelect>
+      </div>
+      <div class="d-flex flex-column">
+      <label for="county">Group</label>
+      <p-multiSelect
+        [options]="myGroups"
+        formControlName="groupId"
+        [(ngModel)]="selectedGroup"
+        optionLabel="name"
+        placeholder="Select a group"
+      ></p-multiSelect>
+    </div>
+    </div>
+  </form>
+  <div
+    style="
+      margin-top: 20px;
+      width: 100%;
+      padding-left: 0px;
+      display: flex;
+      align-items: center;
+      justify-content: end;
+      gap: 20px;
+    "
+  >
+    <p
+      class="d-flex align-items-center flex-row gap-2"
+      (click)="exportList()"
+      style="cursor: pointer"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="#3fc057"
+          d="M15.707 13.293a1 1 0 0 0-1.414 0L13 14.586V3a1 1 0 0 0-2 0v11.586l-1.293-1.293a1 1 0 0 0-1.414 1.414l3 3a1 1 0 0 0 1.414 0l3-3a1 1 0 0 0 0-1.414"
+        />
+        <path
+          fill="#3fc057"
+          d="M18 9h-5v5.586l1.293-1.293a1 1 0 0 1 1.414 1.414l-3 3a1 1 0 0 1-1.414 0l-3-3a1 1 0 0 1 1.414-1.414L11 14.586V9H6a3.003 3.003 0 0 0-3 3v7a3.003 3.003 0 0 0 3 3h12a3.003 3.003 0 0 0 3-3v-7a3.003 3.003 0 0 0-3-3"
+          opacity="0.5"
+        />
+      </svg>
+      Export all list
+    </p>
+  </div>
+</div>
+
 <div style="margin-top: 20px">
   <p>Survey Participants</p>
   <div
