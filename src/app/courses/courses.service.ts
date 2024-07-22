@@ -38,7 +38,7 @@ export class CoursesService {
 
   getTrainingReportByLocation(data: any) {
     return this.http
-      .post(endpoint + 'reports/training', data)
+      .post(endpoint + 'training/trains', data)
       .pipe(map(this.extractData));
   }
 }

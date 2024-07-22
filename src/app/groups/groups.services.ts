@@ -38,9 +38,9 @@ export class GroupsService {
       .pipe(map(this.extractData));
   }
 
-  exportSurveyList() {
+  exportSurveyList(data:any) {
     return this.http
-      .post(endpoint + 'surveys/xlsx', {}, { responseType: 'blob' })
+      .post(endpoint + 'surveys/xlsx', data.dataObj, { responseType: 'blob' })
       .pipe(map(this.extractData));
   }
 }

@@ -50,12 +50,13 @@ export class SummaryService {
 
   getSurveyList(payload: any) {
     return this.http
-      .get(
+      .post(
         endpoint +
           'surveys/?page=' +
-          payload.page_num +
+          payload.page +
           '&size=' +
-          payload.page_size
+          payload.size,
+        payload.dataObj
       )
       .pipe(map(this.extractData));
   }

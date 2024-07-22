@@ -115,8 +115,34 @@ export class SurveyListComponent implements OnInit {
         size: this.dataParams.page_size,
       };
       this.filterGroups(obj);
+      this.getSurveyList(data);
     });
-    this.getSurveyList();
+    let obj = {
+      countyId: this.searchForm
+        .get('countyId')
+        ?.value.map((county: any) => county.county_id),
+      subCountyId: this.searchForm
+        .get('subCountyId')
+        ?.value.map((subCounty: any) => subCounty.subCountyId),
+      wardId: this.searchForm
+        .get('wardId')
+        ?.value.map((ward: any) => ward.wardId),
+      groupId: this.searchForm
+        .get('groupId')
+        ?.value.map((group: any) => group.group_id),
+      startDate: this.searchForm.get('start_date')?.value
+        ? this.searchForm.get('start_date')?.value
+        : '',
+      endDate: this.searchForm.get('end_date')?.value
+        ? this.searchForm.get('end_date')?.value
+        : '',
+    };
+    let data = {
+      page: this.dataParams.page_num,
+      dataObj: obj,
+      size: this.dataParams.page_size,
+    };
+    this.getSurveyList(data);
   }
 
   private formatDate(date: Date): string {
@@ -171,9 +197,8 @@ export class SurveyListComponent implements OnInit {
     }));
   }
 
-  getSurveyList() {
-    let obj = this.dataParams;
-    this.summaryService.getSurveyList(obj).subscribe((res) => {
+  getSurveyList(data: any) {
+    this.summaryService.getSurveyList(data).subscribe((res) => {
       this.rows = res.message.surveys;
       this.totalCounts = res.message.total_count;
     });
@@ -181,19 +206,65 @@ export class SurveyListComponent implements OnInit {
 
   setPage(pageInfo: any) {
     this.dataParams.page_num = pageInfo;
-    this.summaryService.getSurveyList(this.dataParams).subscribe((res) => {
+    let obj = {
+      countyId: this.searchForm
+        .get('countyId')
+        ?.value.map((county: any) => county.county_id),
+      subCountyId: this.searchForm
+        .get('subCountyId')
+        ?.value.map((subCounty: any) => subCounty.subCountyId),
+      wardId: this.searchForm
+        .get('wardId')
+        ?.value.map((ward: any) => ward.wardId),
+      groupId: this.searchForm
+        .get('groupId')
+        ?.value.map((group: any) => group.group_id),
+      startDate: this.searchForm.get('start_date')?.value
+        ? this.searchForm.get('start_date')?.value
+        : '',
+      endDate: this.searchForm.get('end_date')?.value
+        ? this.searchForm.get('end_date')?.value
+        : '',
+    };
+    let data = {
+      page: this.dataParams.page_num,
+      dataObj: obj,
+      size: this.dataParams.page_size,
+    };
+
+    this.summaryService.getSurveyList(data).subscribe((res) => {
       this.rows = res.message.surveys;
       this.totalCounts = res.message.total_count;
     });
   }
 
   exportList() {
+    let obj = {
+      countyId: this.searchForm
+        .get('countyId')
+        ?.value.map((county: any) => county.county_id),
+      subCountyId: this.searchForm
+        .get('subCountyId')
+        ?.value.map((subCounty: any) => subCounty.subCountyId),
+      wardId: this.searchForm
+        .get('wardId')
+        ?.value.map((ward: any) => ward.wardId),
+      groupId: this.searchForm
+        .get('groupId')
+        ?.value.map((group: any) => group.group_id),
+      startDate: this.searchForm.get('start_date')?.value
+        ? this.searchForm.get('start_date')?.value
+        : '',
+      endDate: this.searchForm.get('end_date')?.value
+        ? this.searchForm.get('end_date')?.value
+        : '',
+    };
     let data = {
       page: 1,
-      size: 250,
+      dataObj: obj,
+      size: 100000,
     };
-    this.groupsService.exportSurveyList().subscribe((res) => {
-      
+    this.groupsService.exportSurveyList(data).subscribe((res) => {
       const a = document.createElement('a');
       const objectUrl = URL.createObjectURL(res);
       a.href = objectUrl;
