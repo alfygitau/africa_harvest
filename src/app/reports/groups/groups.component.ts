@@ -103,19 +103,22 @@ export class GroupsComponent implements OnInit {
         subCountyId: [[], Validators.required],
         wardId: [[], Validators.required],
         groupId: [[], Validators.required],
-        startDate: [this.formatDate(startDate), Validators.required],
-        endDate: [this.formatDate(date), Validators.required],
       });
+      this.searchForm.get('countyId')?.disable() 
+      let arr = this.counties.filter((county:any) => county.county_id === this.selectedCounty[0].county_id)
+      this.subcountyOptions = arr[0].sub_counties
+    } else {
+      this.searchForm = this.formBuilder.group({
+        start_date: [this.formatDate(startDate), Validators.required],
+        end_date: [this.formatDate(date), Validators.required],
+        countyId: [[], Validators.required],
+        subCountyId: [[], Validators.required],
+        wardId: [[], Validators.required],
+        groupId: [[], Validators.required],
+      });
+
     }
 
-    this.searchForm = this.formBuilder.group({
-      start_date: [this.formatDate(startDate), Validators.required],
-      end_date: [this.formatDate(date), Validators.required],
-      countyId: [[], Validators.required],
-      subCountyId: [[], Validators.required],
-      wardId: [[], Validators.required],
-      groupId: [[], Validators.required],
-    });
 
     this.getGroups();
 

@@ -127,10 +127,8 @@ export class FarmersComponent implements OnInit {
       { label: 'Farmers', active: true },
     ];
     if(this.role.includes('CIO')) {
-      console.log(this.selectedCounty)
       this.countyName = counties.filter((county) => county.county_id === parseInt(this.userCountyId))
       this.selectedCounty = [{ county_id: parseInt(this.userCountyId), name: this.countyName[0].name}]
-      console.log(this.countyName[0].name)
       this.searchForm = this.formBuilder.group({
         countyId: [[this.selectedCounty], Validators.required],
         subCountyId: [[], Validators.required],
@@ -139,15 +137,22 @@ export class FarmersComponent implements OnInit {
         startDate: [this.formatDate(startDate), Validators.required],
         endDate: [this.formatDate(date), Validators.required],
       });
+
+      this.searchForm.get('countyId')?.disable() 
+      console.log(this.selectedCounty[0].county_id)
+      let arr = this.counties.filter((county:any) => county.county_id === this.selectedCounty[0].county_id)
+      console.log(arr[0].sub_counties)
+      this.subcountyOptions = arr[0].sub_counties
+    } else {
+      this.searchForm = this.formBuilder.group({
+        start_date: [this.formatDate(startDate), Validators.required],
+        end_date: [this.formatDate(date), Validators.required],
+        countyId: [[], Validators.required],
+        subCountyId: [[], Validators.required],
+        wardId: [[], Validators.required],
+        groupId: [[], Validators.required],
+      });
     }
-    this.searchForm = this.formBuilder.group({
-      start_date: [this.formatDate(startDate), Validators.required],
-      end_date: [this.formatDate(date), Validators.required],
-      countyId: [[], Validators.required],
-      subCountyId: [[], Validators.required],
-      wardId: [[], Validators.required],
-      groupId: [[], Validators.required],
-    });
 
     this.updateFarmerForm = this.formBuilder.group({
       dob: [this.formatDate(new Date()), Validators.required],

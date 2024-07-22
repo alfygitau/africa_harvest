@@ -110,15 +110,20 @@ export class TotsComponent implements OnInit {
         wardId: [[], Validators.required],
         groupId: [[], Validators.required],
       });
+      this.searchForm.get('countyId')?.disable() 
+      let arr = this.counties.filter((county:any) => county.county_id === this.selectedCounty[0].county_id)
+      this.subcountyOptions = arr[0].sub_counties
+    } else {
+      this.searchForm = this.formBuilder.group({
+        startDate: [this.formatDate(startDate), Validators.required],
+        endDate: [this.formatDate(date), Validators.required],
+        countyId: [[], Validators.required],
+        subCountyId: [[], Validators.required],
+        wardId: [[], Validators.required],
+      });
+
     }
 
-    this.searchForm = this.formBuilder.group({
-      startDate: [this.formatDate(startDate), Validators.required],
-      endDate: [this.formatDate(date), Validators.required],
-      countyId: [[], Validators.required],
-      subCountyId: [[], Validators.required],
-      wardId: [[], Validators.required],
-    });
 
     this.updateForm = this.formBuilder.group({
       dob: ['', Validators.required],

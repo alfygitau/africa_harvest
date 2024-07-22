@@ -120,7 +120,7 @@ export class DashboardComponent implements OnInit {
   totalIncome: number = 0;
   role: any 
   userCountyId!: any
-  disableCountyDropdown: boolean = false
+  disableCountyDropdown: boolean = true
   countyName!: any
 
   constructor(
@@ -172,7 +172,6 @@ export class DashboardComponent implements OnInit {
       console.log(this.selectedCounty)
       this.countyName = counties.filter((county) => county.county_id === parseInt(this.userCountyId))
       this.selectedCounty = [{ county_id: parseInt(this.userCountyId), name: this.countyName[0].name}]
-      console.log(this.countyName[0].name)
       this.searchForm = this.formBuilder.group({
         countyId: [[this.selectedCounty], Validators.required],
         subCountyId: [[], Validators.required],
@@ -181,16 +180,24 @@ export class DashboardComponent implements OnInit {
         startDate: [this.formatDate(startDate), Validators.required],
         endDate: [this.formatDate(date), Validators.required],
       });
+
+      this.searchForm.get('countyId')?.disable() 
+      console.log(this.selectedCounty[0].county_id)
+      let arr = this.counties.filter((county:any) => county.county_id === this.selectedCounty[0].county_id)
+      console.log(arr[0].sub_counties)
+      this.subcountyOptions = arr[0].sub_counties
+    } else {
+      this.searchForm = this.formBuilder.group({
+        countyId: [[], Validators.required],
+        subCountyId: [[], Validators.required],
+        wardId: [[], Validators.required],
+        groupId: [[], Validators.required],
+        startDate: [this.formatDate(startDate), Validators.required],
+        endDate: [this.formatDate(date), Validators.required],
+      });
+
     }
 
-    this.searchForm = this.formBuilder.group({
-      countyId: [[parseInt(this.userCountyId)], Validators.required],
-      subCountyId: [[], Validators.required],
-      wardId: [[], Validators.required],
-      groupId: [[], Validators.required],
-      startDate: [this.formatDate(startDate), Validators.required],
-      endDate: [this.formatDate(date), Validators.required],
-    });
     this.getSummary();
     this.getCourseSummary();
     this.memberValueChain();
@@ -226,6 +233,7 @@ export class DashboardComponent implements OnInit {
       this.filterCount(obj);
       this.fetchSurveyCount(obj);
       this.filterGroups(obj);
+      this.filterVLCSummaryByLocation(obj)
     });
 
     this.trainingChart = {
