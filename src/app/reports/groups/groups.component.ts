@@ -16,7 +16,6 @@ import { Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ColumnMode, NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { NgbPagination } from '@ng-bootstrap/ng-bootstrap';
-import { switchMap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 // PrimeNG Modules
@@ -65,13 +64,20 @@ export class GroupsComponent implements OnInit {
   selectedSubcounty: [] = [];
   selectedWard: [] = [];
   selectedGroup: [] = [];
+  countyName!: any
+  role: any 
+  userCountyId!: any
+
 
   constructor(
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
     private groupsService: GroupsService,
     private router: Router
-  ) {}
+  ) {
+    this.userCountyId = sessionStorage.getItem('userCountyId') || 0
+    this.role = localStorage.getItem('roles')
+  }
 
   ngOnInit(): void {
     const date = new Date();
@@ -87,6 +93,20 @@ export class GroupsComponent implements OnInit {
       { label: 'Reports' },
       { label: 'Groups', active: true },
     ];
+    if(this.role.includes('CIO')) {
+      console.log(this.selectedCounty)
+      this.countyName = counties.filter((county) => county.county_id === parseInt(this.userCountyId))
+      this.selectedCounty = [{ county_id: parseInt(this.userCountyId), name: this.countyName[0].name}]
+      console.log(this.countyName[0].name)
+      this.searchForm = this.formBuilder.group({
+        countyId: [[this.selectedCounty], Validators.required],
+        subCountyId: [[], Validators.required],
+        wardId: [[], Validators.required],
+        groupId: [[], Validators.required],
+        startDate: [this.formatDate(startDate), Validators.required],
+        endDate: [this.formatDate(date), Validators.required],
+      });
+    }
 
     this.searchForm = this.formBuilder.group({
       start_date: [this.formatDate(startDate), Validators.required],

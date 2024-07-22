@@ -14,12 +14,11 @@ import { County } from 'src/app/shared/data/county.model';
 import { SubCounty } from 'src/app/shared/data/subCounty.model';
 import { Ward } from 'src/app/shared/data/ward.model';
 import { counties } from 'src/app/shared/data/Counties';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Tot, Trainer } from 'src/app/core/models/tot.model';
 import { NgbModal, NgbPagination } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { UsersService } from 'src/app/users/users.service';
-import { switchMap } from 'rxjs';
 import { GroupsService } from 'src/app/groups/groups.services';
 
 // PrimeNG Modules
@@ -54,6 +53,9 @@ export class TotsComponent implements OnInit {
   rows: any = [];
   public selectedTrainer: Partial<Trainer> = {};
   public totalCounts: number = 1;
+  countyName!: any
+  role: any 
+  userCountyId!: any
 
   updateForm!: FormGroup;
   selectedRows = new Set<number>();
@@ -80,7 +82,10 @@ export class TotsComponent implements OnInit {
     private groupsService: GroupsService,
     private router: Router,
     private modalService: NgbModal
-  ) {}
+  ) {
+    this.userCountyId = sessionStorage.getItem('userCountyId') || 0
+    this.role = localStorage.getItem('roles')
+  }
   ngOnInit(): void {
     const date = new Date();
     const startDate = new Date();
@@ -94,6 +99,18 @@ export class TotsComponent implements OnInit {
       { label: 'Reports' },
       { label: 'ToTs', active: true },
     ];
+    if(this.role.includes('CIO')) {
+      console.log(this.selectedCounty)
+      this.countyName = counties.filter((county) => county.county_id === parseInt(this.userCountyId))
+      this.selectedCounty = [{ county_id: parseInt(this.userCountyId), name: this.countyName[0].name}]
+      console.log(this.countyName[0].name)
+      this.searchForm = this.formBuilder.group({
+        countyId: [[this.selectedCounty], Validators.required],
+        subCountyId: [[], Validators.required],
+        wardId: [[], Validators.required],
+        groupId: [[], Validators.required],
+      });
+    }
 
     this.searchForm = this.formBuilder.group({
       startDate: [this.formatDate(startDate), Validators.required],

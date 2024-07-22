@@ -78,11 +78,13 @@ export class LoginComponent implements OnInit {
         .login(this.loginForm.value)
         .subscribe((res) => {
           if (res.statusCode == 200) {
+            console.log(res)
             this.toastr.success('Success', 'Logged Succesfully');
             sessionStorage.setItem('token', res.message.access_token);
             sessionStorage.setItem('username', res.message.user_info.firstname);
             sessionStorage.setItem('id', res.message.user_info.userId);
             sessionStorage.setItem('roles', res.message.user_info.roles);
+            sessionStorage.setItem('userCountyId', res.message.user_info.countyId)
             localStorage.setItem(
               'roles',
               JSON.stringify(res.message.user_info.roles)

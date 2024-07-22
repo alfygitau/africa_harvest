@@ -118,6 +118,10 @@ export class DashboardComponent implements OnInit {
 
   searchedStat: any;
   totalIncome: number = 0;
+  role: any 
+  userCountyId!: any
+  disableCountyDropdown: boolean = false
+  countyName!: any
 
   constructor(
     private formBuilder: FormBuilder,
@@ -127,7 +131,10 @@ export class DashboardComponent implements OnInit {
     private membersService: MembersService,
     private vlcService: VlcService,
     private farmersService: FarmersService
-  ) {}
+  ) {
+    this.userCountyId = sessionStorage.getItem('userCountyId') || 0
+    this.role = localStorage.getItem('roles')
+  }
 
   option = {
     startVal: this.num,
@@ -148,6 +155,8 @@ export class DashboardComponent implements OnInit {
     return [year, month, day].join('-');
   }
 
+  
+
   ngOnInit(): void {
     const date = new Date();
     const startDate = new Date();
@@ -159,8 +168,23 @@ export class DashboardComponent implements OnInit {
       { label: 'Dashboard', active: true },
     ];
 
+    if(this.role.includes('CIO')) {
+      console.log(this.selectedCounty)
+      this.countyName = counties.filter((county) => county.county_id === parseInt(this.userCountyId))
+      this.selectedCounty = [{ county_id: parseInt(this.userCountyId), name: this.countyName[0].name}]
+      console.log(this.countyName[0].name)
+      this.searchForm = this.formBuilder.group({
+        countyId: [[this.selectedCounty], Validators.required],
+        subCountyId: [[], Validators.required],
+        wardId: [[], Validators.required],
+        groupId: [[], Validators.required],
+        startDate: [this.formatDate(startDate), Validators.required],
+        endDate: [this.formatDate(date), Validators.required],
+      });
+    }
+
     this.searchForm = this.formBuilder.group({
-      countyId: [[], Validators.required],
+      countyId: [[parseInt(this.userCountyId)], Validators.required],
       subCountyId: [[], Validators.required],
       wardId: [[], Validators.required],
       groupId: [[], Validators.required],
@@ -198,6 +222,7 @@ export class DashboardComponent implements OnInit {
           ? this.searchForm.get('endDate')?.value
           : '',
       };
+      console.log(obj)
       this.filterCount(obj);
       this.fetchSurveyCount(obj);
       this.filterGroups(obj);
