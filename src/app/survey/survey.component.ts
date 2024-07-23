@@ -263,6 +263,7 @@ export class SurveyComponent implements OnInit {
           ? this.searchForm.get('endDate')?.value
           : '',
       };
+      console.log(obj)
       this.fetchSurveyCount(obj);
       this.filterGroups(obj);
     });
