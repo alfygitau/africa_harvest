@@ -572,6 +572,7 @@ export class DashboardComponent implements OnInit {
   }
 
   filterVLCSummaryByLocation(data: any) {
+    console.log(data)
     this.vlcService.getValueChainSummaryByLocation(data).subscribe((res) => {
       if (res.statusCode == 200) {
         const categories = res.message.map((row: any) => row.value_chain_name);

@@ -70,6 +70,10 @@ export class SurveyComponent implements OnInit {
   groups = [];
   totalGroups: number = 0;
   rows: any = [];
+  role: any 
+  userCountyId!: any
+  countyName!: any
+
 
   dataParams: any = {
     page_num: 1,
@@ -98,6 +102,8 @@ export class SurveyComponent implements OnInit {
     private summaryService: SummaryService
   ) {
     this.initializeChartOptions();
+    this.userCountyId = sessionStorage.getItem('userCountyId') || 0
+    this.role = localStorage.getItem('roles')
   }
 
   initializeChartOptions(): void {
@@ -202,14 +208,34 @@ export class SurveyComponent implements OnInit {
     this.counties = counties;
     this.myCounties = this.transformCounties(counties);
 
-    this.searchForm = this.formBuilder.group({
-      countyId: [[], Validators.required],
-      subCountyId: [[], Validators.required],
-      wardId: [[], Validators.required],
-      groupId: [[], Validators.required],
-      startDate: [this.formatDate(startDate), Validators.required],
-      endDate: [this.formatDate(date), Validators.required],
-    });
+    if(this.role.includes('CIO')) {
+      this.countyName = counties.filter((county) => county.county_id === parseInt(this.userCountyId))
+      this.selectedCounty = [{ county_id: parseInt(this.userCountyId), name: this.countyName[0].name}]
+      this.searchForm = this.formBuilder.group({
+        countyId: [[this.selectedCounty], Validators.required],
+        subCountyId: [[], Validators.required],
+        wardId: [[], Validators.required],
+        groupId: [[], Validators.required],
+        startDate: [this.formatDate(startDate), Validators.required],
+        endDate: [this.formatDate(date), Validators.required],
+      });
+
+      this.searchForm.get('countyId')?.disable() 
+      console.log(this.selectedCounty[0].county_id)
+      let arr = this.counties.filter((county:any) => county.county_id === this.selectedCounty[0].county_id)
+      console.log(arr[0].sub_counties)
+      this.subcountyOptions = arr[0].sub_counties
+    } else {
+      this.searchForm = this.formBuilder.group({
+        countyId: [[], Validators.required],
+        subCountyId: [[], Validators.required],
+        wardId: [[], Validators.required],
+        groupId: [[], Validators.required],
+        startDate: [this.formatDate(startDate), Validators.required],
+        endDate: [this.formatDate(date), Validators.required],
+      });
+    }
+
 
     this.breadCrumbItems = [
       { label: 'Survey' },
