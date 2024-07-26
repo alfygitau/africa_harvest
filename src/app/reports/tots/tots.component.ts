@@ -24,6 +24,7 @@ import { GroupsService } from 'src/app/groups/groups.services';
 // PrimeNG Modules
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CardModule } from 'primeng/card';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tots',
@@ -51,7 +52,7 @@ export class TotsComponent implements OnInit {
   wards: Ward[] = [];
   ColumnMode = ColumnMode;
   rows: any = [];
-  public selectedTrainer: Partial<Trainer> = {};
+  public selectedTrainer: any = {};
   public totalCounts: number = 1;
   countyName!: any
   role: any 
@@ -73,6 +74,7 @@ export class TotsComponent implements OnInit {
   selectedSubcounty: [] = [];
   selectedWard: [] = [];
   selectedGroup: [] = [];
+  userId!: number
 
   constructor(
     private formBuilder: FormBuilder,
@@ -81,10 +83,13 @@ export class TotsComponent implements OnInit {
     private usersService: UsersService,
     private groupsService: GroupsService,
     private router: Router,
-    private modalService: NgbModal
-  ) {
+    private modalService: NgbModal,
+    private toastr: ToastrService
+ ) {
     this.userCountyId = sessionStorage.getItem('userCountyId') || 0
-    this.role = localStorage.getItem('roles')
+    this.role = localStorage.getItem('roles') 
+    let id = sessionStorage.getItem('id')
+    this.userId = JSON.parse(id!)
   }
   ngOnInit(): void {
     const date = new Date();
@@ -230,8 +235,6 @@ export class TotsComponent implements OnInit {
     }));
   }
 
-  handleSubmit(event: Event) {}
-
   selectAll(event: any) {
     const checked = event.target.checked;
     if (checked) {
@@ -269,18 +272,18 @@ export class TotsComponent implements OnInit {
     }
 
     this.updateForm.patchValue({
-      firstName: this.selectedTrainer.first_name,
-      lastName: this.selectedTrainer.last_name,
-      email: this.selectedTrainer.email,
-      idNumber: this.selectedTrainer.id_number,
+      firstName: this.selectedTrainer?.firstName,
+      lastName: this.selectedTrainer?.lastName,
+      email: this.selectedTrainer?.email,
+      idNumber: this.selectedTrainer?.idNumber,
       dob: this.selectedTrainer.dob
         ? this.formatDate(new Date(this.selectedTrainer.dob))
         : null,
-      msisdn: this.selectedTrainer.msisdn,
-      gender: this.selectedTrainer.gender,
-      countyTitle: this.selectedTrainer.county_title,
-      subCountyTitle: this.selectedTrainer.sub_county_title,
-      wardTitle: this.selectedTrainer?.ward_name,
+      msisdn: this.selectedTrainer?.msisdn,
+      gender: this.selectedTrainer?.gender,
+      countyTitle: this.selectedTrainer?.countyTitle,
+      subCountyTitle: this.selectedTrainer?.subcountyTitle,
+      wardTitle: this.selectedTrainer?.wardTitle,
     });
 
     this.modalService.open(userModal, {
@@ -289,7 +292,62 @@ export class TotsComponent implements OnInit {
       size: 'lg',
     });
   }
+  async handleSubmit(event: Event) {
+    event.preventDefault()
+    if(this.updateForm) {
+      const formData = {
+        "firstName": this.updateForm.value.firstName,
+        "lastName": this.updateForm.value.lastName,
+        "gender": this.updateForm.value.gender,
+        "idNumber": this.updateForm.value.idNumber,
+        "dob": this.updateForm.value.dob, 
+        "email": this.updateForm.value.email,
+        "msisdn": this.updateForm.value.msisdn,
+        "username": this.selectedTrainer.username,
+        "password":"",
+        "wardId":this.selectedTrainer.wardId,
+        "userTypeId": this.selectedTrainer.userTypeId
+      }
+      console.log(formData)
 
+      await this.totsService.updateUserProfile(formData, this.selectedTrainer.userId).subscribe((res) => {
+        this.toastr.success('Success', 'Profile Updated')
+        let obj = {
+          countyId: this.searchForm
+            .get('countyId')
+            ?.value.map((county: any) => county.county_id),
+          subCountyId: this.searchForm
+            .get('subCountyId')
+            ?.value.map((subCounty: any) => subCounty.subCountyId),
+          wardId: this.searchForm
+            .get('wardId')
+            ?.value.map((ward: any) => ward.wardId),
+          groupId: this.searchForm
+            .get('groupId')
+            ?.value.map((group: any) => group.group_id),
+          startDate: this.searchForm.get('startDate')?.value
+            ? this.searchForm.get('startDate')?.value
+            : '',
+          endDate: this.searchForm.get('endDate')?.value
+            ? this.searchForm.get('endDate')?.value
+            : '',
+          userTypeId: 2,
+        };
+        let data = {
+          page: this.dataParams.page_num,
+          dataObj: obj,
+          size: this.dataParams.page_size,
+        };
+
+        this.onSubmit(data)
+        // this.ngOnInit()
+        this.modalService.dismissAll()
+      }, (error) => {
+        this.toastr.error('Error', 'Failed to update')
+      })
+    }    
+  }
+  
   private formatDate(date: Date): string {
     let d = new Date(date),
       month = '' + (d.getMonth() + 1),

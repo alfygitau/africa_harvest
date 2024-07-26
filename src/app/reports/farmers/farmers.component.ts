@@ -312,8 +312,12 @@ export class FarmersComponent implements OnInit {
         email: this.updateFarmerForm.value.email,
         msisdn: this.updateFarmerForm.value.msisdn,
         username: this.updateFarmerForm.value.username,
-        userTypeId: this.updateFarmerForm.value.role,
+        password: '',
+        wardId: this.selectedFarmer.ward_id,
+        userTypeId: this.updateFarmerForm.value.role
       };
+
+      console.log(formData, this.selectedFarmer)
       await this.usersService
         .updateMember(this.selectedFarmer?.member_id, formData)
         .subscribe(

@@ -171,7 +171,7 @@ export class DashboardComponent implements OnInit {
     if(this.role.includes('CIO')) {
       console.log(this.selectedCounty)
       this.countyName = counties.filter((county) => county.county_id === parseInt(this.userCountyId))
-      this.selectedCounty = [{ county_id: parseInt(this.userCountyId), name: this.countyName[0].name}]
+      this.selectedCounty = [{ county_id: parseInt(this.userCountyId), name: this.countyName[0].name, sub_counties: []}]
       this.searchForm = this.formBuilder.group({
         countyId: [[this.selectedCounty], Validators.required],
         subCountyId: [[], Validators.required],

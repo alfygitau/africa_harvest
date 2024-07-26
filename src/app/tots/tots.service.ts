@@ -62,4 +62,9 @@ export class TotsService {
       .post(endpoint + 'users/xlsx?page=' + data.page + '&size=' + data.size, data.dataObj, { responseType: 'blob' })
       .pipe(map(this.extractData));
   }
+  updateUserProfile(data: any, memberId: number) {
+    return this.http.put(endpoint+'users/update/'+memberId, data).pipe(
+      map(this.extractData)
+    )
+  }
 }
