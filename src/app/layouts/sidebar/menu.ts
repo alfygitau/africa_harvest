@@ -72,7 +72,7 @@ export const MENU: MenuItem[] = [
     subItems: [
       {
         id: 12,
-        label: 'ToTs',
+        label: 'Fscs',
         link: '/seeds-distribution/tot',
         parentId: 11,
       },
@@ -115,7 +115,7 @@ export const MENU: MenuItem[] = [
       },
       {
         id: 19,
-        label: 'ToTs',
+        label: 'Fscs',
         link: '/reports/tots',
         parentId: 14,
       },
