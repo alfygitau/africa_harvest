@@ -72,7 +72,7 @@ export const MENU: MenuItem[] = [
     subItems: [
       {
         id: 12,
-        label: 'Fscs',
+        label: 'Tots',
         link: '/seeds-distribution/tot',
         parentId: 11,
       },
