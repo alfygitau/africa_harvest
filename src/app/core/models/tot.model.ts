@@ -12,7 +12,10 @@ export interface Tot {
   userId: number;
   userTypeId: number;
   username: string;
-  ward_id: number;
+  wardId: number;
+  countyTitle: string;
+  subcountyTitle: string;
+  wardTitle: string;
 }
 
 export interface Trainer {

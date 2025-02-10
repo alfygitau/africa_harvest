@@ -247,7 +247,6 @@ export class FarmersComponent implements OnInit {
 
   centerModal(userModal: any, farmer: Farmer) {
     this.selectedFarmer = farmer;
-
     if (this.selectedFarmer.county_id !== undefined) {
       this.sub_counties = this.fetchSubcounties(this.selectedFarmer.county_id);
     }
@@ -284,16 +283,45 @@ export class FarmersComponent implements OnInit {
         gender: this.updateFarmerForm.value.gender,
         idNumber: this.updateFarmerForm.value.id_number,
         dob: this.updateFarmerForm.value.dob,
-        email: this.updateFarmerForm.value.email,
+        // email: this.updateFarmerForm.value.email,
         msisdn: this.updateFarmerForm.value.msisdn,
-        username: this.updateFarmerForm.value.username,
-        userTypeId: this.updateFarmerForm.value.role,
+        // username: this.updateFarmerForm.value.username,
+        // userTypeId: this.updateFarmerForm.value.role,
+
+        memberId: this.selectedFarmer.member_id,
+        groupId: this.selectedFarmer.group_id,
+        wardId: this.selectedFarmer.ward_id,
       };
       await this.usersService
         .updateMember(this.selectedFarmer?.member_id, formData)
         .subscribe(
           (res) => {
             this.toastr.success('Success', 'User updated successfully');
+            let data = {
+              page: this.dataParams.page_num,
+              dataObj: {
+                countyId: this.searchForm
+                  .get('countyId')
+                  ?.value.map((county: any) => county.county_id),
+                subCountyId: this.searchForm
+                  .get('subCountyId')
+                  ?.value.map((subCounty: any) => subCounty.subCountyId),
+                wardId: this.searchForm
+                  .get('wardId')
+                  ?.value.map((ward: any) => ward.wardId),
+                groupId: this.searchForm
+                  .get('groupId')
+                  ?.value.map((group: any) => group.group_id),
+                startDate: this.searchForm.get('startDate')?.value
+                  ? this.searchForm.get('startDate')?.value
+                  : '',
+                endDate: this.searchForm.get('endDate')?.value
+                  ? this.searchForm.get('endDate')?.value
+                  : '',
+              },
+              size: this.dataParams.page_size,
+            };
+            this.getUsers(data);
             this.modalService.dismissAll();
           },
           (error) => {

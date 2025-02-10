@@ -21,7 +21,7 @@ import { CommonModule } from '@angular/common';
 import { UsersService } from 'src/app/users/users.service';
 import { switchMap } from 'rxjs';
 import { GroupsService } from 'src/app/groups/groups.services';
-
+import { ToastrService } from 'ngx-toastr';
 // PrimeNG Modules
 import { MultiSelectModule } from 'primeng/multiselect';
 import { CardModule } from 'primeng/card';
@@ -52,7 +52,7 @@ export class TotsComponent implements OnInit {
   wards: Ward[] = [];
   ColumnMode = ColumnMode;
   rows: any = [];
-  public selectedTrainer: Partial<Trainer> = {};
+  public selectedTrainer: Partial<Tot> = {};
   public totalCounts: number = 1;
 
   updateForm!: FormGroup;
@@ -79,7 +79,8 @@ export class TotsComponent implements OnInit {
     private usersService: UsersService,
     private groupsService: GroupsService,
     private router: Router,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastr: ToastrService
   ) {}
   ngOnInit(): void {
     const date = new Date();
@@ -208,7 +209,63 @@ export class TotsComponent implements OnInit {
     }));
   }
 
-  handleSubmit(event: Event) {}
+  async handleSubmit(event: Event) {
+    event.preventDefault();
+    if (this.updateForm.valid) {
+      const formData = {
+        firstName: this.updateForm.value.firstName,
+        lastName: this.updateForm.value.lastName,
+        gender: this.updateForm.value.gender,
+        idNumber: this.updateForm.value.idNumber,
+        dob: this.updateForm.value.dob,
+        email: this.updateForm.value.email,
+        msisdn: this.updateForm.value.msisdn,
+        username: this.selectedTrainer?.username,
+        userTypeId: 2,
+        password: '',
+        wardId: this.selectedTrainer.wardId,
+      };
+      this.usersService
+        .updateUserById(this.selectedTrainer.userId ?? 0, formData)
+        .subscribe(
+          (res) => {
+            this.toastr.success('Success', 'Tot updated successfully');
+            let obj = {
+              countyId: this.searchForm
+                .get('countyId')
+                ?.value.map((county: any) => county.county_id),
+              subCountyId: this.searchForm
+                .get('subCountyId')
+                ?.value.map((subCounty: any) => subCounty.subCountyId),
+              wardId: this.searchForm
+                .get('wardId')
+                ?.value.map((ward: any) => ward.wardId),
+              groupId: this.searchForm
+                .get('groupId')
+                ?.value.map((group: any) => group.group_id),
+              startDate: this.searchForm.get('startDate')?.value
+                ? this.searchForm.get('startDate')?.value
+                : '',
+              endDate: this.searchForm.get('endDate')?.value
+                ? this.searchForm.get('endDate')?.value
+                : '',
+              userTypeId: 2,
+            };
+            let data = {
+              page: this.dataParams.page_num,
+              dataObj: obj,
+              size: this.dataParams.page_size,
+            };
+            this.onSubmit(data);
+            this.modalService.dismissAll();
+          },
+          (error) => {
+            console.error('Error:', error);
+            this.toastr.error('Error', 'Failed to update user');
+          }
+        );
+    }
+  }
 
   selectAll(event: any) {
     const checked = event.target.checked;
@@ -234,31 +291,35 @@ export class TotsComponent implements OnInit {
     return this.selectedRows?.has(rowId);
   }
 
-  centerModal(userModal: any, trainer: Trainer) {
+  centerModal(userModal: any, trainer: Tot) {
+    console.log(trainer);
     this.selectedTrainer = trainer;
-    console.log(this.selectedTrainer);
-
-    if (this.selectedTrainer.county_id !== undefined) {
-      this.sub_counties = this.fetchSubcounties(this.selectedTrainer.county_id);
+    if (trainer.countyTitle !== undefined) {
+      this.sub_counties = this.usersService.fetchSubCountiesWithName(
+        trainer.countyTitle
+      );
     }
 
-    if (this.selectedTrainer.sub_county_id !== undefined) {
-      this.wards = this.fetchWards(this.selectedTrainer.sub_county_id);
+    if (
+      trainer.subcountyTitle !== undefined &&
+      trainer.countyTitle !== undefined
+    ) {
+      this.wards = this.usersService.getWardsByName(
+        trainer.countyTitle,
+        trainer.subcountyTitle
+      );
     }
-
     this.updateForm.patchValue({
-      firstName: this.selectedTrainer.first_name,
-      lastName: this.selectedTrainer.last_name,
-      email: this.selectedTrainer.email,
-      idNumber: this.selectedTrainer.id_number,
-      dob: this.selectedTrainer.dob
-        ? this.formatDate(new Date(this.selectedTrainer.dob))
-        : null,
-      msisdn: this.selectedTrainer.msisdn,
-      gender: this.selectedTrainer.gender,
-      countyTitle: this.selectedTrainer.county_title,
-      subCountyTitle: this.selectedTrainer.sub_county_title,
-      wardTitle: this.selectedTrainer?.ward_name,
+      firstName: trainer.firstName,
+      lastName: trainer.lastName,
+      email: trainer.email,
+      idNumber: trainer.idNumber,
+      dob: trainer.dob ? this.formatDate(new Date(trainer.dob)) : null,
+      msisdn: trainer.msisdn,
+      gender: trainer.gender,
+      countyTitle: trainer?.countyTitle?.toUpperCase(),
+      subCountyTitle: trainer.subcountyTitle,
+      wardTitle: trainer.wardTitle,
     });
 
     this.modalService.open(userModal, {

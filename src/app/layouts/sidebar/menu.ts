@@ -115,7 +115,7 @@ export const MENU: MenuItem[] = [
       },
       {
         id: 19,
-        label: 'Fscs',
+        label: 'Tot report',
         link: '/reports/tots',
         parentId: 14,
       },

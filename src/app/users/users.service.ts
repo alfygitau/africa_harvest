@@ -45,6 +45,13 @@ export class UsersService {
     const county = this.counties.find((c) => c.county_id === countyId);
     return county ? county.sub_counties : [];
   }
+  fetchSubCountiesWithName(name: string): SubCounty[] {
+    const county = this.counties.find(
+      (c) => c.name.toLocaleLowerCase() === name.toLocaleLowerCase()
+    );
+
+    return county ? county.sub_counties : [];
+  }
 
   getWards(subCountyId: number): Ward[] {
     const county = this.counties.find((c) =>
@@ -52,6 +59,19 @@ export class UsersService {
     );
     const subCounty = county
       ? county.sub_counties.find((sc) => sc.subCountyId === subCountyId)
+      : undefined;
+    return subCounty ? subCounty.wards : [];
+  }
+
+  getWardsByName(countyName: string, subCountyName: string): Ward[] {
+    const county = this.counties.find(
+      (c) => c.name.toLocaleLowerCase() === countyName.toLocaleLowerCase()
+    );
+    const subCounty = county
+      ? county.sub_counties.find(
+          (sc) =>
+            sc.name.toLocaleLowerCase() === subCountyName.toLocaleLowerCase()
+        )
       : undefined;
     return subCounty ? subCounty.wards : [];
   }
@@ -68,6 +88,9 @@ export class UsersService {
 
   updateUser(username: string, payload: Partial<NewUser>) {
     return this.http.put(endpoint + 'users/update/' + username, payload);
+  }
+  updateUserById(id: number, payload: Partial<NewUser>) {
+    return this.http.put(endpoint + 'users/update/' + String(id), payload);
   }
 
   updateMember(memberId: number, payload: Partial<NewUser>) {
