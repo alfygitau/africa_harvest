@@ -386,6 +386,37 @@ export class FarmersComponent implements OnInit {
   }
 
   view(row: any) {}
+  exportEntireReport() {
+    let obj = {
+      countyId: this.searchForm
+        .get('countyId')
+        ?.value.map((county: any) => county.county_id),
+      subCountyId: this.searchForm
+        .get('subCountyId')
+        ?.value.map((subCounty: any) => subCounty.subCountyId),
+      wardId: this.searchForm
+        .get('wardId')
+        ?.value.map((ward: any) => ward.wardId),
+      groupId: this.searchForm
+        .get('groupId')
+        ?.value.map((group: any) => group.group_id),
+      startDate: this.searchForm.get('start_date')?.value
+        ? this.searchForm.get('start_date')?.value
+        : '',
+      endDate: this.searchForm.get('end_date')?.value
+        ? this.searchForm.get('end_date')?.value
+        : '',
+    };
+    let data = {
+      page: 1,
+      dataObj: obj,
+      size: 10,
+    };
+    this.farmersService.exportAllMembers(data).subscribe((res) => {
+      console.log(res.message);
+      this.downloadCsv(res.message.members);
+    });
+  }
 
   getUsers(data: any) {
     this.farmersService.getClients(data).subscribe((res) => {
@@ -447,6 +478,25 @@ export class FarmersComponent implements OnInit {
       this.cdr.markForCheck();
       this.cdr.markForCheck();
     });
+  }
+  jsonToCsv(data: any) {
+    const headers = Object.keys(data[0]).join(',') + '\n';
+    const rows = data
+      .map((row: any) => Object.values(row).join(','))
+      .join('\n');
+    return headers + rows;
+  }
+
+  downloadCsv(myData: any) {
+    const csv = this.jsonToCsv(myData);
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'Farmers.csv';
+    link.click();
+    URL.revokeObjectURL(url);
   }
   getCounties(): void {
     this.updateCounties = this.usersService.fetchCounties();
